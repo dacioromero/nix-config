@@ -9,7 +9,19 @@ in
   home.username = "dacio";
   home.homeDirectory = "/Users/dacio";
 
-  home.packages = with pkgs; [ thefuck ];
+  home.packages = with pkgs;
+    [
+      thefuck
+      obsidian
+      vscode
+      slack
+    ] ++ (if isDarwin then [
+      iterm2
+    ] else [
+      spotify
+      google-chrome
+      firefox-devedition-bin
+    ]);
 
   home.sessionVariables = {
     EDITOR = "code --wait";
