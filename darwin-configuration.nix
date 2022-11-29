@@ -1,14 +1,17 @@
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
     auto-optimise-store = true;
   };
 
-  environment.systemPackages = with pkgs; [ zsh-completions ];
+  environment.systemPackages = with pkgs; [zsh-completions];
 
   fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs;
-    [ (nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
+  fonts.fonts = with pkgs; [(nerdfonts.override {fonts = ["JetBrainsMono"];})];
 
   # Enables GnuPG agent for every user session.
   programs.gnupg.agent = {

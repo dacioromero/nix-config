@@ -1,9 +1,12 @@
-{ config, pkgs, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   inherit (lib) mkIf;
   inherit (pkgs.stdenv) isDarwin;
-in
-{
+in {
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "dacio";
@@ -15,13 +18,20 @@ in
       obsidian
       vscode
       slack
-    ] ++ (if isDarwin then [
-      iterm2
-    ] else [
-      spotify
-      google-chrome
-      firefox-devedition-bin
-    ]);
+    ]
+    ++ (
+      if isDarwin
+      then [
+        colima
+        docker
+        iterm2
+      ]
+      else [
+        spotify
+        google-chrome
+        firefox-devedition-bin
+      ]
+    );
 
   home.sessionVariables = {
     EDITOR = "code --wait";
@@ -29,7 +39,7 @@ in
     THEFUCK_EXCLUDE_RULES = "fix_file";
   };
 
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home.sessionPath = ["$HOME/.local/bin"];
 
   programs.zsh = {
     enable = true;
@@ -37,7 +47,7 @@ in
     enableSyntaxHighlighting = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "yarn" "thefuck" ];
+      plugins = ["git" "yarn" "thefuck"];
     };
   };
 
@@ -64,8 +74,7 @@ in
     };
     aliases = {
       root = "rev-parse --show-toplevel";
-      ignore =
-        "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi";
+      ignore = "!gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}; gi";
     };
     extraConfig = {
       init.defaultBranch = "main";
@@ -78,31 +87,63 @@ in
     enable = true;
     # Missing config to match
     # https://github.com/drduh/config/blob/725d5cea5170d8bec514f5c41f08afe1f143ab1b/gpg.conf#L43-L44
-    settings = { throw-keyids = true; };
+    settings.throw-keyids = true;
     # CCID is broken on MacOS
     # https://github.com/NixOS/nixpkgs/issues/155629
-    scdaemonSettings = mkIf isDarwin { disable-ccid = true; };
-    publicKeys = [{
-      source = builtins.fetchurl {
-        url = "https://keybase.io/dacio/pgp_keys.asc";
-        sha256 = "12n9iva8jj7r9d96wb77rp56c6w2dc5jqsbwsxbnc64k6b6knxac";
-      };
-      trust = "ultimate";
-    }];
+    scdaemonSettings = mkIf isDarwin {disable-ccid = true;};
+    publicKeys = [
+      {
+        source = builtins.fetchurl {
+          url = "https://keybase.io/dacio/pgp_keys.asc";
+          sha256 = "12n9iva8jj7r9d96wb77rp56c6w2dc5jqsbwsxbnc64k6b6knxac";
+        };
+        trust = "ultimate";
+      }
+    ];
   };
 
   # Darwin doesn't support services.gpg-agent
   # https://github.com/nix-community/home-manager/issues/91
   # TODO: Support other pinentry programs
-  home.file.".gnupg/gpg-agent.conf".text =
-    let inherit (pkgs) pinentry_mac;
-    in ''
-      enable-ssh-support
-      ttyname $GPG_TTY
-      default-cache-ttl 60
-      max-cache-ttl 120
-      pinentry-program ${pinentry_mac}/${pinentry_mac.binaryPath}
-    '';
+  home.file.".gnupg/gpg-agent.conf".text = let
+    inherit (pkgs) pinentry_mac;
+  in ''
+    enable-ssh-support
+    ttyname $GPG_TTY
+    default-cache-ttl 60
+    max-cache-ttl 120
+    pinentry-program ${pinentry_mac}/${pinentry_mac.binaryPath}
+  '';
+
+  launchd.agents.colima = {
+    enable = true;
+    config = {
+      # colima start doesn't stay alive
+      # https://gist.github.com/fardjad/a83c30b9b744b9612d793666f28361a5
+      Program = toString (pkgs.writeShellScript "colima-start.sh" ''
+        function shutdown() {
+          ${pkgs.colima}/bin/colima stop
+          exit 0
+        }
+
+        trap shutdown SIGTERM
+        trap shutdown SIGKILL
+        trap shutdown SIGINT
+
+        ${pkgs.colima}/bin/colima start
+        tail -f /dev/null &
+        wait $!
+      '');
+      RunAtLoad = true;
+      LaunchOnlyOnce = true;
+      StandardOutPath = "${config.xdg.cacheHome}/colima.log";
+      StandardErrorPath = "${config.xdg.cacheHome}/colima.log";
+      EnvironmentVariables = {
+        # Give colima access to Docker
+        PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+      };
+    };
+  };
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
