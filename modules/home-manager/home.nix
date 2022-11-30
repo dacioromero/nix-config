@@ -3,35 +3,10 @@
   pkgs,
   lib,
   ...
-}: let
-  inherit (lib) mkIf;
-  inherit (pkgs.stdenv) isDarwin;
-in {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
-  home.username = "dacio";
-  home.homeDirectory = "/Users/dacio";
+}: {
+  nixpkgs.config.allowUnfree = true;
 
-  home.packages = with pkgs;
-    [
-      thefuck
-      obsidian
-      vscode
-      slack
-    ]
-    ++ (
-      if isDarwin
-      then [
-        colima
-        docker
-        iterm2
-      ]
-      else [
-        spotify
-        google-chrome
-        firefox-devedition-bin
-      ]
-    );
+  home.packages = with pkgs; [thefuck obsidian vscode slack];
 
   home.sessionVariables = {
     EDITOR = "code --wait";
@@ -88,9 +63,6 @@ in {
     # Missing config to match
     # https://github.com/drduh/config/blob/725d5cea5170d8bec514f5c41f08afe1f143ab1b/gpg.conf#L43-L44
     settings.throw-keyids = true;
-    # CCID is broken on MacOS
-    # https://github.com/NixOS/nixpkgs/issues/155629
-    scdaemonSettings = mkIf isDarwin {disable-ccid = true;};
     publicKeys = [
       {
         source = builtins.fetchurl {
@@ -100,49 +72,6 @@ in {
         trust = "ultimate";
       }
     ];
-  };
-
-  # Darwin doesn't support services.gpg-agent
-  # https://github.com/nix-community/home-manager/issues/91
-  # TODO: Support other pinentry programs
-  home.file.".gnupg/gpg-agent.conf".text = let
-    inherit (pkgs) pinentry_mac;
-  in ''
-    enable-ssh-support
-    ttyname $GPG_TTY
-    default-cache-ttl 60
-    max-cache-ttl 120
-    pinentry-program ${pinentry_mac}/${pinentry_mac.binaryPath}
-  '';
-
-  launchd.agents.colima = {
-    enable = true;
-    config = {
-      # colima start doesn't stay alive
-      # https://gist.github.com/fardjad/a83c30b9b744b9612d793666f28361a5
-      Program = toString (pkgs.writeShellScript "colima-start.sh" ''
-        function shutdown() {
-          ${pkgs.colima}/bin/colima stop
-          exit 0
-        }
-
-        trap shutdown SIGTERM
-        trap shutdown SIGKILL
-        trap shutdown SIGINT
-
-        ${pkgs.colima}/bin/colima start
-        tail -f /dev/null &
-        wait $!
-      '');
-      RunAtLoad = true;
-      LaunchOnlyOnce = true;
-      StandardOutPath = "${config.xdg.cacheHome}/colima.log";
-      StandardErrorPath = "${config.xdg.cacheHome}/colima.log";
-      EnvironmentVariables = {
-        # Give colima access to Docker
-        PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-      };
-    };
   };
 
   # This value determines the Home Manager release that your
