@@ -38,8 +38,13 @@
     };
 
     homeConfigurations."dacio@firebook-pro" = homeManagerConfiguration {
-      pkgs = packagesFor.x86_64-linux;
+      pkgs = packagesFor.aarch64-darwin;
       modules = [./hosts/firebook-pro/home.nix];
+    };
+
+    darwinConfigurations."firebook-pro" = darwinSystem {
+      system = "aarch64-darwin";
+      modules = [./hosts/firebook-pro/darwin-configuration.nix];
     };
   };
 }

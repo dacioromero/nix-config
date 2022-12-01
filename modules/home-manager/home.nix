@@ -6,7 +6,7 @@
 }: {
   nixpkgs.config.allowUnfree = true;
 
-  home.packages = with pkgs; [thefuck obsidian vscode slack];
+  home.packages = with pkgs; [thefuck obsidian vscode slack zoom-us];
 
   home.sessionVariables = {
     EDITOR = "code --wait";
@@ -54,6 +54,7 @@
     extraConfig = {
       init.defaultBranch = "main";
       merge.ff = false;
+      pull.ff = "only";
       advice.detatchedHead = false;
     };
   };
