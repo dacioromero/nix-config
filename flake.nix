@@ -37,7 +37,7 @@
       modules = [./hosts/firetower/home.nix];
     };
 
-    homeConfigurations."dacio@firebook-pro" = homeManagerConfiguration {
+    homeConfigurations."dacio@firebook-pro.lan" = homeManagerConfiguration {
       pkgs = packagesFor.aarch64-darwin;
       modules = [./hosts/firebook-pro/home.nix];
     };
