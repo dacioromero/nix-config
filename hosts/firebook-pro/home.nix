@@ -18,6 +18,13 @@
         ''
       )
     );
+
+  toTitleCase = str: let
+    parts = lib.splitString "_" str;
+    upperFirst = str: lib.toUpper (builtins.substring 0 1 str) + (builtins.substring 1 (builtins.stringLength str) str);
+    titleParts = map upperFirst parts;
+  in
+    builtins.concatStringsSep " " titleParts;
 in {
   imports = [
     ../../modules/home-manager/home.nix
@@ -41,8 +48,13 @@ in {
             "bold"
             "italic"
             "bold_italic"
-          ] (_: {
+          ] (face: {
             family = "JetBrainsMono Nerd Font";
+            # Overcomplicated for funsies
+            style =
+              if face == "normal"
+              then "Regular"
+              else toTitleCase face;
           })
           // {
             size = 14;
