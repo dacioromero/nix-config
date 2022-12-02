@@ -24,27 +24,31 @@
   }: let
     inherit (home-manager.lib) homeManagerConfiguration;
     inherit (darwin.lib) darwinSystem;
+    inherit (flake-utils.lib) eachDefaultSystem;
+  in
+    {
+      homeConfigurations."dacio@firetower" = homeManagerConfiguration {
+        pkgs = self.legacyPackages.x86_64-linux;
+        modules = [./hosts/firetower/home.nix];
+      };
 
-    forAllSystems = nixpkgs.lib.genAttrs flake-utils.lib.defaultSystems;
-    packagesFor = forAllSystems (system:
-      import nixpkgs {
+      homeConfigurations."dacio@firebook-pro.lan" = homeManagerConfiguration {
+        pkgs = self.legacyPackages.aarch64-darwin;
+        modules = [./hosts/firebook-pro/home.nix];
+      };
+
+      darwinConfigurations."firebook-pro" = darwinSystem {
+        system = "aarch64-darwin";
+        modules = [./hosts/firebook-pro/darwin-configuration.nix];
+        specialArgs = {inherit nixpkgs;};
+      };
+    }
+    // eachDefaultSystem (system: rec {
+      legacyPackages = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-      });
-  in {
-    homeConfigurations."dacio@firetower" = homeManagerConfiguration {
-      pkgs = packagesFor.x86_64-linux;
-      modules = [./hosts/firetower/home.nix];
-    };
+      };
 
-    homeConfigurations."dacio@firebook-pro.lan" = homeManagerConfiguration {
-      pkgs = packagesFor.aarch64-darwin;
-      modules = [./hosts/firebook-pro/home.nix];
-    };
-
-    darwinConfigurations."firebook-pro" = darwinSystem {
-      system = "aarch64-darwin";
-      modules = [./hosts/firebook-pro/darwin-configuration.nix];
-    };
-  };
+      formatter = legacyPackages.alejandra;
+    });
 }

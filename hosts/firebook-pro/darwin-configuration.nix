@@ -1,12 +1,15 @@
 {
   config,
   pkgs,
+  nixpkgs,
   ...
 }: {
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
     auto-optimise-store = true;
   };
+
+  nix.registry.nixpkgs.flake = nixpkgs;
 
   environment.systemPackages = with pkgs; [zsh-completions];
 
