@@ -23,7 +23,15 @@
     oh-my-zsh = {
       enable = true;
       plugins = ["git" "yarn" "thefuck"];
+      # https://github.com/zsh-users/zsh-syntax-highlighting/issues/295#issuecomment-214581607
+      extraConfig = ''
+        zstyle ':bracketed-paste-magic' active-widgets '.self-*'
+      '';
     };
+    # plugins = [{
+    #   name= "fast-syntax-highlighting";
+    #   src = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions";
+    # }];
   };
 
   programs.direnv = {

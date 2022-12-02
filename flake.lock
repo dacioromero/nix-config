@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "alacritty-theme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1666293490,
+        "narHash": "sha256-MHl8EmI+K8c0xpS/CdQI4EatM07glfF94P45X+gAhZo=",
+        "owner": "eendroroy",
+        "repo": "alacritty-theme",
+        "rev": "b7bde1e905c26857e95adfd129a4fd1b8718482e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "eendroroy",
+        "repo": "alacritty-theme",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -74,6 +90,7 @@
     },
     "root": {
       "inputs": {
+        "alacritty-theme": "alacritty-theme",
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",

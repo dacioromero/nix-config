@@ -12,9 +12,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
+    alacritty-theme = {
+      url = "github:eendroroy/alacritty-theme";
+      flake = false;
+    };
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
@@ -30,17 +34,19 @@
       homeConfigurations."dacio@firetower" = homeManagerConfiguration {
         pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firetower/home.nix];
+        extraSpecialArgs = {inherit inputs;};
       };
 
       homeConfigurations."dacio@firebook-pro.lan" = homeManagerConfiguration {
         pkgs = self.legacyPackages.aarch64-darwin;
         modules = [./hosts/firebook-pro/home.nix];
+        extraSpecialArgs = {inherit inputs;};
       };
 
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [./hosts/firebook-pro/darwin-configuration.nix];
-        specialArgs = {inherit nixpkgs;};
+        specialArgs = {inherit inputs;};
       };
     }
     // eachDefaultSystem (system: rec {
