@@ -12,8 +12,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    alacritty-theme = {
-      url = "github:eendroroy/alacritty-theme";
+    omni-alacritty = {
+      url = "github:getomni/alacritty";
       flake = false;
     };
   };

@@ -52,7 +52,7 @@ in {
           padding.y = 8;
         };
       }
-      // fromYAML (builtins.readFile "${inputs.alacritty-theme}/themes/omni.yml");
+      // fromYAML (builtins.readFile "${inputs.omni-alacritty}/omni.yml");
   };
 
   programs.tmux.enable = true;
