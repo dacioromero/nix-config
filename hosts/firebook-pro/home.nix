@@ -33,9 +33,9 @@
         bold_italic = mkFace "Bold Italic";
         size = 14;
       };
-      window = {
-        padding.x = 8;
-        padding.y = 8;
+      window = rec {
+        padding.x = 12;
+        padding.y = padding.x;
         opacity = 0.95;
       };
       cursor.style.blinking = "On";
