@@ -2,7 +2,7 @@
   description = "Home Manager configuration of Dacio Romero";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,6 +29,7 @@
     inherit (home-manager.lib) homeManagerConfiguration;
     inherit (darwin.lib) darwinSystem;
     inherit (flake-utils.lib) eachDefaultSystem;
+    inherit (nixpkgs.lib) nixosSystem;
   in
     {
       homeConfigurations."dacio@firetower" = homeManagerConfiguration {
@@ -48,11 +49,17 @@
         modules = [./hosts/firebook-pro/darwin-configuration.nix];
         specialArgs = {inherit inputs;};
       };
+
+      nixosConfigurations."firetower" = nixosSystem {
+        system = "x86_64-linux";
+        modules = [./hosts/firetower/configuration.nix];
+      };
     }
     // eachDefaultSystem (system: rec {
       legacyPackages = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
+        overlays = [(import ./overlays/discord.nix)];
       };
 
       formatter = legacyPackages.alejandra;
