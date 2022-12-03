@@ -12,6 +12,15 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
+  # Silence
+  boot.initrd.verbose = false;
+  boot.consoleLogLevel = 0;
+  boot.kernelParams = [
+    "quiet"
+    "udev.log_level=3"
+    "nvidia.NVreg_TemporaryFilePath=/var/tmp" # Nvidia recommends non-tmpfs
+  ];
+
   # Experimenting with NixOS on SBCs
   boot.binfmt.emulatedSystems = ["armv7l-linux"];
 
@@ -31,7 +40,6 @@
   hardware.opengl.enable = true;
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
-  boot.kernelParams = ["nvidia.NVreg_TemporaryFilePath=/var/tmp"]; # Nvidia recommends non-tmpfs
 
   # Enable X11, but get rid of xterm
   services.xserver.enable = true;
