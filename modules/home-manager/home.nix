@@ -4,8 +4,7 @@
   lib,
   ...
 }: {
-  nixpkgs.config.allowUnfree = true;
-
+  imports = [./starship];
   home.packages = with pkgs; [thefuck obsidian vscode slack zoom-us];
 
   home.sessionVariables = {
@@ -43,9 +42,6 @@
     enable = true;
     settings.git_protocol = "ssh";
   };
-
-  programs.starship.enable = true;
-  xdg.configFile."starship.toml".source = ./starship.toml;
 
   programs.git = {
     enable = true;
