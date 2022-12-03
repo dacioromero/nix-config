@@ -65,6 +65,7 @@
       gnome-logs
       gnome-maps
       gnome-music
+      gnome-software
       gnome-weather
       yelp # help
     ]);
