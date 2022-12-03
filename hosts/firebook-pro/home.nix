@@ -4,28 +4,7 @@
   lib,
   inputs,
   ...
-}: let
-  # https://github.com/simonvpe/simux/blob/c6e303f752d27965c58addb8398249a58e08b9d7/users/profiles/terminal/default.nix#L11-L17
-  fromYAML = yaml:
-    builtins.fromJSON (
-      builtins.readFile (
-        pkgs.runCommand "from-yaml"
-        {}
-        ''
-          cat <<EOF | ${pkgs.yq}/bin/yq '.' > $out
-          ${yaml}
-          EOF
-        ''
-      )
-    );
-
-  toTitleCase = str: let
-    parts = lib.splitString "_" str;
-    upperFirst = str: lib.toUpper (builtins.substring 0 1 str) + (builtins.substring 1 (builtins.stringLength str) str);
-    titleParts = map upperFirst parts;
-  in
-    builtins.concatStringsSep " " titleParts;
-in {
+}: {
   imports = [
     ../../modules/home-manager/home.nix
   ];
@@ -40,31 +19,27 @@ in {
 
   programs.alacritty = {
     enable = true;
-    settings =
-      {
-        font =
-          lib.genAttrs [
-            "normal"
-            "bold"
-            "italic"
-            "bold_italic"
-          ] (face: {
-            family = "JetBrainsMono Nerd Font";
-            # Overcomplicated for funsies
-            style =
-              if face == "normal"
-              then "Regular"
-              else toTitleCase face;
-          })
-          // {
-            size = 14;
-          };
-        window = {
-          padding.x = 8;
-          padding.y = 8;
+    settings = {
+      import = ["${inputs.omni-alacritty}/omni.yml"];
+      font = let
+        mkFace = style: {
+          family = "JetBrainsMono Nerd Font";
+          inherit style;
         };
-      }
-      // fromYAML (builtins.readFile "${inputs.omni-alacritty}/omni.yml");
+      in {
+        normal = mkFace "Regular";
+        bold = mkFace "Bold";
+        italic = mkFace "Italic";
+        bold_italic = mkFace "Bold Italic";
+        size = 14;
+      };
+      window = {
+        padding.x = 8;
+        padding.y = 8;
+        opacity = 0.95;
+      };
+      cursor.style.blinking = "On";
+    };
   };
 
   programs.tmux.enable = true;
