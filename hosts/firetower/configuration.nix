@@ -1,12 +1,14 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   imports = [./hardware-configuration.nix];
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -103,6 +105,10 @@
   services.flatpak.enable = true;
   # Smart card support (YubiKey)
   services.pcscd.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+  environment.systemPackages = with pkgs; [virt-manager];
 
   system.stateVersion = "22.05";
 }

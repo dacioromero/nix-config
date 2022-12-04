@@ -53,6 +53,7 @@
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
         modules = [./hosts/firetower/configuration.nix];
+        specialArgs = {inherit inputs;};
       };
     }
     // eachDefaultSystem (system: rec {
