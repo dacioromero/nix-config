@@ -11,9 +11,8 @@
   home.username = "dacio";
   home.homeDirectory = "/home/dacio";
 
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = 1;
-  };
+  # Force Wayland on apps like VSCode and Firefox
+  home.sessionVariables.NIXOS_OZONE_WL = 1;
 
   home.packages = with pkgs;
     [
@@ -40,6 +39,14 @@
     ]);
 
   fonts.fontconfig.enable = true;
+
+  # NixOS doesn't set a default cursor can cause issues
+  # https://github.com/alacritty/alacritty/issues/4780
+  # https://github.com/NixOS/nixpkgs/issues/22652
+  home.pointerCursor = {
+    package = pkgs.gnome.adwaita-icon-theme;
+    name = "Adwaita";
+  };
 
   # https://github.com/NixOS/nixpkgs/issues/101616
   xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
