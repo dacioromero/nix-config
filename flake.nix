@@ -2,7 +2,8 @@
   description = "Home Manager configuration of Dacio Romero";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,7 +61,10 @@
       legacyPackages = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [(import ./overlays/discord.nix)];
+        overlays = [
+          (import ./overlays/discord.nix)
+          (import ./overlays/obsidian.nix)
+        ];
       };
 
       formatter = legacyPackages.alejandra;

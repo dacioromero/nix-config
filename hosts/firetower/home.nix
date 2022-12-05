@@ -2,11 +2,14 @@
   config,
   pkgs,
   lib,
+  nixpkgs,
   ...
 }: {
   imports = [
     ../../modules/home-manager/home.nix
   ];
+
+  nixpkgs.config.firefox.enableGnomeExtensions = true;
 
   home.username = "dacio";
   home.homeDirectory = "/home/dacio";
@@ -17,17 +20,21 @@
   home.packages = with pkgs;
     [
       spotify
-      google-chrome
-      firefox-devedition-bin
-      discord
+      # firefox-devedition-bin doesn't support gnome extensions and its icon is wrong
+      # https://github.com/NixOS/nixpkgs/issues/127968
+      firefox
+      discord-gpu
       goverlay
       mangohud
       qbittorrent
       (nerdfonts.override {fonts = ["JetBrainsMono"];})
       gnome-extension-manager
       adw-gtk3
+      insomnia
+      prismlauncher
+      # lsp-plugins
     ]
-    ++ (with pkgs.gnomeExtensions; [
+    ++ (with gnomeExtensions; [
       appindicator
       arcmenu
       blur-my-shell
@@ -48,6 +55,7 @@
     name = "Adwaita";
   };
 
+  # gnome-keyring sets SSH_AUTH_SOCK which conflicts with gpg-agent
   # https://github.com/NixOS/nixpkgs/issues/101616
   xdg.configFile."autostart/gnome-keyring-ssh.desktop".text = ''
     [Desktop Entry]
@@ -63,6 +71,10 @@
     pinentryFlavor = "gnome3";
   };
 
+  services.syncthing.enable = true;
+  # services.easyeffects.enable = true;
+
+  # Qt styling isn't controlled by Gnome or gnome-tweaks
   qt.enable = true;
   qt.platformTheme = "gnome";
   qt.style = {

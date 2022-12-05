@@ -4,7 +4,11 @@
   inputs,
   ...
 }: {
-  imports = [./hardware-configuration.nix];
+  imports = with inputs.nixos-hardware.nixosModules; [
+    common-cpu-amd-pstate
+    common-gpu-nvidia-nonprime
+    ./hardware-configuration.nix
+  ];
 
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -37,9 +41,8 @@
 
   time.timeZone = "America/Los_Angeles";
 
-  # Enable Nvidia drivers.
-  services.xserver.videoDrivers = ["nvidia"];
-  hardware.opengl.enable = true;
+  # Configure Nvidia
+  hardware.opengl.driSupport32Bit = true;
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
 
@@ -51,12 +54,13 @@
   # Enable GNOME
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  environment.gnome.excludePackages =
-    (with pkgs; [
+  services.gnome.gnome-browser-connector.enable = true;
+  environment.gnome.excludePackages = with pkgs;
+    [
       gnome-connections
       gnome-tour
-    ])
-    ++ (with pkgs.gnome; [
+    ]
+    ++ (with gnome; [
       baobab # disk usage
       epiphany # browser
       geary # email client
@@ -108,7 +112,7 @@
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [virt-manager];
+  environment.systemPackages = with pkgs; [virt-manager gnome.gnome-tweaks];
 
   system.stateVersion = "22.05";
 }
