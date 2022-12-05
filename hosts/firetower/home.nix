@@ -15,7 +15,10 @@
   home.homeDirectory = "/home/dacio";
 
   # Force Wayland on apps like VSCode and Firefox
-  home.sessionVariables.NIXOS_OZONE_WL = 1;
+  home.sessionVariables."NIXOS_OZONE_WL" = 1;
+  # Make hardware decode work on Nvidia
+  # https://github.com/elFarto/nvidia-vaapi-driver#firefox
+  home.sessionVariables."MOZ_DISABLE_RDD_SANDBOX" = 1;
 
   home.packages = with pkgs;
     [
