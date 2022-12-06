@@ -18,6 +18,7 @@
         ssh_only = false;
       };
       nix_shell.disabled = true;
+      dotnet.disabled = true;
     };
   };
 }
