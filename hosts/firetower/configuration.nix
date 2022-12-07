@@ -11,6 +11,7 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [(import ../../overlays/mullvad-vpn.nix)];
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
@@ -38,6 +39,8 @@
   networking.hostName = "firetower";
   networking.networkmanager.enable = true;
   networking.networkmanager.dns = "dnsmasq"; # DNS caching
+
+  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -145,10 +148,13 @@
   services.flatpak.enable = true;
   # Smart card support (YubiKey)
   services.pcscd.enable = true;
+  services.hardware.openrgb.enable = true;
+  services.ratbagd.enable = true;
+  services.mullvad-vpn.enable = true;
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [virt-manager gnome.gnome-tweaks];
+  environment.systemPackages = with pkgs; [virt-manager gnome.gnome-tweaks piper mullvad-vpn];
 
   system.stateVersion = "22.05";
 }

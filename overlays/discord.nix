@@ -1,7 +1,7 @@
+# Discord doesn't render properly on Wayland
+# https://github.com/NixOS/nixpkgs/issues/159267
 # https://github.com/corytertel/nix-configuration/blob/2502f7b2edd3efa358746335f21bbfdb6343c84f/overlays/discord.nix
 final: prev: let
-  source = prev.discord.override {withOpenASAR = true;};
-
   commandLineArgs = toString [
     "--disable-features=UseOzonePlatform"
     "--enable-accelerated-mjpeg-decode"
@@ -15,51 +15,47 @@ final: prev: let
   # https://bbs.archlinux.org/viewtopic.php?id=259998
   # https://github.com/flathub/com.discordapp.Discord/blob/5209984f01c1540b7f5ccd92e5e47794a22a1277/discord.sh#L9
   gpuCommandLineArgs = toString [
-    "--disable-features=UseOzonePlatform"
-    "--enable-accelerated-mjpeg-decode"
-    "--enable-accelerated-video"
-    "--enable-features=VaapiVideoDecoder"
     "--enable-gpu-compositing"
     "--enable-gpu-rasterization"
     "--enable-native-gpu-memory-buffers"
-    "--enable-zero-copy"
     "--ignore-gpu-blacklist"
-    "--use-gl=desktop"
   ];
-in {
-  discord = let
-    wrapped = prev.writeShellScriptBin "discord" ''
-      exec ${source}/bin/discord ${commandLineArgs}
+in rec {
+  # Fix wrong Electron 17 flag, --ozone-platform-hint is only supported Electro 18+ and Discord Canary uses 17
+  # https://github.com/NixOS/nixpkgs/pull/202352
+  discord-canary = prev.symlinkJoin {
+    name = "discord-canary";
+    paths = [prev.discord-canary];
+    buildInputs = [prev.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/discordcanary \
+        --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland}}"
+      wrapProgram $out/bin/DiscordCanary \
+        --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland}}"
     '';
+  };
 
-    wrapped' = prev.writeShellScriptBin "Discord" ''
-      exec ${source}/bin/Discord ${commandLineArgs}
+  discord = prev.symlinkJoin {
+    name = "discord";
+    paths = [(prev.discord.override {withOpenASAR = true;})];
+    buildInputs = [prev.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/discord \
+        --add-flags "${commandLineArgs}"
+      wrapProgram $out/bin/Discord \
+        --add-flags "${commandLineArgs}"
     '';
-  in
-    prev.symlinkJoin {
-      name = "discord";
-      paths = [
-        wrapped
-        wrapped'
-        source
-      ];
-    };
+  };
 
-  discord-gpu = let
-    wrapped = prev.writeShellScriptBin "discord" ''
-      exec ${source}/bin/discord ${gpuCommandLineArgs}
+  discord-gpu = prev.symlinkJoin {
+    name = "discord";
+    paths = [discord];
+    buildInputs = [prev.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/discord \
+        --add-flags "${gpuCommandLineArgs}"
+      wrapProgram $out/bin/Discord \
+        --add-flags "${gpuCommandLineArgs}"
     '';
-
-    wrapped' = prev.writeShellScriptBin "Discord" ''
-      exec ${source}/bin/Discord ${gpuCommandLineArgs}
-    '';
-  in
-    prev.symlinkJoin {
-      name = "discord";
-      paths = [
-        wrapped
-        wrapped'
-        source
-      ];
-    };
+  };
 }

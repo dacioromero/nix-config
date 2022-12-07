@@ -35,7 +35,8 @@
       adw-gtk3
       insomnia
       prismlauncher
-      # lsp-plugins
+      lsp-plugins # Plugins for EasyEffects
+      transmission-gtk
     ]
     ++ (with gnomeExtensions; [
       appindicator
@@ -75,7 +76,7 @@
   };
 
   services.syncthing.enable = true;
-  # services.easyeffects.enable = true;
+  services.easyeffects.enable = true;
 
   # Qt styling isn't controlled by Gnome or gnome-tweaks
   qt.enable = true;
