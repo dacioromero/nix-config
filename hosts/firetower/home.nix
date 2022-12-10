@@ -7,6 +7,7 @@
 }: {
   imports = [
     ../../modules/home-manager/home.nix
+    ../../modules/home-manager/alacritty.nix
   ];
 
   nixpkgs.config.firefox.enableGnomeExtensions = true;

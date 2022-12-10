@@ -17,6 +17,10 @@
       url = "github:getomni/alacritty";
       flake = false;
     };
+    omni-kitty = {
+      url = "github:dacioromero/kitty";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {

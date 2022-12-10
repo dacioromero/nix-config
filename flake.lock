@@ -103,6 +103,22 @@
         "type": "github"
       }
     },
+    "omni-kitty": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1670621119,
+        "narHash": "sha256-OdVHqCqj15X6YjgYFK7OIB+ed9w/F2E+5w5pyXvvfiY=",
+        "owner": "dacioromero",
+        "repo": "kitty",
+        "rev": "ebb29e2b14cc030cd46ae23909ab04d3a66b3649",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dacioromero",
+        "repo": "kitty",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "darwin": "darwin",
@@ -110,7 +126,8 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "omni-alacritty": "omni-alacritty"
+        "omni-alacritty": "omni-alacritty",
+        "omni-kitty": "omni-kitty"
       }
     },
     "utils": {

@@ -2,10 +2,12 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }: {
   imports = [
     ../../modules/home-manager/home.nix
+    ../../modules/home-manager/kitty.nix
   ];
 
   home.username = "dacio";
