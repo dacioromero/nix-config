@@ -4,7 +4,7 @@
   inputs,
   ...
 }: {
-  imports = with inputs.self.homeManagerModules; [home kitty];
+  imports = with inputs.self.homeManagerModules; [home alacritty];
 
   home.username = "dacio";
   home.homeDirectory = "/Users/dacio";
