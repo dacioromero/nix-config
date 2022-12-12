@@ -60,15 +60,14 @@
         modules = [./hosts/firetower/configuration.nix];
         specialArgs = {inherit inputs;};
       };
+
+      overlays = import ./overlays;
     }
     // eachDefaultSystem (system: rec {
       legacyPackages = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [
-          (import ./overlays/discord.nix)
-          (import ./overlays/obsidian.nix)
-        ];
+        overlays = builtins.attrValues self.overlays;
       };
 
       formatter = legacyPackages.alejandra;

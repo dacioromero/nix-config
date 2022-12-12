@@ -57,10 +57,8 @@
       LaunchOnlyOnce = true;
       StandardOutPath = "${config.xdg.cacheHome}/colima.log";
       StandardErrorPath = "${config.xdg.cacheHome}/colima.log";
-      EnvironmentVariables = {
-        # Give colima access to Docker
-        PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-      };
+      # Give colima access to Docker
+      EnvironmentVariables.PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
     };
   };
 }

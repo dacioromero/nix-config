@@ -16,7 +16,6 @@
   fonts.fontDir.enable = true;
   fonts.fonts = with pkgs; [(nerdfonts.override {fonts = ["JetBrainsMono"];})];
 
-  # Enables GnuPG agent for every user session.
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;

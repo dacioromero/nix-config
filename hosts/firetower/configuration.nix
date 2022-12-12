@@ -11,7 +11,7 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = [(import ../../overlays/mullvad-vpn.nix)];
+  nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
