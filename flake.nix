@@ -56,6 +56,7 @@
       };
 
       nixosConfigurations."firetower" = nixosSystem {
+        pkgs = self.legacyPackages.x86_64-linux;
         system = "x86_64-linux";
         modules = [./hosts/firetower/configuration.nix];
         specialArgs = {inherit inputs;};

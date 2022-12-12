@@ -10,10 +10,10 @@
     ./hardware-configuration.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
+  # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.registry.nixpkgs.flake = inputs.self;
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
