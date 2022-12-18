@@ -85,6 +85,20 @@
     wantedBy = ["systemd-suspend.service" "systemd-hibernate.service"];
   };
 
+  # Adapted from https://wiki.archlinux.org/title/kexec#No_kernel_mode-setting_(Nvidia)
+  systemd.services.unmodeset = {
+    description = "Unload nvidia modesetting modules from kernel";
+    documentation = ["man:modprobe(8)"];
+    unitConfig.DefaultDependencies = "no";
+    after = ["umount.target"];
+    before = ["kexec.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.kmod}/bin/modprobe -r nvidia_drm";
+    };
+    wantedBy = ["kexec.target"];
+  };
+
   # Enable X11, but get rid of xterm
   services.xserver.enable = true;
   services.xserver.excludePackages = [pkgs.xterm];
