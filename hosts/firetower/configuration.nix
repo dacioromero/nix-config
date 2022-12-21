@@ -19,6 +19,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
+  boot.supportedFilesystems = ["ntfs"];
+
   # Silence
   boot.initrd.verbose = false;
   boot.consoleLogLevel = 0;

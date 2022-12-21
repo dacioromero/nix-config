@@ -38,6 +38,8 @@
       prismlauncher
       lsp-plugins # Plugins for EasyEffects
       transmission-gtk
+      tdesktop
+      element-desktop
     ]
     ++ (with gnomeExtensions; [
       appindicator
