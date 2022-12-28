@@ -75,6 +75,7 @@
 
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
+      homeManagerModules = import ./modules/home-manager;
     }
     // eachDefaultSystem (system: rec {
       legacyPackages = import nixpkgs {

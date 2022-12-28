@@ -2,14 +2,35 @@
   config,
   pkgs,
   lib,
+  self,
   ...
 }: {
-  imports = [
-    ../../modules/home-manager/home.nix
-  ];
+  imports = with self.homeManagerModules; [home alacritty];
 
   home.username = "dacio";
   home.homeDirectory = "/home/dacio";
+
+  home.packages = with pkgs;
+    [
+      spotify
+      discord
+      qbittorrent
+      (nerdfonts.override {fonts = ["JetBrainsMono"];})
+      adw-gtk3
+      insomnia
+      tdesktop
+      element-desktop
+    ]
+    ++ (with gnomeExtensions; [
+      appindicator
+      arcmenu
+      blur-my-shell
+      dash-to-panel
+      gamemode
+      no-overview
+      quick-settings-tweaker
+      tiling-assistant
+    ]);
 
   fonts.fontconfig.enable = true;
 
