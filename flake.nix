@@ -49,6 +49,12 @@
         extraSpecialArgs = {inherit inputs;};
       };
 
+      homeConfigurations."dacio@firepad" = homeManagerConfiguration {
+        pkgs = self.legacyPackages.x86_64-linux;
+        modules = [./hosts/firepad/home.nix];
+        extraSpecialArgs = {inherit inputs;};
+      };
+
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [./hosts/firebook-pro/darwin-configuration.nix];
@@ -58,6 +64,12 @@
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
         modules = [./hosts/firetower/configuration.nix];
+        specialArgs = {inherit inputs;};
+      };
+
+      nixosConfigurations."firepad" = nixosSystem {
+        system = "x86_64-linux";
+        modules = [./hosts/firepad/configuration.nix];
         specialArgs = {inherit inputs;};
       };
 
