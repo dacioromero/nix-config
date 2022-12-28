@@ -38,7 +38,7 @@
   fileSystems."/home".options = ["noatime" "compress=zstd"];
   fileSystems."/boot".options = ["noatime"];
 
-  networking.networkmanager.dns = "dnsmasq"; # DNS caching
+  networking.hostName = "firetower";
 
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651];
 
