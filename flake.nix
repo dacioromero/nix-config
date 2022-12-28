@@ -40,40 +40,41 @@
       homeConfigurations."dacio@firetower" = homeManagerConfiguration {
         pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firetower/home.nix];
-        extraSpecialArgs = {inherit inputs;};
+        extraSpecialArgs = inputs;
       };
 
       homeConfigurations."dacio@firebook-pro.lan" = homeManagerConfiguration {
         pkgs = self.legacyPackages.aarch64-darwin;
         modules = [./hosts/firebook-pro/home.nix];
-        extraSpecialArgs = {inherit inputs;};
+        extraSpecialArgs = inputs;
       };
 
       homeConfigurations."dacio@firepad" = homeManagerConfiguration {
         pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firepad/home.nix];
-        extraSpecialArgs = {inherit inputs;};
+        extraSpecialArgs = inputs;
       };
 
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [./hosts/firebook-pro/darwin-configuration.nix];
-        specialArgs = {inherit inputs;};
+        specialArgs = inputs;
       };
 
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
         modules = [./hosts/firetower/configuration.nix];
-        specialArgs = {inherit inputs;};
+        specialArgs = inputs;
       };
 
       nixosConfigurations."firepad" = nixosSystem {
         system = "x86_64-linux";
         modules = [./hosts/firepad/configuration.nix];
-        specialArgs = {inherit inputs;};
+        specialArgs = inputs;
       };
 
       overlays = import ./overlays;
+      nixosModules = import ./modules/nixos;
     }
     // eachDefaultSystem (system: rec {
       legacyPackages = import nixpkgs {

@@ -1,8 +1,8 @@
-{inputs, ...}: {
+{omni-alacritty, ...}: {
   programs.alacritty = {
     enable = true;
     settings = {
-      import = ["${inputs.omni-alacritty}/omni.yml"];
+      import = ["${omni-alacritty}/omni.yml"];
       font = let
         mkFace = style: {
           family = "JetBrainsMono Nerd Font";

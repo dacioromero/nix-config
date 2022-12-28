@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  inputs,
+  nixpkgs,
   ...
 }: {
   nix.settings = {
@@ -9,7 +9,7 @@
     auto-optimise-store = true;
   };
 
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.registry.nixpkgs.flake = nixpkgs;
 
   environment.systemPackages = with pkgs; [zsh-completions];
 

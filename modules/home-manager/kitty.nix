@@ -1,7 +1,7 @@
-{inputs, ...}: {
+{omni-kitty, ...}: {
   programs.kitty = {
     enable = true;
-    extraConfig = builtins.readFile "${inputs.omni-kitty}/omni.conf";
+    extraConfig = builtins.readFile "${omni-kitty}/omni.conf";
     font.name = "JetBrainsMono Nerd Font";
     font.size = 12;
     settings = {

@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  nixpkgs,
   ...
 }: {
   imports = [
@@ -32,7 +31,6 @@
       mangohud
       qbittorrent
       (nerdfonts.override {fonts = ["JetBrainsMono"];})
-      gnome-extension-manager
       adw-gtk3
       insomnia
       prismlauncher
