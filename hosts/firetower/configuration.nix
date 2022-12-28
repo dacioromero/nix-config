@@ -13,7 +13,13 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
   nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.auto-optimise-store = true;
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -37,6 +43,7 @@
   fileSystems."/".options = ["noatime" "compress=zstd"];
   fileSystems."/nix".options = ["noatime" "compress=zstd"];
   fileSystems."/home".options = ["noatime" "compress=zstd"];
+  fileSystems."/boot".options = ["noatime"];
 
   networking.hostName = "firetower";
   networking.networkmanager.enable = true;
@@ -162,6 +169,7 @@
 
   # Some packages aren't on nixpkgs
   services.flatpak.enable = true;
+  fonts.fontDir.enable = true; # https://github.com/NixOS/nixpkgs/issues/119433
   # Smart card support (YubiKey)
   services.pcscd.enable = true;
   services.hardware.openrgb.enable = true;

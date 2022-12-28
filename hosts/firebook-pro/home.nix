@@ -61,4 +61,6 @@
       EnvironmentVariables.PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
     };
   };
+
+  home.stateVersion = "22.05";
 }

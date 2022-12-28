@@ -88,4 +88,6 @@
     package = pkgs.adwaita-qt;
     name = "adwaita-dark";
   };
+
+  home.stateVersion = "22.05";
 }
