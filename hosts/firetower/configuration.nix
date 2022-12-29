@@ -17,7 +17,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
   boot.supportedFilesystems = ["ntfs"];
 
   # Silence
@@ -39,7 +38,6 @@
   fileSystems."/boot".options = ["noatime"];
 
   networking.hostName = "firetower";
-
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651];
 
   time.timeZone = "America/Los_Angeles";
@@ -55,7 +53,6 @@
   # https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/5772
   # https://www.nvidia.com/Download/driverResults.aspx/196723/en-us/
   systemd.services.gnome-suspend = {
-    enable = true;
     description = "Suspend gnome-shell";
     before = [
       "systemd-suspend.service"
@@ -71,7 +68,6 @@
   };
 
   systemd.services.gnome-resume = {
-    enable = true;
     description = "Resume gnome-shell";
     before = [
       "systemd-suspend.service"
@@ -113,7 +109,7 @@
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [virt-manager gnome.gnome-tweaks piper mullvad-vpn];
+  environment.systemPackages = with pkgs; [virt-manager piper mullvad-vpn];
 
   system.stateVersion = "22.05";
 }

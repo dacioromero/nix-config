@@ -2,12 +2,10 @@
   config,
   pkgs,
   lib,
+  self,
   ...
 }: {
-  imports = [
-    ../../modules/home-manager/home.nix
-    ../../modules/home-manager/kitty.nix
-  ];
+  imports = with self.homeManagerModules; [home kitty];
 
   home.username = "dacio";
   home.homeDirectory = "/Users/dacio";

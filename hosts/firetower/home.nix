@@ -2,12 +2,10 @@
   config,
   pkgs,
   lib,
+  self,
   ...
 }: {
-  imports = [
-    ../../modules/home-manager/home.nix
-    ../../modules/home-manager/alacritty.nix
-  ];
+  imports = with self.homeManagerModules; [home alacritty];
 
   nixpkgs.config.firefox.enableGnomeExtensions = true;
 
