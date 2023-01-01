@@ -4,7 +4,7 @@
   self,
   ...
 }: {
-  imports = with self.homeManagerModules; [home alacritty wezterm];
+  imports = with self.homeManagerModules; [home alacritty];
 
   nixpkgs.config.firefox.enableGnomeExtensions = true;
 

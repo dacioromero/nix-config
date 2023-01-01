@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [./starship];
   home.packages = with pkgs; [thefuck obsidian vscode slack zoom-us];
 
