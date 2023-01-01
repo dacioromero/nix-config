@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  lib,
   ...
 }: let
   # Redirect logging to /tmp to prevent Starship from logging to /nix
