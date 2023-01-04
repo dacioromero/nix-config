@@ -2,7 +2,7 @@
   description = "Home Manager configuration of Dacio Romero";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -63,12 +63,14 @@
 
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
+        pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firetower/configuration.nix];
         specialArgs = inputs;
       };
 
       nixosConfigurations."firepad" = nixosSystem {
         system = "x86_64-linux";
+        pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firepad/configuration.nix];
         specialArgs = inputs;
       };

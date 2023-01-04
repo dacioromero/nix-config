@@ -36,7 +36,7 @@
   fileSystems."/boot".options = ["noatime"];
 
   networking.hostName = "firetower";
-  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651];
+  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651 54846];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -44,40 +44,6 @@
   hardware.opengl.driSupport32Bit = true;
   hardware.nvidia.modesetting.enable = true;
   hardware.nvidia.powerManagement.enable = true;
-
-  # Gnome doesn't suspend prior to 525.60.11
-  # TODO: Remove after 525.60.11
-  # https://forums.developer.nvidia.com/t/trouble-suspending-with-510-39-01-linux-5-16-0-freezing-of-tasks-failed-after-20-009-seconds/200933/12
-  # https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/5772
-  # https://www.nvidia.com/Download/driverResults.aspx/196723/en-us/
-  systemd.services.gnome-suspend = {
-    description = "Suspend gnome-shell";
-    before = [
-      "systemd-suspend.service"
-      "systemd-hibernate.service"
-      "nvidia-suspend.service"
-      "nvidia-hibernate.service"
-    ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.busybox}/bin/killall -STOP gnome-shell";
-    };
-    wantedBy = ["systemd-suspend.service" "systemd-hibernate.service"];
-  };
-
-  systemd.services.gnome-resume = {
-    description = "Resume gnome-shell";
-    before = [
-      "systemd-suspend.service"
-      "systemd-hibernate.service"
-      "nvidia-resume.service"
-    ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.busybox}/bin/killall -CONT gnome-shell";
-    };
-    wantedBy = ["systemd-suspend.service" "systemd-hibernate.service"];
-  };
 
   # Adapted from https://wiki.archlinux.org/title/kexec#No_kernel_mode-setting_(Nvidia)
   systemd.services.unmodeset = {

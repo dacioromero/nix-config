@@ -1,14 +1,11 @@
 {
   pkgs,
   self,
-  nixpkgs,
   ...
 }: {
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.overlays = builtins.attrValues self.overlays;
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.auto-optimise-store = true;
-  nix.registry.nixpkgs.flake = nixpkgs;
+  nix.registry.nixpkgs.flake = self;
   nix.gc = {
     automatic = true;
     dates = "weekly";

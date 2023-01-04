@@ -21,20 +21,6 @@ final: prev: let
     "--ignore-gpu-blacklist"
   ];
 in rec {
-  # Fix wrong Electron 17 flag, --ozone-platform-hint is only supported Electro 18+ and Discord Canary uses 17
-  # https://github.com/NixOS/nixpkgs/pull/202352
-  discord-canary = prev.symlinkJoin {
-    name = "discord-canary";
-    paths = [prev.discord-canary];
-    buildInputs = [prev.makeWrapper];
-    postBuild = ''
-      wrapProgram $out/bin/discordcanary \
-        --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland}}"
-      wrapProgram $out/bin/DiscordCanary \
-        --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland}}"
-    '';
-  };
-
   discord = prev.symlinkJoin {
     name = "discord";
     paths = [(prev.discord.override {withOpenASAR = true;})];
