@@ -24,7 +24,7 @@
     ]);
 
   # Prevent poorly auto-discovered ghost printers
-  programs.system-config-printer.enable = true;
+  systemd.services.cups-browsed.enable = false;
 
   environment.systemPackages = with pkgs; [gnome.gnome-tweaks gnome-extension-manager firefox];
 }
