@@ -22,6 +22,8 @@
 
   # Enable CUPS for printers
   services.printing.enable = true;
+  # Enable SANE for scanners
+  hardware.sane.enable = true;
   # Enable Avahi for printer discovery
   services.avahi.enable = true;
   services.avahi.nssmdns = true;

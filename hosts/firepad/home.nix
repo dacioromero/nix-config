@@ -18,6 +18,7 @@
       insomnia
       tdesktop
       element-desktop
+      cryptomator
     ]
     ++ (with gnomeExtensions; [
       appindicator
@@ -55,6 +56,8 @@
     maxCacheTtl = 120;
     pinentryFlavor = "gnome3";
   };
+
+  services.syncthing.enable = true;
 
   # Qt styling isn't controlled by Gnome or gnome-tweaks
   qt.enable = true;

@@ -2,6 +2,7 @@
   pkgs,
   nixos-hardware,
   self,
+  lib,
   ...
 }: {
   imports =
@@ -32,11 +33,17 @@
   fileSystems."/boot".options = ["noatime"];
 
   networking.hostName = "firepad";
+  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [54918];
 
   time.timeZone = "America/Los_Angeles";
 
   services.mullvad-vpn.enable = true;
   services.fwupd.enable = true;
+
+  services.printing.drivers = [pkgs.hplipWithPlugin];
+  hardware.sane.extraBackends = [pkgs.hplipWithPlugin];
+  # Prevent poorly auto-discovered ghost printers
+  systemd.services.cups-browsed.enable = false;
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
