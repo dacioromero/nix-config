@@ -10,7 +10,7 @@
       common-cpu-amd-pstate
       common-gpu-nvidia-nonprime
     ])
-    ++ (with self.nixosModules; [base gnome]);
+    ++ (with self.nixosModules; [base gnome mullvad-vpn virt-manager]);
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -37,6 +37,7 @@
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651 54846];
+  networking.firewall.interfaces.enp4s0.allowedTCPPorts = [25565];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -67,13 +68,12 @@
     dedicatedServer.openFirewall = true;
   };
 
+  services.printing.drivers = [pkgs.hplipWithPlugin];
   services.hardware.openrgb.enable = true;
   services.ratbagd.enable = true;
-  services.mullvad-vpn.enable = true;
 
-  virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [virt-manager piper mullvad-vpn];
+  environment.systemPackages = with pkgs; [piper];
+  environment.gnome.excludePackages = [pkgs.gnome.gnome-software];
 
   system.stateVersion = "22.05";
 }

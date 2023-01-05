@@ -1,4 +1,4 @@
-{...}: {
+{
   imports = [./nerd-fonts.nix];
 
   programs.starship = {

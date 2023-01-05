@@ -27,6 +27,7 @@
   # Enable Avahi for printer discovery
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
+  programs.system-config-printer.enable = true;
 
   # Enable sound with Pipewire
   sound.enable = true;

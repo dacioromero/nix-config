@@ -7,8 +7,6 @@
   nix.settings.auto-optimise-store = true;
   nix.registry.nixpkgs.flake = nixpkgs;
 
-  environment.systemPackages = with pkgs; [zsh-completions];
-
   fonts.fontDir.enable = true;
   fonts.fonts = with pkgs; [(nerdfonts.override {fonts = ["JetBrainsMono"];})];
 

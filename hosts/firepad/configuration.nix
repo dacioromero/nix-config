@@ -2,13 +2,12 @@
   pkgs,
   nixos-hardware,
   self,
-  lib,
   ...
 }: {
   imports =
     [./hardware-configuration.nix]
     ++ (with nixos-hardware.nixosModules; [lenovo-thinkpad-x1-6th-gen])
-    ++ (with self.nixosModules; [base gnome]);
+    ++ (with self.nixosModules; [base gnome mullvad-vpn virt-manager]);
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -37,17 +36,8 @@
 
   time.timeZone = "America/Los_Angeles";
 
-  services.mullvad-vpn.enable = true;
   services.fwupd.enable = true;
-
-  services.printing.drivers = [pkgs.hplipWithPlugin];
-  hardware.sane.extraBackends = [pkgs.hplipWithPlugin];
-  # Prevent poorly auto-discovered ghost printers
-  systemd.services.cups-browsed.enable = false;
-
-  virtualisation.libvirtd.enable = true;
-  programs.dconf.enable = true;
-  environment.systemPackages = with pkgs; [virt-manager mullvad-vpn firefox];
+  services.printing.drivers = with pkgs; [hplipWithPlugin];
 
   system.stateVersion = "22.11";
 }

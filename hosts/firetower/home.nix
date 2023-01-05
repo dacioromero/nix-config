@@ -1,12 +1,9 @@
 {
-  config,
   pkgs,
   self,
   ...
 }: {
   imports = with self.homeManagerModules; [home alacritty];
-
-  nixpkgs.config.firefox.enableGnomeExtensions = true;
 
   home.username = "dacio";
   home.homeDirectory = "/home/dacio";
@@ -20,9 +17,6 @@
   home.packages = with pkgs;
     [
       spotify
-      # firefox-devedition-bin doesn't support gnome extensions and its icon is wrong
-      # https://github.com/NixOS/nixpkgs/issues/127968
-      firefox
       discord-gpu
       goverlay
       mangohud
@@ -41,7 +35,6 @@
       arcmenu
       blur-my-shell
       dash-to-panel
-      gamemode
       no-overview
       quick-settings-tweaker
       tiling-assistant

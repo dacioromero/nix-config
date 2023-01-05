@@ -23,5 +23,8 @@
       yelp # help
     ]);
 
-  environment.systemPackages = with pkgs; [gnome.gnome-tweaks gnome-extension-manager];
+  # Prevent poorly auto-discovered ghost printers
+  programs.system-config-printer.enable = true;
+
+  environment.systemPackages = with pkgs; [gnome.gnome-tweaks gnome-extension-manager firefox];
 }

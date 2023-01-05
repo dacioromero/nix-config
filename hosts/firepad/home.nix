@@ -25,7 +25,6 @@
       arcmenu
       blur-my-shell
       dash-to-panel
-      gamemode
       no-overview
       quick-settings-tweaker
       tiling-assistant
