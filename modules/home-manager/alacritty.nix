@@ -21,6 +21,13 @@
         opacity = 0.95;
       };
       cursor.style.blinking = "On";
+      key_bindings = [
+        {
+          key = "N";
+          mods = "Control";
+          action = "SpawnNewInstance";
+        }
+      ];
     };
   };
 }
