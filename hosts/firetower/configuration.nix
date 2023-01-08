@@ -77,5 +77,19 @@
   environment.systemPackages = [pkgs.piper];
   environment.gnome.excludePackages = [pkgs.gnome.gnome-software];
 
+  users.users.dacio = {
+    isNormalUser = true;
+    description = "Dacio";
+    group = "dacio";
+    uid = 1000;
+    extraGroups = ["wheel"];
+  };
+
+  users.groups.dacio.gid = 1000;
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.dacio = import ./home.nix;
+
   system.stateVersion = "22.05";
 }

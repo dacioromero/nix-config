@@ -64,7 +64,11 @@
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
         pkgs = self.legacyPackages.x86_64-linux;
-        modules = [./hosts/firetower/configuration.nix];
+        modules = [
+          home-manager.nixosModules.home-manager
+          ./hosts/firetower/configuration.nix
+          { home-manager.extraSpecialArgs = inputs; }
+        ];
         specialArgs = inputs;
       };
 

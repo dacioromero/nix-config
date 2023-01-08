@@ -5,9 +5,6 @@
 }: {
   imports = with self.homeManagerModules; [home alacritty];
 
-  home.username = "dacio";
-  home.homeDirectory = "/home/dacio";
-
   # Force Wayland on apps like VSCode and Firefox
   home.sessionVariables."NIXOS_OZONE_WL" = 1;
   # Make hardware decode work on Nvidia
