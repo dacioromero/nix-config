@@ -10,7 +10,12 @@
       common-cpu-amd-pstate
       common-gpu-nvidia-nonprime
     ])
-    ++ (with self.nixosModules; [base gnome mullvad-vpn virt-manager]);
+    ++ (with self.nixosModules; [
+      base
+      gnome
+      mullvad-vpn
+      virt-manager
+    ]);
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -25,9 +30,6 @@
     "udev.log_level=3"
     "nvidia.NVreg_TemporaryFilePath=/var/tmp" # Nvidia recommends non-tmpfs
   ];
-
-  # Experimenting with NixOS on SBCs
-  boot.binfmt.emulatedSystems = ["armv7l-linux"];
 
   # Add more BTRFS mount options
   fileSystems."/".options = ["noatime" "compress=zstd"];
@@ -72,7 +74,7 @@
   services.hardware.openrgb.enable = true;
   services.ratbagd.enable = true;
 
-  environment.systemPackages = with pkgs; [piper];
+  environment.systemPackages = [pkgs.piper];
   environment.gnome.excludePackages = [pkgs.gnome.gnome-software];
 
   system.stateVersion = "22.05";

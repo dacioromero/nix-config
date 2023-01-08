@@ -26,5 +26,11 @@
   # Prevent poorly auto-discovered ghost printers
   systemd.services.cups-browsed.enable = false;
 
-  environment.systemPackages = with pkgs; [gnome.gnome-tweaks gnome-extension-manager firefox];
+  nixpkgs.config.firefox.enableGnomeExtensions = true;
+
+  environment.systemPackages = with pkgs; [
+    gnome.gnome-tweaks
+    gnome-extension-manager
+    firefox
+  ];
 }

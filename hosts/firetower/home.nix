@@ -16,27 +16,30 @@
 
   home.packages = with pkgs;
     [
-      spotify
-      discord-gpu
-      goverlay
-      mangohud
-      qbittorrent
       (nerdfonts.override {fonts = ["JetBrainsMono"];})
       adw-gtk3
-      insomnia
-      prismlauncher
-      lsp-plugins # Plugins for EasyEffects
-      transmission-gtk
-      tdesktop
+      discord-gpu
       element-desktop
+      goverlay
+      insomnia
+      lsp-plugins # Plugins for EasyEffects
+      mangohud
+      prismlauncher
+      qbittorrent
+      spotify
+      tdesktop
+      transmission-gtk
     ]
     ++ (with gnomeExtensions; [
       appindicator
       arcmenu
       blur-my-shell
       dash-to-panel
+      hibernate-status-button
+      inhibit-suspend
       no-overview
       quick-settings-tweaker
+      syncthing-indicator
       tiling-assistant
     ]);
 
