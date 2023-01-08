@@ -83,6 +83,7 @@
       legacyPackages = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
+        config.firefox.enableGnomeExtensions = true;
         overlays = builtins.attrValues self.overlays;
       };
 
