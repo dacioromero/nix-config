@@ -37,12 +37,6 @@
     inherit (nixpkgs.lib) nixosSystem;
   in
     {
-      homeConfigurations."dacio@firebook-pro" = homeManagerConfiguration {
-        pkgs = self.legacyPackages.aarch64-darwin;
-        modules = [./hosts/firebook-pro/home.nix];
-        extraSpecialArgs = {inherit inputs;};
-      };
-
       homeConfigurations."dacio@firepad" = homeManagerConfiguration {
         pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firepad/home.nix];
@@ -50,6 +44,7 @@
       };
 
       darwinConfigurations."firebook-pro" = darwinSystem {
+        pkgs = self.legacyPackages.aarch64-darwin;
         system = "aarch64-darwin";
         modules = [./hosts/firebook-pro/darwin-configuration.nix];
         specialArgs = {inherit inputs;};

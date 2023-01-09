@@ -3,6 +3,8 @@
   inputs,
   ...
 }: {
+  imports = [inputs.home-manager.darwinModules.home-manager];
+
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.auto-optimise-store = true;
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
@@ -17,9 +19,19 @@
 
   programs.zsh.enable = true;
 
+  users.users.dacio = {
+    description = "Dacio";
+    home = "/Users/dacio";
+    shell = pkgs.zsh;
+    uid = 501;
+  };
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.extraSpecialArgs = { inherit inputs; };
+  home-manager.users.dacio = import ./home.nix;
+
   services.nix-daemon.enable = true;
 
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
   system.stateVersion = 4;
 }

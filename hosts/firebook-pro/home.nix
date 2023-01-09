@@ -6,9 +6,6 @@
 }: {
   imports = with inputs.self.homeManagerModules; [home alacritty];
 
-  home.username = "dacio";
-  home.homeDirectory = "/Users/dacio";
-
   home.packages = with pkgs; [
     colima
     docker
