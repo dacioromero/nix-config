@@ -28,7 +28,6 @@
       qbittorrent
       spotify
       tdesktop
-      transmission-gtk
     ]
     ++ (with gnomeExtensions; [
       appindicator
