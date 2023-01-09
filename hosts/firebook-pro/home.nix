@@ -14,6 +14,10 @@
     docker
   ];
 
+  # CCID is broken on MacOS
+  # https://github.com/NixOS/nixpkgs/issues/155629
+  programs.gpg.scdaemonSettings.disable-ccid = true;
+
   # Darwin doesn't support services.gpg-agent
   # https://github.com/nix-community/home-manager/issues/91
   home.file.".gnupg/gpg-agent.conf".text = let
