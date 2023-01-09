@@ -1,20 +1,20 @@
 {
   pkgs,
-  nixos-hardware,
-  self,
+  inputs,
   ...
 }: {
   imports =
     [./hardware-configuration.nix]
-    ++ (with nixos-hardware.nixosModules; [
+    ++ (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd-pstate
       common-gpu-nvidia-nonprime
     ])
-    ++ (with self.nixosModules; [
+    ++ (with inputs.self.nixosModules; [
       base
       gnome
       mullvad-vpn
       virt-manager
+      home-manager
     ]);
 
   boot.loader.systemd-boot.enable = true;
@@ -86,9 +86,6 @@
   };
 
   users.groups.dacio.gid = 1000;
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
   home-manager.users.dacio = import ./home.nix;
 
   system.stateVersion = "22.05";

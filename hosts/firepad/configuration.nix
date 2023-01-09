@@ -1,13 +1,17 @@
 {
   pkgs,
-  nixos-hardware,
-  self,
+  inputs,
   ...
 }: {
   imports =
     [./hardware-configuration.nix]
-    ++ (with nixos-hardware.nixosModules; [lenovo-thinkpad-x1-6th-gen])
-    ++ (with self.nixosModules; [base gnome mullvad-vpn virt-manager]);
+    ++ (with inputs.nixos-hardware.nixosModules; [lenovo-thinkpad-x1-6th-gen])
+    ++ (with inputs.self.nixosModules; [
+      base
+      gnome
+      mullvad-vpn
+      virt-manager
+    ]);
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

@@ -1,9 +1,12 @@
 {
   pkgs,
-  self,
+  inputs,
   ...
 }: {
-  imports = with self.homeManagerModules; [home alacritty];
+  imports = with inputs.self.homeManagerModules; [
+    home
+    alacritty
+  ];
 
   # Force Wayland on apps like VSCode and Firefox
   home.sessionVariables."NIXOS_OZONE_WL" = 1;

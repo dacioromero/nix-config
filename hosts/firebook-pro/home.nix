@@ -1,10 +1,10 @@
 {
   config,
   pkgs,
-  self,
+  inputs,
   ...
 }: {
-  imports = with self.homeManagerModules; [home kitty];
+  imports = with inputs.self.homeManagerModules; [home kitty];
 
   home.username = "dacio";
   home.homeDirectory = "/Users/dacio";

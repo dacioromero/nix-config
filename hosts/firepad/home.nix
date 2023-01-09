@@ -1,9 +1,9 @@
 {
   pkgs,
-  self,
+  inputs,
   ...
 }: {
-  imports = with self.homeManagerModules; [home alacritty];
+  imports = with inputs.homeManagerModules; [home alacritty];
 
   home.username = "dacio";
   home.homeDirectory = "/home/dacio";

@@ -1,11 +1,11 @@
 {
   pkgs,
-  nixpkgs,
+  inputs,
   ...
 }: {
   nix.settings.experimental-features = ["nix-command" "flakes"];
   nix.settings.auto-optimise-store = true;
-  nix.registry.nixpkgs.flake = nixpkgs;
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
   fonts.fontDir.enable = true;
   fonts.fonts = with pkgs; [(nerdfonts.override {fonts = ["JetBrainsMono"];})];
