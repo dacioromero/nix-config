@@ -4,4 +4,5 @@
   kitty = import ./kitty.nix;
   starship = import ./starship;
   wezterm = import ./wezterm.nix;
+  gnome = import ./gnome.nix;
 }

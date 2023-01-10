@@ -26,23 +26,15 @@
   outputs = inputs @ {
     self,
     nixpkgs,
-    home-manager,
     darwin,
     flake-utils,
     ...
   }: let
-    inherit (home-manager.lib) homeManagerConfiguration;
     inherit (darwin.lib) darwinSystem;
     inherit (flake-utils.lib) eachDefaultSystem;
     inherit (nixpkgs.lib) nixosSystem;
   in
     {
-      homeConfigurations."dacio@firepad" = homeManagerConfiguration {
-        pkgs = self.legacyPackages.x86_64-linux;
-        modules = [./hosts/firepad/home.nix];
-        extraSpecialArgs = {inherit inputs;};
-      };
-
       darwinConfigurations."firebook-pro" = darwinSystem {
         pkgs = self.legacyPackages.aarch64-darwin;
         system = "aarch64-darwin";

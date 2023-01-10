@@ -11,6 +11,7 @@
       gnome
       mullvad-vpn
       virt-manager
+      home-manager
     ]);
 
   boot.loader.systemd-boot.enable = true;
@@ -42,6 +43,17 @@
 
   services.fwupd.enable = true;
   services.printing.drivers = with pkgs; [hplipWithPlugin];
+
+  users.users.dacio = {
+    isNormalUser = true;
+    description = "Dacio";
+    group = "dacio";
+    uid = 1000;
+    extraGroups = ["wheel"];
+  };
+
+  users.groups.dacio.gid = 1000;
+  home-manager.users.dacio = import ./home.nix;
 
   system.stateVersion = "22.11";
 }
