@@ -44,12 +44,14 @@
   services.fwupd.enable = true;
   services.printing.drivers = with pkgs; [hplipWithPlugin];
 
+  programs.adb.enable = true;
+
   users.users.dacio = {
     isNormalUser = true;
     description = "Dacio";
     group = "dacio";
     uid = 1000;
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "adbusers"];
   };
 
   users.groups.dacio.gid = 1000;
