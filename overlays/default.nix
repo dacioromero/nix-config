@@ -1,5 +1,4 @@
 {
-  modifications = final: prev:
-    (import ./discord.nix final prev)
-    // (import ./mullvad-vpn.nix final prev);
+  discord = import ./discord.nix;
+  mullvad-vpn = import ./mullvad-vpn.nix;
 }

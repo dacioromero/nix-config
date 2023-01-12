@@ -8,6 +8,7 @@
     ++ (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd-pstate
       common-gpu-nvidia-nonprime
+      common-pc-ssd
     ])
     ++ (with inputs.self.nixosModules; [
       base

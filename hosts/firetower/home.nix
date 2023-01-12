@@ -35,5 +35,10 @@
   services.syncthing.enable = true;
   services.easyeffects.enable = true;
 
+  programs.lf = {
+    enable = true;
+    keybindings."<delete>" = "delete";
+  };
+
   home.stateVersion = "22.05";
 }
