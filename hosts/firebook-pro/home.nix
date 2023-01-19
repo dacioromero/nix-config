@@ -6,10 +6,10 @@
 }: {
   imports = with inputs.self.homeManagerModules; [home alacritty];
 
-  home.packages = with pkgs; [
-    colima
-    docker
-  ];
+  # home.packages = with pkgs; [
+  #   colima
+  #   docker
+  # ];
 
   # CCID is broken on MacOS
   # https://github.com/NixOS/nixpkgs/issues/155629
@@ -27,33 +27,33 @@
     pinentry-program ${pinentry_mac}/${pinentry_mac.binaryPath}
   '';
 
-  launchd.agents.colima = {
-    enable = true;
-    config = {
-      # colima start doesn't stay alive
-      # https://gist.github.com/fardjad/a83c30b9b744b9612d793666f28361a5
-      Program = toString (pkgs.writeShellScript "colima-start.sh" ''
-        function shutdown() {
-          ${pkgs.colima}/bin/colima stop
-          exit 0
-        }
+  # launchd.agents.colima = {
+  #   enable = true;
+  #   config = {
+  #     # colima start doesn't stay alive
+  #     # https://gist.github.com/fardjad/a83c30b9b744b9612d793666f28361a5
+  #     Program = toString (pkgs.writeShellScript "colima-start.sh" ''
+  #       function shutdown() {
+  #         ${pkgs.colima}/bin/colima stop
+  #         exit 0
+  #       }
 
-        trap shutdown SIGTERM
-        trap shutdown SIGKILL
-        trap shutdown SIGINT
+  #       trap shutdown SIGTERM
+  #       trap shutdown SIGKILL
+  #       trap shutdown SIGINT
 
-        ${pkgs.colima}/bin/colima start
-        tail -f /dev/null &
-        wait $!
-      '');
-      RunAtLoad = true;
-      LaunchOnlyOnce = true;
-      StandardOutPath = "${config.xdg.cacheHome}/colima.log";
-      StandardErrorPath = "${config.xdg.cacheHome}/colima.log";
-      # Give colima access to Docker
-      EnvironmentVariables.PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-    };
-  };
+  #       ${pkgs.colima}/bin/colima start
+  #       tail -f /dev/null &
+  #       wait $!
+  #     '');
+  #     RunAtLoad = true;
+  #     LaunchOnlyOnce = true;
+  #     StandardOutPath = "${config.xdg.cacheHome}/colima.log";
+  #     StandardErrorPath = "${config.xdg.cacheHome}/colima.log";
+  #     # Give colima access to Docker
+  #     EnvironmentVariables.PATH = "${pkgs.docker}/bin:/usr/bin:/bin:/usr/sbin:/sbin";
+  #   };
+  # };
 
   home.stateVersion = "22.05";
 }
