@@ -78,6 +78,10 @@
   environment.systemPackages = [pkgs.piper];
   environment.gnome.excludePackages = [pkgs.gnome.gnome-software];
 
+  # Direct backend required for 525 drivers
+  # https://github.com/elFarto/nvidia-vaapi-driver/issues/126
+  environment.sessionVariables."NVD_BACKEND" = "direct";
+
   users.users.dacio = {
     isNormalUser = true;
     description = "Dacio";
