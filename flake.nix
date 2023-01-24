@@ -34,7 +34,7 @@
     inherit (flake-utils.lib) eachDefaultSystem;
     inherit (nixpkgs.lib) nixosSystem;
   in
-    {
+    rec {
       darwinConfigurations."firebook-pro" = darwinSystem {
         pkgs = self.legacyPackages.aarch64-darwin;
         system = "aarch64-darwin";
@@ -55,6 +55,20 @@
         modules = [./hosts/firepad/configuration.nix];
         specialArgs = {inherit inputs;};
       };
+
+      nixosConfigurations.bpi-m2-zero = nixpkgs.lib.nixosSystem {
+        system = "armv7l-linux";
+        modules = [
+          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-armv7l-multiplatform.nix"
+          {
+            nixpkgs.config.allowUnsupportedSystem = true;
+            nixpkgs.crossSystem.system = "armv7l-linux";
+            # ... extra configs as above
+          }
+        ];
+      };
+
+      images.rpi2 = nixosConfigurations.bpi-m2-zero.config.system.build.sdImage;
 
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;

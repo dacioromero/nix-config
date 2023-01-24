@@ -32,6 +32,8 @@
     "nvidia.NVreg_TemporaryFilePath=/var/tmp" # Nvidia recommends non-tmpfs
   ];
 
+  boot.binfmt.emulatedSystems = ["armv7l-linux"];
+
   # Add more BTRFS mount options
   fileSystems."/".options = ["noatime" "compress=zstd"];
   fileSystems."/nix".options = ["noatime" "compress=zstd"];
@@ -40,7 +42,7 @@
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [58651 54846];
-  networking.firewall.interfaces.enp4s0.allowedTCPPorts = [25565];
+  networking.firewall.interfaces.enp5s0.allowedTCPPorts = [25565];
 
   time.timeZone = "America/Los_Angeles";
 
