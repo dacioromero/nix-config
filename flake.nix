@@ -1,6 +1,11 @@
 {
   description = "Home Manager configuration of Dacio Romero";
 
+  nixConfig = {
+    extra-substituters = "https://cache.armv7l.xyz";
+    extra-trusted-public-keys = "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=";
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -34,7 +39,7 @@
     inherit (flake-utils.lib) eachDefaultSystem;
     inherit (nixpkgs.lib) nixosSystem;
   in
-    {
+    rec {
       darwinConfigurations."firebook-pro" = darwinSystem {
         pkgs = self.legacyPackages.aarch64-darwin;
         system = "aarch64-darwin";
@@ -54,6 +59,16 @@
         pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firepad/configuration.nix];
         specialArgs = {inherit inputs;};
+      };
+
+      nixosConfigurations.firepi = nixosSystem {
+        system = "armv7l-linux";
+        modules = [
+          ./hosts/firepi/configuration.nix
+          {
+            nixpkgs.buildPlatform = "x86_64-linux";
+          }
+        ];
       };
 
       overlays = import ./overlays;
