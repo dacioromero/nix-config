@@ -1,6 +1,11 @@
 {
   description = "Home Manager configuration of Dacio Romero";
 
+  nixConfig = {
+    extra-substituters = "https://cache.armv7l.xyz";
+    extra-trusted-public-keys = "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=";
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -56,19 +61,15 @@
         specialArgs = {inherit inputs;};
       };
 
-      nixosConfigurations.bpi-m2-zero = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.firepi = nixosSystem {
         system = "armv7l-linux";
         modules = [
-          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-armv7l-multiplatform.nix"
+          ./hosts/firepi/configuration.nix
           {
-            nixpkgs.config.allowUnsupportedSystem = true;
-            nixpkgs.crossSystem.system = "armv7l-linux";
-            # ... extra configs as above
+            nixpkgs.buildPlatform = "x86_64-linux";
           }
         ];
       };
-
-      images.rpi2 = nixosConfigurations.bpi-m2-zero.config.system.build.sdImage;
 
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
