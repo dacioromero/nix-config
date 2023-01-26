@@ -56,22 +56,6 @@
         "type": "github"
       }
     },
-    "nixos-22-11": {
-      "locked": {
-        "lastModified": 1674333941,
-        "narHash": "sha256-jelQS56nVVFXGOZg6yUZ/3QWgU1Loa4Bzd4+TEPJX+c=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "339fc3dcc98f39d08496fb90c0d6b5fb81519246",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-22.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1674550793,
@@ -140,7 +124,6 @@
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "nixos-22-11": "nixos-22-11",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "omni-alacritty": "omni-alacritty",
