@@ -30,8 +30,10 @@
     tdesktop
   ];
 
+  # Needed for Nerd Fonts to be found
   fonts.fontconfig.enable = true;
 
+  # Microphone filters (noise gate)
   services.syncthing.enable = true;
   services.easyeffects.enable = true;
 

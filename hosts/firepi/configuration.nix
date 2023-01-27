@@ -1,5 +1,4 @@
 {
-  pkgs,
   inputs,
   ...
 }: let
@@ -34,11 +33,9 @@ in {
   boot.kernel.sysctl."net.core.wmem_max" = 4194304;
 
   # BPi has 512MB of RAM, needs compression to not crash
-  zramSwap = {
-    enable = true;
-    # Allwinner H3 is slow.
-    algorithm = "lz4";
-  };
+  zramSwap.enable = true;
+  # Allwinner H3 is slow.
+  zramSwap.algorithm = "lz4";
 
   services.openssh.enable = true;
 
