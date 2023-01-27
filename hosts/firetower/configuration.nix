@@ -11,7 +11,8 @@
       common-pc-ssd
     ])
     ++ (with inputs.self.nixosModules; [
-      base
+      nix
+      pc
       gnome
       mullvad-vpn
       virt-manager

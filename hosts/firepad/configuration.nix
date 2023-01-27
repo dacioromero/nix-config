@@ -7,7 +7,8 @@
     [./hardware-configuration.nix]
     ++ (with inputs.nixos-hardware.nixosModules; [lenovo-thinkpad-x1-6th-gen])
     ++ (with inputs.self.nixosModules; [
-      base
+      nix
+      pc
       gnome
       mullvad-vpn
       virt-manager
@@ -16,10 +17,12 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.supportedFilesystems = ["ntfs"];
+
   boot.plymouth.enable = true;
-  boot.plymouth.theme = "breeze";
   boot.initrd.systemd.enable = true;
 
   # Silence
@@ -41,8 +44,8 @@
 
   time.timeZone = "America/Los_Angeles";
 
-  services.fwupd.enable = true;
-  services.printing.drivers = with pkgs; [hplipWithPlugin];
+  # services.fwupd.enable = true;
+  services.printing.drivers = [pkgs.hplipWithPlugin];
 
   programs.adb.enable = true;
 
