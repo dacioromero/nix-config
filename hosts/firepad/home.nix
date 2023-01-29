@@ -13,11 +13,8 @@
     (nerdfonts.override {fonts = ["JetBrainsMono"];})
     cryptomator
     discord
-    element-desktop
-    insomnia
     qbittorrent
     spotify
-    tdesktop
   ];
 
   fonts.fontconfig.enable = true;

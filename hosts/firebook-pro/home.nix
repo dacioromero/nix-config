@@ -3,12 +3,17 @@
   inputs,
   ...
 }: {
-  imports = with inputs.self.homeManagerModules; [home alacritty];
+  imports = with inputs.self.homeManagerModules; [
+    home
+    alacritty
+  ];
 
-  # home.packages = with pkgs; [
-  #   colima
-  #   docker
-  # ];
+  home.packages = with pkgs; [
+    # colima
+    # docker
+    slack
+    zoom-us
+  ];
 
   # CCID is broken on MacOS
   # https://github.com/NixOS/nixpkgs/issues/155629

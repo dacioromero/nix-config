@@ -1,6 +1,11 @@
 {pkgs, ...}: {
   imports = [./starship];
-  home.packages = with pkgs; [thefuck obsidian vscode slack zoom-us];
+
+  home.packages = with pkgs; [
+    obsidian
+    thefuck
+    vscode
+  ];
 
   home.sessionVariables = {
     EDITOR = "code --wait";
