@@ -67,6 +67,8 @@
       # Git has poor performance in mono repos which affects Starship
       # https://github.com/starship/starship/issues/4305#issuecomment-1222882244
       feature.manyFiles = true;
+      url."git@github.com:".pushInsteadOf = "https://github.com/";
+      url."git@gitlab.com:".pushInsteadOf = "https://gitlab.com/";
     };
   };
 
