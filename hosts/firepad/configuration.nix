@@ -54,7 +54,7 @@
     description = "Dacio";
     group = "dacio";
     uid = 1000;
-    extraGroups = ["wheel" "adbusers"];
+    extraGroups = ["wheel" "adbusers" "networkmanager"];
   };
 
   services.jellyfin.enable = true;
