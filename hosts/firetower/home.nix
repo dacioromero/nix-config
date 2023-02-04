@@ -18,7 +18,7 @@
   home.packages = with pkgs; [
     (nerdfonts.override {fonts = ["JetBrainsMono"];})
     adw-gtk3
-    discord-gpu
+    webcord
     element-desktop
     goverlay
     insomnia

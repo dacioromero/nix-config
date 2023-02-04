@@ -35,6 +35,9 @@
 
   boot.binfmt.emulatedSystems = ["armv7l-linux"];
 
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
+
   # Add more BTRFS mount options
   fileSystems."/".options = ["noatime" "compress=zstd"];
   fileSystems."/nix".options = ["noatime" "compress=zstd"];
@@ -77,6 +80,7 @@
   services.printing.drivers = [pkgs.hplipWithPlugin];
   services.hardware.openrgb.enable = true;
   services.ratbagd.enable = true;
+  services.tailscale.enable = true;
 
   environment.systemPackages = [pkgs.piper];
   environment.gnome.excludePackages = [pkgs.gnome.gnome-software];
@@ -90,7 +94,7 @@
     description = "Dacio";
     group = "dacio";
     uid = 1000;
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "networkmanager"];
   };
 
   users.groups.dacio.gid = 1000;
