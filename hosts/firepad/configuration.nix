@@ -59,6 +59,7 @@
 
   services.jellyfin.enable = true;
   services.jellyfin.openFirewall = true;
+  services.tailscale.enable = true;
 
   users.groups.dacio.gid = 1000;
   home-manager.users.dacio = import ./home.nix;

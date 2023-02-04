@@ -5,7 +5,10 @@
   ...
 }: let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
-  sudoGroup = if isDarwin then "@admin" else "@wheel";
+  sudoGroup =
+    if isDarwin
+    then "@admin"
+    else "@wheel";
 in {
   nix.settings = {
     trusted-users = [sudoGroup];
