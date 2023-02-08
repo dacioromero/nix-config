@@ -44,7 +44,7 @@
 
   time.timeZone = "America/Los_Angeles";
 
-  # services.fwupd.enable = true;
+  services.fwupd.enable = true;
   services.printing.drivers = [pkgs.hplipWithPlugin];
 
   programs.adb.enable = true;
