@@ -27,8 +27,6 @@ in {
   # Allwinner H3 is slow.
   zramSwap.algorithm = "lz4";
 
-  services.openssh.enable = true;
-
   networking.firewall.allowedTCPPorts = [8123];
   networking.hostName = "firepi";
 
@@ -40,10 +38,12 @@ in {
     openssh.authorizedKeys.keys = [authorizedKey];
   };
 
+  services.resolved.enable = true;
+  services.openssh.enable = true;
   services.tailscale.enable = true;
 
   virtualisation.oci-containers = {
-    backend = "podman";
+    backend = "docker";
     containers.homeassistant = {
       volumes = ["home-assistant:/config"];
       environment = {
