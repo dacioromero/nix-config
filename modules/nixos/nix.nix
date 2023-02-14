@@ -13,7 +13,8 @@ in {
   nix.settings = {
     trusted-users = [sudoGroup];
     experimental-features = ["nix-command" "flakes"];
-    auto-optimise-store = true;
+    # https://github.com/NixOS/nix/issues/7273
+    auto-optimise-store = !isDarwin;
   };
 
   nix.registry.nixpkgs.flake = inputs.self;
