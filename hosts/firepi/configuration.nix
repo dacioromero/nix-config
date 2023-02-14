@@ -12,6 +12,15 @@ in {
   nix.settings.substituters = ["https://cache.armv7l.xyz"];
   nix.settings.trusted-public-keys = ["cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="];
 
+  # Builder error: "hash mismatch in fixed-output derivation"
+  nixpkgs.overlays = [
+    (final: prev: {
+      docker = prev.docker.override {
+        composeSupport = false;
+      };
+    })
+  ];
+
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
@@ -34,7 +43,7 @@ in {
 
   users.users.dacio = {
     isNormalUser = true;
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "docker"];
     openssh.authorizedKeys.keys = [authorizedKey];
   };
 
@@ -43,6 +52,8 @@ in {
   services.tailscale.enable = true;
 
   virtualisation.oci-containers = {
+    # Using docker instead of podman do to compile error
+    # https://github.com/containers/netavark/issues/578
     backend = "docker";
     containers.homeassistant = {
       volumes = ["home-assistant:/config"];
@@ -51,7 +62,7 @@ in {
         PGID = "1000";
         TZ = "America/Los_Angeles";
       };
-      image = "lscr.io/linuxserver/homeassistant:2023.2.1";
+      image = "lscr.io/linuxserver/homeassistant:2023.2.4";
       extraOptions = ["--network=host"];
     };
   };

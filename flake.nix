@@ -8,7 +8,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-22_11.url = "github:NixOS/nixpkgs/nixos-22.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -34,7 +33,6 @@
     nixpkgs,
     darwin,
     flake-utils,
-    nixpkgs-22_11,
     ...
   }: let
     inherit (darwin.lib) darwinSystem;
@@ -63,9 +61,7 @@
         specialArgs = {inherit inputs;};
       };
 
-      # Using stable instead of unstable do to compile error
-      # https://github.com/containers/netavark/issues/578
-      nixosConfigurations.firepi = nixpkgs-22_11.lib.nixosSystem {
+      nixosConfigurations.firepi = nixosSystem {
         system = "armv7l-linux";
         modules = [
           ./hosts/firepi/configuration.nix
