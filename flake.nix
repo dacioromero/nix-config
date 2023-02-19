@@ -8,6 +8,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-gfeeds-2_0_1.url = "github:dacioromero/nixpkgs/gfeeds-2.0.1";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -33,6 +34,7 @@
     nixpkgs,
     darwin,
     flake-utils,
+    nixpkgs-gfeeds-2_0_1,
     ...
   }: let
     inherit (darwin.lib) darwinSystem;
@@ -82,7 +84,11 @@
         inherit system;
         config.allowUnfree = true;
         config.firefox.enableGnomeExtensions = true;
-        overlays = builtins.attrValues self.overlays;
+        overlays = (builtins.attrValues self.overlays) ++ [(
+          final: prev: {
+            inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
+          })
+        ];
       };
 
       formatter = legacyPackages.alejandra;

@@ -18,16 +18,18 @@
   home.packages = with pkgs; [
     (nerdfonts.override {fonts = ["JetBrainsMono"];})
     adw-gtk3
-    webcord
     element-desktop
+    gnome-feeds
     goverlay
     insomnia
     lsp-plugins # Plugins for EasyEffects
     mangohud
     prismlauncher
+    protonup-qt
     qbittorrent
     spotify
     tdesktop
+    webcord
   ];
 
   # Needed for Nerd Fonts to be found
