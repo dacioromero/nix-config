@@ -4,7 +4,10 @@
   ...
 }: {
   imports =
-    [./hardware-configuration.nix]
+    [
+      ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.home-manager
+    ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       common-cpu-amd-pstate
       common-gpu-nvidia-nonprime
@@ -12,6 +15,7 @@
     ])
     ++ (with inputs.self.nixosModules; [
       nix
+      nixpkgs
       pc
       gnome
       mullvad-vpn
@@ -21,7 +25,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_1;
   boot.supportedFilesystems = ["ntfs"];
 
   # Silence

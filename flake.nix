@@ -30,11 +30,9 @@
   };
 
   outputs = inputs @ {
-    self,
     nixpkgs,
     darwin,
     flake-utils,
-    nixpkgs-gfeeds-2_0_1,
     ...
   }: let
     inherit (darwin.lib) darwinSystem;
@@ -43,7 +41,6 @@
   in
     rec {
       darwinConfigurations."firebook-pro" = darwinSystem {
-        pkgs = self.legacyPackages.aarch64-darwin;
         system = "aarch64-darwin";
         modules = [./hosts/firebook-pro/darwin-configuration.nix];
         specialArgs = {inherit inputs;};
@@ -51,14 +48,12 @@
 
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
-        pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firetower/configuration.nix];
         specialArgs = {inherit inputs;};
       };
 
       nixosConfigurations."firepad" = nixosSystem {
         system = "x86_64-linux";
-        pkgs = self.legacyPackages.x86_64-linux;
         modules = [./hosts/firepad/configuration.nix];
         specialArgs = {inherit inputs;};
       };
@@ -79,18 +74,7 @@
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
     }
-    // eachDefaultSystem (system: rec {
-      legacyPackages = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        config.firefox.enableGnomeExtensions = true;
-        overlays = (builtins.attrValues self.overlays) ++ [(
-          final: prev: {
-            inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
-          })
-        ];
-      };
-
-      formatter = legacyPackages.alejandra;
+    // eachDefaultSystem (system: {
+      formatter = nixpkgs.legacyPackages.${system}.alejandra;
     });
 }

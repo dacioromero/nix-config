@@ -17,7 +17,7 @@ in {
     auto-optimise-store = !isDarwin;
   };
 
-  nix.registry.nixpkgs.flake = inputs.self;
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
 
   nix.gc = {
     automatic = true;

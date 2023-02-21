@@ -3,13 +3,16 @@
   inputs,
   ...
 }: {
-  imports = with inputs; [
-    home-manager.darwinModules.home-manager
-    self.nixosModules.nix
-  ];
+  imports =
+    [inputs.home-manager.darwinModules.home-manager]
+    ++ (with inputs.self.nixosModules; [
+      nix
+      nixpkgs
+      home-manager
+    ]);
 
   fonts.fontDir.enable = true;
-  fonts.fonts = with pkgs; [(nerdfonts.override {fonts = ["JetBrainsMono"];})];
+  fonts.fonts = [(pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];})];
 
   programs.gnupg.agent = {
     enable = true;

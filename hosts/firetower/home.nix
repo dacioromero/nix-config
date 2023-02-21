@@ -23,7 +23,6 @@
     goverlay
     insomnia
     lsp-plugins # Plugins for EasyEffects
-    mangohud
     prismlauncher
     protonup-qt
     qbittorrent
@@ -36,13 +35,15 @@
   fonts.fontconfig.enable = true;
 
   # Microphone filters (noise gate)
-  services.syncthing.enable = true;
   services.easyeffects.enable = true;
+  services.syncthing.enable = true;
 
   programs.lf = {
     enable = true;
     keybindings."<delete>" = "delete";
   };
+
+  programs.mangohud.enable = true;
 
   home.stateVersion = "22.05";
 }

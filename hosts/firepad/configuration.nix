@@ -4,10 +4,14 @@
   ...
 }: {
   imports =
-    [./hardware-configuration.nix]
+    [
+      ./hardware-configuration.nix
+      inputs.home-manager.nixosModules.home-manager
+    ]
     ++ (with inputs.nixos-hardware.nixosModules; [lenovo-thinkpad-x1-6th-gen])
     ++ (with inputs.self.nixosModules; [
       nix
+      nixpkgs
       pc
       gnome
       mullvad-vpn
