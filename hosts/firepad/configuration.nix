@@ -2,21 +2,23 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  inherit (inputs) self nixos-hardware home-manager;
+in {
   imports =
     [
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
+      home-manager.nixosModules.home-manager
+      nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
     ]
-    ++ (with inputs.nixos-hardware.nixosModules; [lenovo-thinkpad-x1-6th-gen])
-    ++ (with inputs.self.nixosModules; [
+    ++ (with self.nixosModules; [
       nix
       nixpkgs
       pc
       gnome
       mullvad-vpn
       virt-manager
-      home-manager
+      hm
     ]);
 
   boot.loader.systemd-boot.enable = true;

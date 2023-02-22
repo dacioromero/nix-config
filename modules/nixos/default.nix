@@ -1,6 +1,6 @@
 {
   gnome = import ./gnome.nix;
-  home-manager = import ./home-manager.nix;
+  hm = import ./hm.nix;
   mullvad-vpn = import ./mullvad-vpn.nix;
   nix = import ./nix.nix;
   nixpkgs = import ./nixpkgs.nix;

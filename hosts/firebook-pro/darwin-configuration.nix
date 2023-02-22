@@ -2,13 +2,15 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  inherit (inputs) home-manager self;
+in {
   imports =
-    [inputs.home-manager.darwinModules.home-manager]
-    ++ (with inputs.self.nixosModules; [
+    [home-manager.darwinModules.home-manager]
+    ++ (with self.nixosModules; [
       nix
       nixpkgs
-      home-manager
+      hm
     ]);
 
   fonts.fontDir.enable = true;
@@ -28,9 +30,6 @@
     uid = 501;
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.extraSpecialArgs = {inherit inputs;};
   home-manager.users.dacio = import ./home.nix;
 
   services.nix-daemon.enable = true;

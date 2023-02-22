@@ -2,25 +2,27 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  inherit (inputs) self nixos-hardware home-manager;
+in {
   imports =
     [
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
+      home-manager.nixosModules.home-manager
     ]
-    ++ (with inputs.nixos-hardware.nixosModules; [
+    ++ (with nixos-hardware.nixosModules; [
       common-cpu-amd-pstate
       common-gpu-nvidia-nonprime
       common-pc-ssd
     ])
-    ++ (with inputs.self.nixosModules; [
+    ++ (with self.nixosModules; [
       nix
       nixpkgs
       pc
       gnome
       mullvad-vpn
       virt-manager
-      home-manager
+      hm
     ]);
 
   boot.loader.systemd-boot.enable = true;
