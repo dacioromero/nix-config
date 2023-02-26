@@ -74,7 +74,10 @@
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
     }
-    // eachDefaultSystem (system: {
-      formatter = nixpkgs.legacyPackages.${system}.alejandra;
+    // eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      formatter = pkgs.alejandra;
+      packages = import ./pkgs {inherit pkgs;};
     });
 }

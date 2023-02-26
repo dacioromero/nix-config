@@ -4,6 +4,7 @@
   ...
 }: let
   inherit (inputs) self nixpkgs-gfeeds-2_0_1;
+  inherit (config.nixpkgs) system;
 in {
   nixpkgs = {
     config.allowUnfree = true;
@@ -11,8 +12,8 @@ in {
       (builtins.attrValues self.overlays)
       ++ [
         (final: prev: {
-          inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${config.nixpkgs.system}) gnome-feeds;
-        })
+          inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
+        } // self.packages.${system})
       ];
   };
 }

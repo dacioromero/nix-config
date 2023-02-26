@@ -29,6 +29,8 @@
     spotify
     tdesktop
     webcord
+    vkBasalt
+    satisfactory-mod-manager
   ];
 
   # Needed for Nerd Fonts to be found
