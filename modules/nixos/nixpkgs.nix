@@ -11,9 +11,11 @@ in {
     overlays =
       (builtins.attrValues self.overlays)
       ++ [
-        (final: prev: {
-          inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
-        } // self.packages.${system})
+        (final: prev:
+          {
+            inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
+          }
+          // self.packages.${system})
       ];
   };
 }
