@@ -7,6 +7,7 @@
     home
     alacritty
     gnome
+    wezterm
   ];
 
   # Force Wayland on apps like VSCode and Firefox
