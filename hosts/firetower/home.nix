@@ -25,12 +25,12 @@
     lsp-plugins # Plugins for EasyEffects
     prismlauncher
     protonup-qt
+    psst
     qbittorrent
-    spotify
-    tdesktop
-    webcord
-    vkBasalt
     satisfactory-mod-manager
+    tdesktop
+    vkBasalt
+    webcord
   ];
 
   # Needed for Nerd Fonts to be found
