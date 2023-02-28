@@ -15,7 +15,7 @@ in {
           {
             inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
           }
-          // self.packages.${system})
+          // import ../../pkgs {pkgs = prev;})
       ];
   };
 }
