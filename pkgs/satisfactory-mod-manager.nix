@@ -7,7 +7,6 @@
 , makeDesktopItem
 , lib
 , copyDesktopItems
-,
 }:
 mkYarnPackage rec {
   pname = "SatisfactoryModManager";

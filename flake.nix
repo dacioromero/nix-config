@@ -35,13 +35,13 @@
   };
 
   outputs =
-    inputs @ { self
+    { self
     , nixpkgs
     , darwin
     , flake-utils
     , pre-commit-hooks
     , ...
-    }:
+    } @ inputs:
     let
       inherit (darwin.lib) darwinSystem;
       inherit (flake-utils.lib) eachDefaultSystem;
