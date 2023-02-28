@@ -1,6 +1,6 @@
 # https://nixos.wiki/wiki/Virt-manager
-{pkgs, ...}: {
+{ pkgs, ... }: {
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
-  environment.systemPackages = [pkgs.virt-manager];
+  environment.systemPackages = [ pkgs.virt-manager ];
 }

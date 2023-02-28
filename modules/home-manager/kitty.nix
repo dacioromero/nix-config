@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   programs.kitty = {
     enable = true;
     extraConfig = builtins.readFile "${inputs.omni-kitty}/omni.conf";

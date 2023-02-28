@@ -1,7 +1,6 @@
-{
-  pkgs,
-  inputs,
-  ...
+{ pkgs
+, inputs
+, ...
 }: {
   imports = with inputs.self.homeManagerModules; [
     home
@@ -17,7 +16,7 @@
   home.sessionVariables."MOZ_DISABLE_RDD_SANDBOX" = 1;
 
   home.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["JetBrainsMono"];})
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     adw-gtk3
     element-desktop
     gnome-feeds

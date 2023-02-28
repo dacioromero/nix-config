@@ -1,4 +1,4 @@
-{pkgs}:
+{ pkgs }:
 with pkgs; {
-  satisfactory-mod-manager = callPackage ./satisfactory-mod-manager.nix {};
+  satisfactory-mod-manager = callPackage ./satisfactory-mod-manager.nix { };
 }

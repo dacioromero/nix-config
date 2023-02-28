@@ -1,11 +1,12 @@
-{
-  inputs,
-  config,
-  ...
-}: let
+{ inputs
+, config
+, ...
+}:
+let
   inherit (inputs) self nixpkgs-gfeeds-2_0_1;
   inherit (config.nixpkgs) system;
-in {
+in
+{
   nixpkgs = {
     config.allowUnfree = true;
     overlays =
@@ -15,7 +16,7 @@ in {
           {
             inherit (nixpkgs-gfeeds-2_0_1.legacyPackages.${system}) gnome-feeds;
           }
-          // import ../../pkgs {pkgs = prev;})
+          // import ../../pkgs { pkgs = prev; })
       ];
   };
 }

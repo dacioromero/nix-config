@@ -1,18 +1,19 @@
-{
-  inputs,
-  pkgs,
-  lib,
-  ...
-}: let
+{ inputs
+, pkgs
+, lib
+, ...
+}:
+let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
   sudoGroup =
     if isDarwin
     then "@admin"
     else "@wheel";
-in {
+in
+{
   nix.settings = {
-    trusted-users = [sudoGroup];
-    experimental-features = ["nix-command" "flakes"];
+    trusted-users = [ sudoGroup ];
+    experimental-features = [ "nix-command" "flakes" ];
     # https://github.com/NixOS/nix/issues/7273
     auto-optimise-store = !isDarwin;
   };

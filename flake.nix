@@ -19,6 +19,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
     omni-alacritty = {
       url = "github:getomni/alacritty";
       flake = false;
@@ -29,33 +34,36 @@
     };
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    darwin,
-    flake-utils,
-    ...
-  }: let
-    inherit (darwin.lib) darwinSystem;
-    inherit (flake-utils.lib) eachDefaultSystem;
-    inherit (nixpkgs.lib) nixosSystem;
-  in
+  outputs =
+    inputs @ { self
+    , nixpkgs
+    , darwin
+    , flake-utils
+    , pre-commit-hooks
+    , ...
+    }:
+    let
+      inherit (darwin.lib) darwinSystem;
+      inherit (flake-utils.lib) eachDefaultSystem;
+      inherit (nixpkgs.lib) nixosSystem;
+    in
     rec {
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
-        modules = [./hosts/firebook-pro/darwin-configuration.nix];
-        specialArgs = {inherit inputs;};
+        modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];
+        specialArgs = { inherit inputs; };
       };
 
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
-        modules = [./hosts/firetower/configuration.nix];
-        specialArgs = {inherit inputs;};
+        modules = [ ./hosts/firetower/configuration.nix ];
+        specialArgs = { inherit inputs; };
       };
 
       nixosConfigurations."firepad" = nixosSystem {
         system = "x86_64-linux";
-        modules = [./hosts/firepad/configuration.nix];
-        specialArgs = {inherit inputs;};
+        modules = [ ./hosts/firepad/configuration.nix ];
+        specialArgs = { inherit inputs; };
       };
 
       nixosConfigurations.firepi = nixosSystem {
@@ -67,17 +75,34 @@
             nixpkgs.buildPlatform = "x86_64-linux";
           }
         ];
-        specialArgs = {inherit inputs;};
+        specialArgs = { inherit inputs; };
       };
 
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
     }
-    // eachDefaultSystem (system: let
+    // eachDefaultSystem (system:
+    let
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      formatter = pkgs.alejandra;
-      packages = import ./pkgs {inherit pkgs;};
+    in
+    {
+      formatter = pkgs.nixpkgs-fmt;
+      packages = import ./pkgs { inherit pkgs; };
+      checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          nixpkgs-fmt.enable = true;
+          deadnix.enable = true;
+          statix.enable = true;
+        };
+        settings = {
+          deadnix.edit = true;
+          deadnix.noLambdaArg = true;
+        };
+      };
+      devShell = pkgs.mkShell {
+        inherit (self.checks.${system}.pre-commit-check) shellHook;
+      };
     });
 }

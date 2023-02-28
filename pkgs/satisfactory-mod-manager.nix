@@ -1,13 +1,13 @@
-{
-  mkYarnPackage,
-  fetchFromGitHub,
-  electron,
-  makeWrapper,
-  python3,
-  nodejs,
-  makeDesktopItem,
-  lib,
-  copyDesktopItems,
+{ mkYarnPackage
+, fetchFromGitHub
+, electron
+, makeWrapper
+, python3
+, nodejs
+, makeDesktopItem
+, lib
+, copyDesktopItems
+,
 }:
 mkYarnPackage rec {
   pname = "SatisfactoryModManager";
@@ -58,19 +58,21 @@ mkYarnPackage rec {
     runHook postBuild
   '';
 
-  postInstall = let
-    deps = "$out/libexec/satisfactory-mod-manager-gui/deps/satisfactory-mod-manager-gui";
-  in ''
-    for size in 16 32 64 128 256 512; do
-      install -Dm644 ${deps}/icons/"$size"x"$size".png \
-        $out/share/icons/hicolor/"$size"x"$size"/apps/SatisfactoryModManager.png
-    done
+  postInstall =
+    let
+      deps = "$out/libexec/satisfactory-mod-manager-gui/deps/satisfactory-mod-manager-gui";
+    in
+    ''
+      for size in 16 32 64 128 256 512; do
+        install -Dm644 ${deps}/icons/"$size"x"$size".png \
+          $out/share/icons/hicolor/"$size"x"$size"/apps/SatisfactoryModManager.png
+      done
 
-    makeWrapper ${electron}/bin/electron $out/bin/SatisfactoryModManager \
-      --inherit-argv0 \
-      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}" \
-      --add-flags "${deps}"
-  '';
+      makeWrapper ${electron}/bin/electron $out/bin/SatisfactoryModManager \
+        --inherit-argv0 \
+        --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}" \
+        --add-flags "${deps}"
+    '';
 
   dontStrip = true;
   doDist = false;
@@ -84,7 +86,7 @@ mkYarnPackage rec {
       genericName = "Satisfactory Mod Manager";
       comment = meta.description;
       type = "Application";
-      categories = ["Game"];
+      categories = [ "Game" ];
     })
   ];
 

@@ -1,5 +1,5 @@
-{pkgs, ...}: {
-  imports = [./starship];
+{ pkgs, ... }: {
+  imports = [ ./starship ];
 
   home.packages = with pkgs; [
     obsidian
@@ -17,7 +17,7 @@
     DIRENV_LOG_FORMAT = "";
   };
 
-  home.sessionPath = ["$HOME/.local/bin"];
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   programs.zsh = {
     enable = true;
@@ -25,7 +25,7 @@
     enableSyntaxHighlighting = true;
     oh-my-zsh = {
       enable = true;
-      plugins = ["git" "yarn" "thefuck"];
+      plugins = [ "git" "yarn" "thefuck" ];
       # https://github.com/zsh-users/zsh-syntax-highlighting/issues/295#issuecomment-214581607
       extraConfig = ''
         zstyle ':bracketed-paste-magic' active-widgets '.self-*'

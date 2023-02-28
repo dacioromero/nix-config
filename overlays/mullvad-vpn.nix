@@ -6,8 +6,8 @@ final: prev: {
   # https://github.com/electron/electron/issues/35657
   mullvad-vpn = prev.symlinkJoin {
     name = "mullvad-vpn";
-    paths = [prev.mullvad-vpn];
-    buildInputs = [prev.makeWrapper];
+    paths = [ prev.mullvad-vpn ];
+    buildInputs = [ prev.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/mullvad-vpn \
         --add-flags "--disable-features=UseOzonePlatform --use-gl=desktop"

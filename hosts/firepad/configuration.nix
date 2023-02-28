@@ -1,10 +1,11 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: let
+{ pkgs
+, inputs
+, ...
+}:
+let
   inherit (inputs) self nixos-hardware home-manager;
-in {
+in
+{
   imports =
     [
       ./hardware-configuration.nix
@@ -26,7 +27,7 @@ in {
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.supportedFilesystems = ["ntfs"];
+  boot.supportedFilesystems = [ "ntfs" ];
 
   boot.plymouth.enable = true;
   boot.initrd.systemd.enable = true;
@@ -40,18 +41,18 @@ in {
   ];
 
   # Add more BTRFS mount options
-  fileSystems."/".options = ["noatime" "compress=zstd"];
-  fileSystems."/nix".options = ["noatime" "compress=zstd"];
-  fileSystems."/home".options = ["noatime" "compress=zstd"];
-  fileSystems."/boot".options = ["noatime"];
+  fileSystems."/".options = [ "noatime" "compress=zstd" ];
+  fileSystems."/nix".options = [ "noatime" "compress=zstd" ];
+  fileSystems."/home".options = [ "noatime" "compress=zstd" ];
+  fileSystems."/boot".options = [ "noatime" ];
 
   networking.hostName = "firepad";
-  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [54918];
+  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 54918 ];
 
   time.timeZone = "America/Los_Angeles";
 
   services.fwupd.enable = true;
-  services.printing.drivers = [pkgs.hplipWithPlugin];
+  services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
   programs.adb.enable = true;
 
@@ -60,7 +61,7 @@ in {
     description = "Dacio";
     group = "dacio";
     uid = 1000;
-    extraGroups = ["wheel" "adbusers" "networkmanager"];
+    extraGroups = [ "wheel" "adbusers" "networkmanager" ];
   };
 
   services.jellyfin.enable = true;

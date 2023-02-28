@@ -1,12 +1,13 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{ config
+, pkgs
+, ...
+}:
+let
   # Redirect logging to /tmp to prevent Starship from logging to /nix
-  starshipNerdFont = pkgs.runCommand "starship-nerd-font.toml" {STARSHIP_CACHE = "/tmp";} ''
+  starshipNerdFont = pkgs.runCommand "starship-nerd-font.toml" { STARSHIP_CACHE = "/tmp"; } ''
     ${config.programs.starship.package}/bin/starship preset nerd-font-symbols > $out
   '';
-in {
+in
+{
   programs.starship.settings = builtins.fromTOML (builtins.readFile starshipNerdFont);
 }

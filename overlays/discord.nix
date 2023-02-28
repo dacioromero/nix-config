@@ -1,7 +1,8 @@
 # Discord doesn't render properly on Wayland
 # https://github.com/NixOS/nixpkgs/issues/159267
 # https://github.com/corytertel/nix-configuration/blob/2502f7b2edd3efa358746335f21bbfdb6343c84f/overlays/discord.nix
-final: prev: let
+final: prev:
+let
   commandLineArgs = toString [
     "--disable-features=UseOzonePlatform"
     "--enable-accelerated-mjpeg-decode"
@@ -20,11 +21,12 @@ final: prev: let
     "--enable-native-gpu-memory-buffers"
     "--ignore-gpu-blacklist"
   ];
-in rec {
+in
+rec {
   discord = prev.symlinkJoin {
     name = "discord";
-    paths = [(prev.discord.override {withOpenASAR = true;})];
-    buildInputs = [prev.makeWrapper];
+    paths = [ (prev.discord.override { withOpenASAR = true; }) ];
+    buildInputs = [ prev.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/discord \
         --add-flags "${commandLineArgs}"
@@ -35,8 +37,8 @@ in rec {
 
   discord-gpu = prev.symlinkJoin {
     name = "discord";
-    paths = [discord];
-    buildInputs = [prev.makeWrapper];
+    paths = [ discord ];
+    buildInputs = [ prev.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/discord \
         --add-flags "${gpuCommandLineArgs}"

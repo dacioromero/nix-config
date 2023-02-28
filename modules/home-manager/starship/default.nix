@@ -1,5 +1,5 @@
 {
-  imports = [./nerd-fonts.nix];
+  imports = [ ./nerd-fonts.nix ];
 
   programs.starship = {
     enable = true;
@@ -18,8 +18,8 @@
         ssh_only = false;
       };
       nix_shell.disabled = true;
-      dotnet.detect_files = ["global.json" "Directory.Build.props" "Directory.Build.targets" "Packages.props"]; # Excluding project.json
-      java.detect_extensions = ["java" "class" "gradle" "cljs" "cljc"]; # Exluding .jar
+      dotnet.detect_files = [ "global.json" "Directory.Build.props" "Directory.Build.targets" "Packages.props" ]; # Excluding project.json
+      java.detect_extensions = [ "java" "class" "gradle" "cljs" "cljc" ]; # Exluding .jar
     };
   };
 }

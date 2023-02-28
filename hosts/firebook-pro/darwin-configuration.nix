@@ -1,12 +1,13 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: let
+{ pkgs
+, inputs
+, ...
+}:
+let
   inherit (inputs) home-manager self;
-in {
+in
+{
   imports =
-    [home-manager.darwinModules.home-manager]
+    [ home-manager.darwinModules.home-manager ]
     ++ (with self.nixosModules; [
       nix
       nixpkgs
@@ -14,7 +15,7 @@ in {
     ]);
 
   fonts.fontDir.enable = true;
-  fonts.fonts = [(pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];})];
+  fonts.fonts = [ (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
 
   programs.gnupg.agent = {
     enable = true;
