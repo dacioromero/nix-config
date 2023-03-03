@@ -6,6 +6,7 @@
     home
     alacritty
     gnome
+    linux
   ];
 
   home.packages = with pkgs; [

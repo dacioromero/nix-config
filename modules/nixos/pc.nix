@@ -31,6 +31,8 @@
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
+  environment.systemPackages = [ pkgs.firefox ];
+
   # Some packages aren't on nixpkgs
   services.flatpak.enable = true;
   # https://github.com/NixOS/nixpkgs/issues/119433
