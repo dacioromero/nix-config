@@ -14,18 +14,15 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    adw-gtk3
     element-desktop
     gnome-feeds
     goverlay
-    insomnia
     lsp-plugins # Plugins for EasyEffects
     prismlauncher
     protonup-qt
     psst
     qbittorrent
     satisfactory-mod-manager
-    tdesktop
     vkBasalt
     webcord
   ];

@@ -22,6 +22,7 @@ in
       mullvad-vpn
       virt-manager
       hm
+      kde
     ]);
 
   boot.loader.systemd-boot.enable = true;
@@ -54,6 +55,13 @@ in
   # Configure GPU
   hardware.opengl.driSupport = true;
   hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.extraPackages = [ pkgs.amdvlk ];
+  # hardware.opengl.extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+  # boot.initrd.kernelModules = [ "amdgpu" ];
+  # services.xserver.videoDrivers = [ "amdgpu" ];
+  # services.xserver.videoDrivers = [ "amdgpu-pro" ];
+  # programs.corectrl.enable = true;
+  # programs.corectrl.gpuOverclock.enable = true;
 
   # Configure KDE
   # GTK Portal needed for libadwaita to read color preferences
@@ -61,7 +69,6 @@ in
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # Needed for KDE to write to Gnome settings for GTK/libadwaita apps
   programs.dconf.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
   # Disable all but main monitor
   # https://blog.victormendonca.com/2018/06/29/how-to-fix-sddm-on-multiple-screens/
   services.xserver.displayManager.setupCommands = ''
@@ -70,13 +77,8 @@ in
       --output DisplayPort-1 --off \
       --output DisplayPort-2 --off
   '';
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.plasma5.excludePackages = with pkgs.libsForQt5; [
-    konsole
-    oxygen
-    elisa
-    khelpcenter
-  ];
+  services.xserver.displayManager.defaultSession = "plasmawayland";
+  services.xserver.desktopManager.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
 
   # Gaming
   programs.gamemode.enable = true;
