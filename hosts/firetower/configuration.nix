@@ -73,15 +73,11 @@ in
 
   # Gaming
   programs.gamemode.enable = true;
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
+  programs.steam.enable = true;
 
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
-  services.ratbagd.enable = true;
 
+  services.ratbagd.enable = true;
   environment.systemPackages = [ pkgs.piper ];
 
   users.users.dacio = {
@@ -91,7 +87,7 @@ in
     uid = 1000;
     extraGroups = [ "wheel" "networkmanager" ];
   };
-
+  # Emulate `useradd --user-group`
   users.groups.dacio.gid = 1000;
   home-manager.users.dacio = import ./home.nix;
 
