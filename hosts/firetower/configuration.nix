@@ -14,6 +14,7 @@ in
     ++ (with nixos-hardware.nixosModules; [
       common-cpu-amd-pstate
       common-pc-ssd
+      common-gpu-amd
     ])
     ++ (with self.nixosModules; [
       nix
@@ -29,15 +30,6 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
-
-  # Silence
-  boot.initrd.verbose = false;
-  boot.consoleLogLevel = 0;
-  boot.kernelParams = [
-    "quiet"
-    "udev.log_level=3"
-  ];
-
   boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
 
   # Add more BTRFS mount options
@@ -46,20 +38,19 @@ in
   fileSystems."/home".options = [ "noatime" "compress=zstd" ];
   fileSystems."/boot".options = [ "noatime" ];
 
+  # Most OS's enable this by default
+  zramSwap.enable = true;
+  # With 32 GiB of RAM and zram enabled OOM is unlikely
+  systemd.oomd.enable = false;
+
   networking.hostName = "firetower";
-  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 58651 54846 ];
+  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 58651 ];
   networking.firewall.interfaces.enp5s0.allowedTCPPorts = [ 25565 ];
 
   time.timeZone = "America/Los_Angeles";
 
   # Configure GPU
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
-  # hardware.opengl.extraPackages = [ pkgs.amdvlk ];
-  # hardware.opengl.extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
-  # boot.initrd.kernelModules = [ "amdgpu" ];
-  # services.xserver.videoDrivers = [ "amdgpu" ];
-  # services.xserver.videoDrivers = [ "amdgpu-pro" ];
+  # hardware.amdgpu.amdvlk = true;
   # programs.corectrl.enable = true;
   # programs.corectrl.gpuOverclock.enable = true;
 
@@ -73,9 +64,9 @@ in
   # https://blog.victormendonca.com/2018/06/29/how-to-fix-sddm-on-multiple-screens/
   services.xserver.displayManager.setupCommands = ''
     ${pkgs.xorg.xrandr}/bin/xrandr \
-      --output DisplayPort-0 --mode 2560x1440 --rate 165.08 \
-      --output DisplayPort-1 --off \
-      --output DisplayPort-2 --off
+      --output DP-1 --mode 2560x1440 --rate 165.08 \
+      --output DP-2 --off \
+      --output DP-3 --off
   '';
   services.xserver.displayManager.defaultSession = "plasmawayland";
   services.xserver.desktopManager.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
@@ -89,7 +80,6 @@ in
   };
 
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
-  services.hardware.openrgb.enable = true;
   services.ratbagd.enable = true;
 
   environment.systemPackages = [ pkgs.piper ];

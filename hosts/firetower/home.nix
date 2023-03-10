@@ -14,6 +14,7 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    discord
     element-desktop
     gnome-feeds
     goverlay
@@ -24,7 +25,6 @@
     qbittorrent
     satisfactory-mod-manager
     vkBasalt
-    webcord
   ];
 
   # Needed for Nerd Fonts to be found
@@ -48,7 +48,7 @@
   };
 
   programs.mangohud.enable = true;
-  programs.mangohud.enableSessionWide = true;
+  # programs.mangohud.enableSessionWide = true;
 
   home.stateVersion = "22.05";
 }
