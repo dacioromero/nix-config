@@ -38,11 +38,16 @@ in
 
   # BPi has 512MB of RAM, needs compression to not crash
   zramSwap.enable = true;
-  # Allwinner H3 is slow.
+  # Allwinner H3 is slow
   zramSwap.algorithm = "lz4";
 
-  networking.firewall.allowedTCPPorts = [ 8123 ];
   networking.hostName = "firepi";
+  networking.useDHCP = false;
+  networking.useNetworkd = true;
+  networking.interfaces.eth0.useDHCP = true;
+  networking.firewall.allowedTCPPorts = [ 8123 ];
+  services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   time.timeZone = "America/Los_Angeles";
 
@@ -53,10 +58,6 @@ in
     extraGroups = [ "wheel" "docker" ];
     openssh.authorizedKeys.keys = [ authorizedKey ];
   };
-
-  services.resolved.enable = true;
-  services.openssh.enable = true;
-  services.tailscale.enable = true;
 
   virtualisation.oci-containers = {
     # Using docker instead of podman do to compile error
@@ -69,7 +70,7 @@ in
         PGID = "1000";
         TZ = "America/Los_Angeles";
       };
-      image = "lscr.io/linuxserver/homeassistant:2023.2.4";
+      image = "lscr.io/linuxserver/homeassistant:2023.3.3";
       extraOptions = [ "--network=host" ];
     };
   };
