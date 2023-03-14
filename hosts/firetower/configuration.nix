@@ -28,7 +28,7 @@ in
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
 
@@ -53,6 +53,19 @@ in
   # hardware.amdgpu.amdvlk = true;
   # programs.corectrl.enable = true;
   # programs.corectrl.gpuOverclock.enable = true;
+  # Adapted from https://wiki.archlinux.org/title/kexec#No_kernel_mode-setting_(Nvidia)
+  systemd.services.unmodeset = {
+    description = "Unload amdgpu modules from kernel";
+    documentation = [ "man:modprobe(8)" ];
+    unitConfig.DefaultDependencies = "no";
+    after = [ "umount.target" ];
+    before = [ "kexec.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.kmod}/bin/modprobe -r amdgpu";
+    };
+    wantedBy = [ "kexec.target" ];
+  };
 
   # Configure KDE
   # GTK Portal needed for libadwaita to read color preferences
@@ -70,6 +83,8 @@ in
   '';
   services.xserver.displayManager.defaultSession = "plasmawayland";
   services.xserver.desktopManager.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
+  # https://wiki.archlinux.org/title/SDDM#KDE_Plasma_Wayland_hangs_on_shutdown_and_reboot
+  systemd.services.display-manager.serviceConfig.TimeoutStopSec = 5;
 
   # Gaming
   programs.gamemode.enable = true;

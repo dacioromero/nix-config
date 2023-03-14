@@ -33,9 +33,6 @@ in
   # Faster boot for server infrastructure
   boot.loader.timeout = 1;
 
-  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 1;
-
   # BPi has 512MB of RAM, needs compression to not crash
   zramSwap.enable = true;
   # Allwinner H3 is slow
@@ -48,11 +45,11 @@ in
   networking.firewall.allowedTCPPorts = [ 8123 ];
   services.openssh.enable = true;
   services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "server";
 
   time.timeZone = "America/Los_Angeles";
 
   users.users.root.openssh.authorizedKeys.keys = [ authorizedKey ];
-
   users.users.dacio = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
