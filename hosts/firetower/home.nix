@@ -1,12 +1,12 @@
 { pkgs
 , inputs
-, config
 , ...
 }: {
   imports = with inputs.self.homeManagerModules; [
     home
     wezterm
     linux
+    kde
   ];
 
   # Force Wayland on apps like VSCode and Firefox
@@ -29,14 +29,6 @@
 
   # Needed for Nerd Fonts to be found
   fonts.fontconfig.enable = true;
-
-  services.gpg-agent.pinentryFlavor = "qt";
-
-  # Activate session variables in KDE Plasma
-  # https://github.com/nix-community/home-manager/issues/1011
-  xdg.configFile."plasma-workspace/env/hm-session-vars.sh".text = ''
-    . "${config.home.profileDirectory}/etc/profile.d/hm-session-vars.sh"
-  '';
 
   # Microphone filters (noise gate)
   services.easyeffects.enable = true;
