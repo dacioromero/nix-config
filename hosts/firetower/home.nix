@@ -6,7 +6,6 @@
     home
     wezterm
     linux
-    kde
   ];
 
   # Force Wayland on apps like VSCode and Firefox
