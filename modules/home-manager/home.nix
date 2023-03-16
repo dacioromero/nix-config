@@ -90,5 +90,10 @@
 
   programs.tmux.enable = true;
 
+  programs.lf = {
+    enable = true;
+    keybindings."<delete>" = "delete";
+  };
+
   programs.home-manager.enable = true;
 }

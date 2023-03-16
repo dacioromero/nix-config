@@ -34,11 +34,6 @@
   services.easyeffects.enable = true;
   services.syncthing.enable = true;
 
-  programs.lf = {
-    enable = true;
-    keybindings."<delete>" = "delete";
-  };
-
   programs.mangohud.enable = true;
   # programs.mangohud.enableSessionWide = true;
 

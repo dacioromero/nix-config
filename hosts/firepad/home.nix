@@ -29,5 +29,12 @@
 
   services.syncthing.enable = true;
 
+  dconf.settings = {
+    "org/gnome/desktop/interface".show-battery-percentage = true;
+    "org/gnome/desktop/sound".allow-volume-above-100-percent = true;
+    # https://wiki.archlinux.org/title/HiDPI#Wayland
+    "org/gnome/mutter".experimental-features = [ "scale-monitor-framebuffer" ];
+  };
+
   home.stateVersion = "22.11";
 }

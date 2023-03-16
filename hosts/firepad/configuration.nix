@@ -27,7 +27,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = [ "ntfs" "exfat" ];
 
   boot.plymouth.enable = true;
   boot.initrd.systemd.enable = true;
