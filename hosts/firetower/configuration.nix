@@ -31,6 +31,8 @@ in
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
+  boot.initrd.includeDefaultModules = false;
+  boot.loader.timeout = 0;
 
   # Add more BTRFS mount options
   fileSystems."/".options = [ "noatime" "compress=zstd" ];
@@ -51,7 +53,10 @@ in
   time.timeZone = "America/Los_Angeles";
 
   # Configure GPU
-  # hardware.amdgpu.amdvlk = true;
+  # Enable AMDVLK but force RADV as default. AMDVLK has better perfomance in some games (DOOM Eternal)
+  hardware.amdgpu.amdvlk = true;
+  environment.variables.AMD_VULKAN_ICD = "RADV";
+  # Fix no video after kexec
   # Adapted from https://wiki.archlinux.org/title/kexec#No_kernel_mode-setting_(Nvidia)
   systemd.services.unmodeset = {
     description = "Unload amdgpu modules from kernel";
@@ -65,6 +70,7 @@ in
     };
     wantedBy = [ "kexec.target" ];
   };
+  # Overclock
   # https://wiki.archlinux.org/title/AMDGPU#Overclocking
   # https://www.kernel.org/doc/html/v6.1/gpu/amdgpu/thermal.html
   powerManagement.powerUpCommands =
@@ -72,7 +78,7 @@ in
       gpuDevice = "/sys/devices/pci0000:00/0000:00:03.1/0000:09:00.0/0000:0a:00.0/0000:0b:00.0";
     in
     ''
-      echo '293000000' > ${gpuDevice}/hwmon/hwmon0/power1_cap # max power limit to 293 W
+      echo '293000000' > ${gpuDevice}/hwmon/hwmon*/power1_cap # max power limit to 293 W
       echo 'manual'    > ${gpuDevice}/power_dpm_force_performance_level # needed for p-state and power profile
       echo 's 1 2650'  > ${gpuDevice}/pp_od_clk_voltage # overclock gpu core to 2650 MHz
       echo 'm 1 1050'  > ${gpuDevice}/pp_od_clk_voltage # overclock mem to 2100 Mhz
@@ -98,7 +104,7 @@ in
       --output DP-3 --off
   '';
   services.xserver.displayManager.defaultSession = "plasmawayland";
-  services.xserver.desktopManager.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
+  environment.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
   # https://wiki.archlinux.org/title/SDDM#KDE_Plasma_Wayland_hangs_on_shutdown_and_reboot
   systemd.services.display-manager.serviceConfig.TimeoutStopSec = 5;
 
