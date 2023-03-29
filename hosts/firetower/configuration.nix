@@ -26,12 +26,26 @@ in
       kde
     ]);
 
+  nixpkgs.overlays = [
+    (final: prev: rec {
+      libsForQt5 = prev.libsForQt5.overrideScope' (qt5final: qt5prev:
+        let
+          plasma5 = qt5prev.plasma5.overrideScope' (plasmaFinal: plasmaPrev: {
+            kpipewire = plasmaPrev.kpipewire.override { mesa = prev.mesa_23; };
+            kwin = plasmaPrev.kwin.override { mesa = prev.mesa_23; };
+            xdg-desktop-portal-kde = plasmaPrev.xdg-desktop-portal-kde.override { mesa = prev.mesa_23; };
+          });
+        in
+        plasma5 // { inherit plasma5; });
+
+      plasma5Packages = libsForQt5;
+    })
+  ];
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
-  boot.initrd.includeDefaultModules = false;
   boot.loader.timeout = 0;
 
   # Add more BTRFS mount options
