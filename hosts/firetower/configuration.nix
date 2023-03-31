@@ -26,22 +26,6 @@ in
       kde
     ]);
 
-  nixpkgs.overlays = [
-    (final: prev: rec {
-      libsForQt5 = prev.libsForQt5.overrideScope' (qt5final: qt5prev:
-        let
-          plasma5 = qt5prev.plasma5.overrideScope' (plasmaFinal: plasmaPrev: {
-            kpipewire = plasmaPrev.kpipewire.override { mesa = prev.mesa_23; };
-            kwin = plasmaPrev.kwin.override { mesa = prev.mesa_23; };
-            xdg-desktop-portal-kde = plasmaPrev.xdg-desktop-portal-kde.override { mesa = prev.mesa_23; };
-          });
-        in
-        plasma5 // { inherit plasma5; });
-
-      plasma5Packages = libsForQt5;
-    })
-  ];
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -102,6 +86,26 @@ in
       echo '5'         > ${gpuDevice}/pp_power_profile_mode # compute power profile
     '';
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
+  # Mismatched Mesa versions crash Plasma
+  # https://github.com/NixOS/nixpkgs/issues/223729
+  nixpkgs.overlays = [
+    (final: prev: rec {
+      libsForQt5 = prev.libsForQt5.overrideScope' (qtFinal: qtPrev:
+        let
+          plasma5 = qtPrev.plasma5.overrideScope' (plasmaFinal: plasmaPrev: {
+            kpipewire = plasmaPrev.kpipewire.override { mesa = prev.mesa_23; };
+            kwin = plasmaPrev.kwin.override { mesa = prev.mesa_23; };
+            xdg-desktop-portal-kde = plasmaPrev.xdg-desktop-portal-kde.override { mesa = prev.mesa_23; };
+          });
+        in
+        plasma5 // { inherit plasma5; });
+
+      plasma5Packages = libsForQt5;
+    })
+  ];
+  # Use latest Mesa
+  hardware.opengl.mesaPackage = pkgs.mesa_23;
+  hardware.opengl.mesaPackage32 = pkgs.pkgsi686Linux.mesa_23;
 
   # Configure KDE
   # GTK Portal needed for libadwaita to read color preferences
