@@ -3,7 +3,7 @@
 , ...
 }:
 let
-  inherit (inputs) self nixos-hardware home-manager;
+  inherit (inputs) self nixos-hardware home-manager lanzaboote;
 in
 {
   imports =
@@ -20,10 +20,16 @@ in
       mullvad-vpn
       virt-manager
       hm
+      lanzaboote.nixosModules.lanzaboote
     ]);
 
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.bootspec.enable = true;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -46,10 +52,16 @@ in
   fileSystems."/home".options = [ "noatime" "compress=zstd" ];
   fileSystems."/boot".options = [ "noatime" ];
 
+  # Many distros enable this by default
+  zramSwap.enable = true;
+
   networking.hostName = "firepad";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 54918 ];
 
   time.timeZone = "America/Los_Angeles";
+
+  # hardware.opengl.mesaPackage = pkgs.mesa;
+  # hardware.opengl.mesaPackage32 = pkgs.pkgsi686Linux.mesa;
 
   services.fwupd.enable = true;
   services.printing.drivers = [ pkgs.hplipWithPlugin ];

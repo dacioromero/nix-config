@@ -2,12 +2,19 @@
   description = "Home Manager configuration of Dacio Romero";
 
   nixConfig = {
-    extra-substituters = "https://cache.armv7l.xyz";
-    extra-trusted-public-keys = "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=";
+    extra-substituters = [
+      "https://cache.armv7l.xyz"
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
   };
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:NixOS/nixpkgs/15ac0abbe677a7c9e1f2a255bf93889701eabb06";
     nixpkgs-gfeeds-2_0_1.url = "github:dacioromero/nixpkgs/gfeeds-2.0.1";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
@@ -31,6 +38,10 @@
     omni-kitty = {
       url = "github:dacioromero/kitty";
       flake = false;
+    };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

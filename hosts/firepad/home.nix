@@ -4,7 +4,7 @@
 }: {
   imports = with inputs.self.homeManagerModules; [
     home
-    alacritty
+    wezterm
     gnome
     linux
   ];
