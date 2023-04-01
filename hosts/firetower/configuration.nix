@@ -1,5 +1,6 @@
 { pkgs
 , inputs
+, config
 , ...
 }:
 let
@@ -31,6 +32,10 @@ in
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.timeout = 0;
+  # Zen 3 power monitoring
+  boot.kernelModules = [ "zenpower" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];
+  boot.blacklistedKernelModules = [ "k10temp" ];
 
   # Add more BTRFS mount options
   fileSystems."/".options = [ "noatime" "compress=zstd" ];
