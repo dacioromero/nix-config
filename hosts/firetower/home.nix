@@ -19,6 +19,7 @@
     gnome-feeds
     goverlay
     lsp-plugins # Plugins for EasyEffects
+    newsflash
     prismlauncher
     protonup-qt
     psst
