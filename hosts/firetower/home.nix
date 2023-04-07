@@ -37,6 +37,7 @@
 
   programs.mangohud.enable = true;
   # programs.mangohud.enableSessionWide = true;
+  programs.nix-index.enable = true;
 
   home.stateVersion = "22.05";
 }
