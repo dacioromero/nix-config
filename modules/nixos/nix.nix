@@ -5,6 +5,7 @@
 }:
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
+  flakeInputs = lib.filterAttrs (_: input: input ? "_type" && input._type == "flake") inputs;
   sudoGroup =
     if isDarwin
     then "@admin"
@@ -18,7 +19,10 @@ in
     auto-optimise-store = !isDarwin;
   };
 
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  # Add inputs to registry and path for caching and consistency
+  # https://github.com/jakelogemann/fnctl/blob/f5ddc7c88ae22579ce61d5201da92e90852cfce0/nix/lib/mkSystem.nix#L37-L40
+  nix.registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
+  nix.nixPath = lib.mapAttrsToList (name: flake: "${name}=${flake}") flakeInputs;
 
   nix.gc = {
     automatic = true;
