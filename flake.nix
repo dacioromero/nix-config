@@ -1,14 +1,16 @@
 {
-  description = "Home Manager configuration of Dacio Romero";
+  description = "NixOS configurations by Dacio Romero";
 
   nixConfig = {
     extra-substituters = [
       "https://cache.armv7l.xyz"
       "https://nix-community.cachix.org"
+      "https://pre-commit-hooks.cachix.org"
     ];
     extra-trusted-public-keys = [
       "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
     ];
   };
 
@@ -19,8 +21,9 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.utils.follows = "flake-utils";
     };
-    darwin = {
+    nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -34,26 +37,23 @@
       url = "github:getomni/alacritty";
       flake = false;
     };
-    omni-kitty = {
-      url = "github:dacioromero/kitty";
-      flake = false;
-    };
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
     };
   };
 
   outputs =
     { self
     , nixpkgs
-    , darwin
+    , nix-darwin
     , flake-utils
     , pre-commit-hooks
     , ...
     } @ inputs:
     let
-      inherit (darwin.lib) darwinSystem;
+      inherit (nix-darwin.lib) darwinSystem;
       inherit (flake-utils.lib) eachDefaultSystem;
       inherit (nixpkgs.lib) nixosSystem;
     in
