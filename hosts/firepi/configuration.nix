@@ -39,11 +39,12 @@ in
   zramSwap.algorithm = "lz4";
 
   networking.hostName = "firepi";
-  networking.useDHCP = false;
+  # Remove if/when https://github.com/NixOS/nixpkgs/pull/202488 is merged
   networking.useNetworkd = true;
-  networking.interfaces.eth0.useDHCP = true;
   networking.firewall.allowedTCPPorts = [ 8123 ];
+
   services.openssh.enable = true;
+
   services.tailscale.enable = true;
   services.tailscale.useRoutingFeatures = "server";
 
