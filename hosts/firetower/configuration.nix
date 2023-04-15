@@ -44,7 +44,24 @@ in
   fileSystems."/boot".options = [ "noatime" ];
 
   # Many distros enable this by default
+  # https://www.kernel.org/doc/html/next/admin-guide/sysctl/vm.html
+  # https://haydenjames.io/linux-performance-almost-always-add-swap-part2-zram/
+  # https://www.reddit.com/r/Fedora/comments/mzun99/new_zram_tuning_benchmarks/
+  # https://github.com/pop-os/default-settings/pull/163
+  # https://github.com/AlexMekkering/Arch-Linux/blob/master/docs/installation/optimizations.md
   zramSwap.enable = true;
+  zramSwap.memoryPercent = 100;
+  # zram is relatively cheap, prefer swap
+  boot.kernel.sysctl."vm.swappiness" = 180;
+  # zram is in memory, no need to readahead
+  boot.kernel.sysctl."vm.page-cluster" = 0;
+  # Start asynchronously writing at 128 MiB dirty memory
+  boot.kernel.sysctl."vm.dirty_background_bytes" = 128 * 1024 * 1024;
+  # Start synchronously writing at 50% dirty memory
+  # boot.kernel.sysctl."vm.dirty_ratio" = 50;
+  boot.kernel.sysctl."vm.dirty_bytes" = 64 * 1024 * 1024;
+  boot.kernel.sysctl."vm.vfs_cache_pressure" = 500;
+
   # With 32 GiB of RAM and zram enabled OOM is unlikely
   systemd.oomd.enable = false;
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -91,26 +108,6 @@ in
       echo '5'         > ${gpuDevice}/pp_power_profile_mode # compute power profile
     '';
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
-  # Mismatched Mesa versions crash Plasma
-  # https://github.com/NixOS/nixpkgs/issues/223729
-  nixpkgs.overlays = [
-    (final: prev: rec {
-      libsForQt5 = prev.libsForQt5.overrideScope' (qtFinal: qtPrev:
-        let
-          plasma5 = qtPrev.plasma5.overrideScope' (plasmaFinal: plasmaPrev: {
-            kpipewire = plasmaPrev.kpipewire.override { mesa = prev.mesa_23; };
-            kwin = plasmaPrev.kwin.override { mesa = prev.mesa_23; };
-            xdg-desktop-portal-kde = plasmaPrev.xdg-desktop-portal-kde.override { mesa = prev.mesa_23; };
-          });
-        in
-        plasma5 // { inherit plasma5; });
-
-      plasma5Packages = libsForQt5;
-    })
-  ];
-  # Use latest Mesa
-  hardware.opengl.mesaPackage = pkgs.mesa_23;
-  hardware.opengl.mesaPackage32 = pkgs.pkgsi686Linux.mesa_23;
 
   # Configure KDE
   # GTK Portal needed for libadwaita to read color preferences
@@ -140,12 +137,20 @@ in
   services.ratbagd.enable = true;
   environment.systemPackages = [ pkgs.piper ];
 
+  # Enable secure boot and TPM for VMs
+  virtualisation.libvirtd.qemu.swtpm.enable = true;
+  virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
+
   users.users.dacio = {
     isNormalUser = true;
     description = "Dacio";
     group = "dacio";
     uid = 1000;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "libvirtd"
+    ];
   };
   # Emulate `useradd --user-group`
   users.groups.dacio.gid = 1000;
