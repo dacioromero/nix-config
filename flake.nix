@@ -15,7 +15,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-gfeeds-2_0_1.url = "github:dacioromero/nixpkgs/gfeeds-2.0.1";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
