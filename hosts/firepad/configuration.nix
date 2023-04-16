@@ -1,16 +1,23 @@
 { pkgs
 , inputs
+, lib
 , ...
 }:
 let
-  inherit (inputs) self nixos-hardware home-manager lanzaboote;
+  inherit (inputs)
+    self
+    nixos-hardware
+    lanzaboote
+    home-manager
+    ;
 in
 {
   imports =
     [
       ./hardware-configuration.nix
-      home-manager.nixosModules.home-manager
       nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
+      lanzaboote.nixosModules.lanzaboote
+      home-manager.nixosModules.home-manager
     ]
     ++ (with self.nixosModules; [
       nix
@@ -20,51 +27,110 @@ in
       mullvad-vpn
       virt-manager
       hm
-      lanzaboote.nixosModules.lanzaboote
     ]);
 
-  boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Remote building, laptop is slow
+  nix.buildMachines = [{
+    hostName = "firetower"; # Tailscale MagicDNS name
+    system = "x86_64-linux";
+    maxJobs = 32;
+    speedFactor = 2; # TODO: Determine proper factor
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    mandatoryFeatures = [ ];
+  }];
+  nix.distributedBuilds = true;
+
+  # Secure boot signing and bootloader
+  boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
   boot.bootspec.enable = true;
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/etc/secureboot";
   };
+  boot.loader.timeout = 0;
+
+  # Resume from swap device
+  boot.resumeDevice = "/dev/disk/by-uuid/361b647d-e76b-4fb9-b13b-9f2e0b9af179";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  # `fwupdmgr security` requirement
+  # Makes kernel non-reproducible
+  boot.kernelPatches = [{
+    name = "lockdown-enable";
+    patch = null;
+    extraStructuredConfig = with lib.kernel; {
+      SECURITY_LOCKDOWN_LSM = lib.mkForce yes;
+      MODULE_SIG = lib.mkForce yes;
+    };
+  }];
 
-  boot.supportedFilesystems = [ "ntfs" "exfat" ];
+  boot.supportedFilesystems = [ "exfat" ];
 
+  # More graceful booting
   boot.plymouth.enable = true;
   boot.initrd.systemd.enable = true;
 
   # Silence
   boot.initrd.verbose = false;
-  boot.consoleLogLevel = 0;
+  boot.consoleLogLevel = 3;
+
   boot.kernelParams = [
+    # More silence
     "quiet"
-    "udev.log_level=3"
+    "rd.udev.log_level=3"
+    # using zram w/ physical swap, should disable zswap
+    "zswap.enabled=0"
+    # fwupdmgr security
+    "intel_iommu=on" # HSI-2
+    "lockdown=integrity" # requirement
   ];
 
-  # Add more BTRFS mount options
+  # More filesystem mount options
   fileSystems."/".options = [ "noatime" "compress=zstd" ];
   fileSystems."/nix".options = [ "noatime" "compress=zstd" ];
   fileSystems."/home".options = [ "noatime" "compress=zstd" ];
   fileSystems."/boot".options = [ "noatime" ];
 
-  # Many distros enable this by default
+  # RAM compression
   zramSwap.enable = true;
+  zramSwap.memoryPercent = 100;
 
   networking.hostName = "firepad";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 54918 ];
 
   time.timeZone = "America/Los_Angeles";
 
-  # hardware.opengl.mesaPackage = pkgs.mesa;
-  # hardware.opengl.mesaPackage32 = pkgs.pkgsi686Linux.mesa;
+  # Battery care
+  # Attempting to limit battery percentage between 20 and 80
+  powerManagement.powerUpCommands = ''
+    if [ -d "/sys/class/power_supply/BAT0" ]; then
+      echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold
+      echo 75 > /sys/class/power_supply/BAT0/charge_control_start_threshold
+    fi
+  '';
+  services.upower.percentageLow = 25;
+  services.upower.percentageCritical = 22;
+  services.upower.percentageAction = 20;
 
+  # Battery efficiency
+  # auto-cpufreq switches modes intelligently, disable others
+  services.power-profiles-daemon.enable = false; # Auto-enabled by Gnome
+  services.tlp.enable = false; # Auto-enabled by nixos-hardware when PPD is disabled
+  services.auto-cpufreq.enable = true;
+
+  # Firmware updates supported
   services.fwupd.enable = true;
+
+  # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
+
+  # Private VPN
+  services.tailscale.enable = true;
+
+  # Home media server
+  # TODO: Move to dedicated machine
+  services.jellyfin.enable = true;
+  services.jellyfin.openFirewall = true;
 
   programs.adb.enable = true;
 
@@ -75,11 +141,7 @@ in
     uid = 1000;
     extraGroups = [ "wheel" "adbusers" "networkmanager" ];
   };
-
-  services.jellyfin.enable = true;
-  services.jellyfin.openFirewall = true;
-  services.tailscale.enable = true;
-
+  # Emulate `useradd --user-group`
   users.groups.dacio.gid = 1000;
   home-manager.users.dacio = import ./home.nix;
 

@@ -11,7 +11,6 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    cryptomator
     discord
     qbittorrent
     spotify
@@ -19,15 +18,9 @@
 
   fonts.fontconfig.enable = true;
 
-  services.gpg-agent = {
-    enable = true;
-    enableSshSupport = true;
-    defaultCacheTtl = 60;
-    maxCacheTtl = 120;
-    pinentryFlavor = "gnome3";
-  };
-
   services.syncthing.enable = true;
+
+  programs.nix-index.enable = true;
 
   dconf.settings = {
     "org/gnome/desktop/interface".show-battery-percentage = true;

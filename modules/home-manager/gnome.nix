@@ -69,7 +69,10 @@ in
       secondary-color = "#000000";
     };
 
-    "org/gnome/desktop/wm/preferences".num-workspaces = 1;
+    "org/gnome/desktop/wm/preferences" = {
+      num-workspaces = 1;
+      button-layout = "appmenu:minimize,maximize,close";
+    };
 
     "org/gnome/mutter" = {
       dynamic-workspaces = false;
@@ -83,7 +86,10 @@ in
       search-view = "list-view";
     };
 
-    # Enable installed extensions by default
-    "org/gnome/shell".enabled-extensions = map (e: e.extensionUuid) extensions;
+    "org/gnome/shell" = {
+      disable-user-extensions = false;
+      # Enable installed extensions by default
+      enabled-extensions = map (e: e.extensionUuid) extensions;
+    };
   };
 }

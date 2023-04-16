@@ -21,7 +21,8 @@
     options = [ "subvol=@nixos" ];
   };
 
-  boot.initrd.luks.devices."cryptlvm".device = "/dev/disk/by-uuid/218b0149-7cef-46ec-b939-88b72a2c3003";
+  boot.initrd.luks.devices."root".device = "/dev/disk/by-uuid/218b0149-7cef-46ec-b939-88b72a2c3003";
+  boot.initrd.luks.devices."swap".device = "/dev/disk/by-uuid/7cf9627f-2fc5-4d9f-8ed1-18f07c6686f7";
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/f9895581-1bb9-4451-b32a-26d31dbbf8a2";
@@ -40,7 +41,7 @@
     fsType = "vfat";
   };
 
-  swapDevices = [ ];
+  swapDevices = [{ device = "/dev/disk/by-uuid/361b647d-e76b-4fb9-b13b-9f2e0b9af179"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
