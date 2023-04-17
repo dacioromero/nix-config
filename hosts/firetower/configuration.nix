@@ -27,17 +27,19 @@ in
       kde
     ]);
 
+  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.timeout = 0;
+
   # Zen 3 power monitoring
   boot.kernelModules = [ "zenpower" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];
   boot.blacklistedKernelModules = [ "k10temp" ];
 
-  # Add more BTRFS mount options
+  # More filesystem mount options
   fileSystems."/".options = [ "noatime" "compress=zstd" ];
   fileSystems."/nix".options = [ "noatime" "compress=zstd" ];
   fileSystems."/home".options = [ "noatime" "compress=zstd" ];
@@ -132,14 +134,33 @@ in
   programs.gamemode.enable = true;
   programs.steam.enable = true;
 
+  # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
+  # Mouse settings
   services.ratbagd.enable = true;
   environment.systemPackages = [ pkgs.piper ];
+
+  # SSH server, needed for remote building
+  services.openssh.enable = true;
+
+  # Private VPN
+  services.tailscale.enable = true;
 
   # Enable secure boot and TPM for VMs
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
+
+  # Distributed builds host
+  nix.settings.trusted-users = [ "builder" ];
+  users.users.builder = {
+    isSystemUser = true;
+    useDefaultShell = true;
+    description = "Builder";
+    group = "builder";
+    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYoOl+yGVCSZgIIazlklT0xGf/phC0rkprT35UOYYZ9JDfqsyij6dl/GSdJ+U9nxznxU0Ls8Ju5S5/F6L+OCeVSDF5omhs6e3uraaYkxIi91eu/rbrrbs2SHbdMcB+8RgvWI/SCe1r+NndDiA+LC97hy8Zop3yjU3ajfH2VcBN6FZbZZhDUVZkmNVOflDAq78+0PEgduXFwy31qgx/b8AvbbGWq7NyrJocD5BEoFePY2kZYtngDMrVqp3U+g/2GUzc7PxqrD7WKVnyLW0zi+ZmA/wAM+SU2ldM/YsXM3yWGI/kg6RtdjWl2N6FBUc0VFdRmuhc/5/YK+LeOeWSBhmQ7HXKx0Bv5BpWi19P/0O3YuXD+3KI6ouepREGNG1cqicne3Eb8LgIgo4UTpLaog4wzbwsot/wIlUJVZc2ZIyBKKpj+omTqh8SgKPMg4CLeZxLIi71bxcMz5W6TrSXmrh1QIjZYG1ntXzKqaaIa+db2VJEAtGn7zRkoZtaaBI71jc= root@firetower" ];
+  };
+  users.groups.builder = { };
 
   users.users.dacio = {
     isNormalUser = true;

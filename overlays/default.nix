@@ -1,3 +1,7 @@
 {
-  mullvad-vpn = import ./mullvad-vpn.nix;
+  obsidian = final: prev: {
+    obsidian = prev.obsidian.override {
+      electron = prev.electron_22;
+    };
+  };
 }

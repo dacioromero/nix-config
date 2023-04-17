@@ -142,11 +142,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1681468923,
-        "narHash": "sha256-+X2oO4juRVhQRs002mn8km6PODccIRiz09c2K1xtSpY=",
+        "lastModified": 1681688069,
+        "narHash": "sha256-1w6zBfwxwMbyewUyqzSnZs8nwNqj6ZBVcP0rkCueyIo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "17198cf5ae27af5b647c7dac58d935a7d0dbd189",
+        "rev": "68eaf4b577cfa8024fb910a1ce7d60385044f798",
         "type": "github"
       },
       "original": {
@@ -225,32 +225,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1681465517,
-        "narHash": "sha256-EasJh15/jcJNAHtq2SGbiADRXteURAnQbj1NqBoKkzU=",
+        "lastModified": 1681648924,
+        "narHash": "sha256-pzi3HISK8+7mpEtv08Yr80wswyHKsz+RP1CROG1Qf6s=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "abe7316dd51a313ce528972b104f4f04f56eefc4",
+        "rev": "f294325aed382b66c7a188482101b0f336d1d7db",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-gfeeds-2_0_1": {
-      "locked": {
-        "lastModified": 1676773059,
-        "narHash": "sha256-1vepaSnVVDtAEapqx83XiX3M83oCeMNzkqsyNXGawvI=",
-        "owner": "dacioromero",
-        "repo": "nixpkgs",
-        "rev": "95a57be632ae44bcff90b359371104bc87e003fc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "dacioromero",
-        "ref": "gfeeds-2.0.1",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -355,7 +339,6 @@
         "nix-darwin": "nix-darwin",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-gfeeds-2_0_1": "nixpkgs-gfeeds-2_0_1",
         "omni-alacritty": "omni-alacritty",
         "pre-commit-hooks": "pre-commit-hooks",
         "rust-overlay": "rust-overlay"
