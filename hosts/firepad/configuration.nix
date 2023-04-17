@@ -32,6 +32,7 @@ in
   # Remote building, laptop is slow
   nix.buildMachines = [{
     hostName = "firetower"; # Tailscale MagicDNS name
+    sshUser = "builder";
     system = "x86_64-linux";
     maxJobs = 32;
     speedFactor = 2; # TODO: Determine proper factor
@@ -39,6 +40,7 @@ in
     mandatoryFeatures = [ ];
   }];
   nix.distributedBuilds = true;
+  nix.settings.builders-use-substitutes = true;
 
   # Secure boot signing and bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
