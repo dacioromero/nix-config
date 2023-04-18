@@ -34,6 +34,7 @@
         color_scheme = "Omni",
         font = wezterm.font 'JetBrains Mono',
         window_background_opacity = 0.95,
+        enable_scroll_bar = true,
       }
     '';
   };
