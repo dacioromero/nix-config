@@ -1,6 +1,7 @@
 { pkgs }:
 let
   callPackage = pkgs.lib.callPackageWith pkgs;
+  callPackage_i686 = pkgs.lib.callPackageWith pkgs.pkgsi686Linux;
 in
 with pkgs; {
   satisfactory-mod-manager = callPackage ./satisfactory-mod-manager.nix { };
@@ -11,4 +12,5 @@ with pkgs; {
     extraMeta.platforms = [ "armv7l-linux" ];
     filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
   };
+  adtrack2 = callPackage_i686 ./adtrack2.nix { };
 }

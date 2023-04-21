@@ -16,8 +16,8 @@
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     discord
     duf
+    comma
     element-desktop
-    gnome-feeds
     goverlay
     lsp-plugins # Plugins for EasyEffects
     newsflash
@@ -47,7 +47,6 @@
   };
 
   programs.mangohud.enable = true;
-  # programs.mangohud.enableSessionWide = true;
   programs.nix-index.enable = true;
 
   home.stateVersion = "22.05";
