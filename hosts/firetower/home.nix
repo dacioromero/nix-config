@@ -14,9 +14,9 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    comma
     discord
     duf
-    comma
     element-desktop
     goverlay
     lsp-plugins # Plugins for EasyEffects

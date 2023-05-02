@@ -30,7 +30,7 @@ in
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.timeout = 0;
 
   # Zen 3 power monitoring
@@ -75,7 +75,7 @@ in
 
   # Configure GPU
   # Early KMS isn't helpful
-  hardware.amdgpu.loadInInitrd = true;
+  hardware.amdgpu.loadInInitrd = false;
   # Enable AMDVLK but force RADV as default. AMDVLK has better perfomance in some games (DOOM Eternal)
   hardware.amdgpu.amdvlk = true;
   environment.variables.AMD_VULKAN_ICD = "RADV";
