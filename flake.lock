@@ -188,7 +188,7 @@
         "type": "github"
       }
     },
-    "nix-darwin": {
+    "darwin": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -336,7 +336,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
-        "nix-darwin": "nix-darwin",
+        "darwin": "darwin",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "omni-alacritty": "omni-alacritty",

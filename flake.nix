@@ -21,7 +21,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-darwin = {
+    darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -52,13 +52,13 @@
   outputs =
     { self
     , nixpkgs
-    , nix-darwin
+    , darwin
     , flake-utils
     , pre-commit-hooks
     , ...
     } @ inputs:
     let
-      inherit (nix-darwin.lib) darwinSystem;
+      inherit (darwin.lib) darwinSystem;
       inherit (flake-utils.lib) eachDefaultSystem;
       inherit (nixpkgs.lib) nixosSystem;
     in
