@@ -16,8 +16,8 @@ in
 
   # fcitx-engines is deprecated but referenced by home-manager (release-22.11)
   nixpkgs.overlays = [
-    (final: prev: {
-      fcitx-engines = {};
+    (_final: _prev: {
+      fcitx-engines = { };
     })
   ];
 

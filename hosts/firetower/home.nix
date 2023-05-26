@@ -27,6 +27,7 @@
     qbittorrent
     satisfactory-mod-manager
     vkBasalt
+    yuzu-early-access
   ];
 
   # Needed for Nerd Fonts to be found

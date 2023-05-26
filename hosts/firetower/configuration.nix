@@ -108,7 +108,7 @@ in
       echo 'vo -60'    > ${gpuDevice}/pp_od_clk_voltage # underclock by 60 mV
       echo 'c'         > ${gpuDevice}/pp_od_clk_voltage
       echo '3'         > ${gpuDevice}/pp_dpm_mclk # highest p-state
-      echo '5'         > ${gpuDevice}/pp_power_profile_mode # compute power profile
+      echo '1'         > ${gpuDevice}/pp_power_profile_mode # 3d full screen power profile
     '';
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
 
