@@ -16,20 +16,30 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-22.11";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Stable release of HM for systems using stable NixOS release (currently only darwin)
+    home-manager-stable = {
+      url = "github:nix-community/home-manager/release-22.11";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.utils.follows = "flake-utils";
+    };
     darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # Using stable release to attempt to avoid frequent breakage on Darwin
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
       inputs.flake-utils.follows = "flake-utils";
+      inputs.flake-compat.follows = "flake-compat";
     };
     omni-alacritty = {
       url = "github:getomni/alacritty";
@@ -41,17 +51,25 @@
       inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
       inputs.flake-utils.follows = "flake-utils";
       inputs.rust-overlay.follows = "rust-overlay";
+      inputs.flake-compat.follows = "flake-compat";
     };
+    # Not used directly, for bumping version used by lanzaboote
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
+    };
+    # Not used directly, for de-duping w/ other dependencies
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
     };
   };
 
   outputs =
     { self
     , nixpkgs
+    , nixpkgs-stable
     , darwin
     , flake-utils
     , pre-commit-hooks
@@ -66,7 +84,8 @@
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];
-        specialArgs = { inherit inputs; };
+        # Hack: https://github.com/LnL7/nix-darwin/issues/669
+        specialArgs.inputs = inputs // { nixpkgs = nixpkgs-stable; };
       };
 
       nixosConfigurations."firetower" = nixosSystem {
