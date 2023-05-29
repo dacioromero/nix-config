@@ -127,8 +127,7 @@
         src = ./.;
         hooks = {
           nixpkgs-fmt.enable = true;
-          # Broken https://github.com/cachix/pre-commit-hooks.nix/pull/305
-          # deadnix.enable = true;
+          deadnix.enable = true;
           statix.enable = true;
         };
         settings = {
