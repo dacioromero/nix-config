@@ -7,14 +7,14 @@
 , libsForQt5
 }: stdenv.mkDerivation rec {
   pname = "xwaylandvideobridge";
-  version = "unstable-2023-03-18";
+  version = "unstable-2023-05-28";
 
   src = fetchFromGitLab {
     domain = "invent.kde.org";
-    owner = "davidedmundson";
+    owner = "system";
     repo = "xwaylandvideobridge";
-    rev = "b876b5f3ee5cc810c99b08e8f0ebb29553e45e47";
-    hash = "sha256-gfQkOIZegxdFQ9IV2Qp/lLRtfI5/g6bDD3XRBdLh4q0=";
+    rev = "9853b50f2494f458e8d103aac631c52a5352b4c9";
+    hash = "sha256-enGDIPGdEA9DaqIiVUprdnGuuuQ/B2dq8H7nnid61QE=";
   };
 
   nativeBuildInputs = [
@@ -29,14 +29,14 @@
     qt5.qtx11extras
     libsForQt5.kdelibs4support
     (libsForQt5.kpipewire.overrideAttrs (oldAttrs: {
-      version = "unstable-2023-02-27";
+      version = "unstable-2023-05-23";
 
       src = fetchFromGitLab {
         domain = "invent.kde.org";
         owner = "plasma";
         repo = "kpipewire";
-        rev = "ed99b94be40bd8c5b7b2a2f17d0622f11b2ab7fb";
-        hash = "sha256-KhmhlH7gaFGrvPaB3voQ57CKutnw5DlLOz7gy/3Mzms=";
+        rev = "600505677474a513be4ea8cdc8586f666be7626d";
+        hash = "sha256-ME/9xOyRvvPDiYB1SkJLMk4vtarlIgYdlereBrYTcL4=";
       };
     }))
   ];

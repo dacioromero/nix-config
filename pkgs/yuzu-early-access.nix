@@ -5,9 +5,9 @@
 , yuzu-early-access
 }:
 let
-  version = "3617";
-  distHash = "sha256:0s4vph87n3ydkq2snlydg6nrjd9jmxxzky095apfydb6zvcjjyfh";
-  fullHash = "sha256:02gag1wqhffllx2vgq7akjim9b1n6g7pjmij11rm4w790hr3rw3h";
+  version = "3621";
+  distHash = "sha256:0p8rxpwn9f269008skj7dy6qinpax93jhp33769akrprbh7f22if";
+  fullHash = "sha256:1ph8frqifk42ypa0fw604k1z4kjisl35cai830cg4zhvd0vv7rn5";
 
   eaZip = fetchzip {
     name = "yuzu-ea-windows-dist";
