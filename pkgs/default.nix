@@ -13,5 +13,4 @@ with pkgs; {
     filesToInstall = [ "u-boot-sunxi-with-spl.bin" ];
   };
   adtrack2 = callPackage_i686 ./adtrack2.nix { };
-  yuzu-early-access = callPackage ./yuzu-early-access.nix { };
 }
