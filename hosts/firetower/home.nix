@@ -9,8 +9,8 @@
     kde
   ];
 
-  # Force Wayland on apps like VSCode and Firefox
-  home.sessionVariables."NIXOS_OZONE_WL" = 1;
+  # # Force Wayland on apps like VSCode and Firefox
+  # home.sessionVariables."NIXOS_OZONE_WL" = 1;
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
@@ -27,7 +27,6 @@
     qbittorrent
     satisfactory-mod-manager
     vkBasalt
-    yuzu-early-access
   ];
 
   # Needed for Nerd Fonts to be found
