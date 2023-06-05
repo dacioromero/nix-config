@@ -14,10 +14,12 @@ in
       hm
     ]);
 
-  # fcitx-engines is deprecated but referenced by home-manager (release-22.11)
+  # vscode broken https://github.com/NixOS/nixpkgs/pull/234871
   nixpkgs.overlays = [
-    (_final: _prev: {
-      fcitx-engines = { };
+    (final: prev: {
+      vscode = prev.vscode.override {
+        useVSCodeRipgrep = true;
+      };
     })
   ];
 
