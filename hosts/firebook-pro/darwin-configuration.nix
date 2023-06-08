@@ -14,15 +14,6 @@ in
       hm
     ]);
 
-  # vscode broken https://github.com/NixOS/nixpkgs/pull/234871
-  nixpkgs.overlays = [
-    (final: prev: {
-      vscode = prev.vscode.override {
-        useVSCodeRipgrep = true;
-      };
-    })
-  ];
-
   fonts.fontDir.enable = true;
   fonts.fonts = [ (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; }) ];
 

@@ -7,11 +7,6 @@
     wezterm
   ];
 
-  home.packages = with pkgs; [
-    slack
-    zoom-us
-  ];
-
   # Darwin doesn't support services.gpg-agent
   # https://github.com/nix-community/home-manager/issues/91
   home.file.".gnupg/gpg-agent.conf".text =

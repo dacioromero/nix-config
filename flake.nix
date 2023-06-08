@@ -27,7 +27,7 @@
       url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    darwin = {
+    nix-darwin = {
       url = "github:LnL7/nix-darwin";
       # Using stable release to attempt to avoid frequent breakage on Darwin
       inputs.nixpkgs.follows = "nixpkgs-stable";
@@ -69,13 +69,13 @@
     { self
     , nixpkgs
     , nixpkgs-stable
-    , darwin
+    , nix-darwin
     , flake-utils
     , pre-commit-hooks
     , ...
     } @ inputs:
     let
-      inherit (darwin.lib) darwinSystem;
+      inherit (nix-darwin.lib) darwinSystem;
       inherit (flake-utils.lib) eachDefaultSystem;
       inherit (nixpkgs.lib) nixosSystem;
     in

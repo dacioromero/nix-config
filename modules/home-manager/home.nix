@@ -2,9 +2,8 @@
   imports = [ ./starship ];
 
   home.packages = with pkgs; [
-    obsidian
+    nil
     thefuck
-    vscode
   ];
 
   home.sessionVariables = {
