@@ -79,7 +79,7 @@
       inherit (flake-utils.lib) eachDefaultSystem;
       inherit (nixpkgs.lib) nixosSystem;
     in
-    rec {
+    {
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];

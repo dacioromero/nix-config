@@ -23,10 +23,11 @@
     newsflash
     prismlauncher
     protonup-qt
-    psst
     qbittorrent
     satisfactory-mod-manager
+    spotify
     vkBasalt
+    nil
   ];
 
   # Needed for Nerd Fonts to be found

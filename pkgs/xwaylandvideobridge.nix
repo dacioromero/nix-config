@@ -5,7 +5,7 @@
 , extra-cmake-modules
 , qt5
 , libsForQt5
-}: stdenv.mkDerivation rec {
+}: stdenv.mkDerivation {
   pname = "xwaylandvideobridge";
   version = "unstable-2023-05-28";
 

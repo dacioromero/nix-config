@@ -118,7 +118,7 @@ in
       '';
     serviceConfig.Type = "oneshot";
   };
-  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfff7ffff" ];
 
   # Configure KDE
   # GTK Portal needed for libadwaita to read color preferences

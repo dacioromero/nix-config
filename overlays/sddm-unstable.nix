@@ -1,6 +1,6 @@
 final: prev: rec {
   libsForQt5 = prev.libsForQt5.overrideScope' (qt5final: qt5prev: {
-    sddm = qt5prev.sddm.overrideAttrs (oldAttrs: rec {
+    sddm = qt5prev.sddm.overrideAttrs (oldAttrs: {
       pname = oldAttrs.pname + "-unstable";
       version = "unstable-2023-06-02";
       src = prev.fetchFromGitHub {

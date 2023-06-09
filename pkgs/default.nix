@@ -3,7 +3,7 @@ let
   callPackage = pkgs.lib.callPackageWith pkgs;
   callPackage_i686 = pkgs.lib.callPackageWith pkgs.pkgsi686Linux;
 in
-with pkgs; {
+{
   satisfactory-mod-manager = callPackage ./satisfactory-mod-manager.nix { };
   xwaylandvideobridge = callPackage ./xwaylandvideobridge.nix { };
   # https://nixos.wiki/wiki/NixOS_on_ARM#The_easiest_way
