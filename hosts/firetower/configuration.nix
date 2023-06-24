@@ -30,7 +30,7 @@ in
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.timeout = 0;
 
   # Zen 3 power monitoring
@@ -118,6 +118,7 @@ in
       '';
     serviceConfig.Type = "oneshot";
   };
+  # https://wiki.archlinux.org/title/AMDGPU#Boot_parameter
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfff7ffff" ];
 
   # Configure KDE
@@ -158,6 +159,8 @@ in
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
 
+  programs.adb.enable = true;
+
   # Distributed builds host
   nix.settings.trusted-users = [ "builder" ];
   users.users.builder = {
@@ -178,6 +181,7 @@ in
       "wheel"
       "networkmanager"
       "libvirtd"
+      "adbusers"
     ];
   };
   # Emulate `useradd --user-group`

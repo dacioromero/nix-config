@@ -1,4 +1,5 @@
 final: prev: rec {
+  # https://github.com/NixOS/nixpkgs/issues/233965#issuecomment-1562653655
   libsForQt5 = prev.libsForQt5.overrideScope' (qt5final: qt5prev: {
     sddm = qt5prev.sddm.overrideAttrs (oldAttrs: {
       pname = oldAttrs.pname + "-unstable";
