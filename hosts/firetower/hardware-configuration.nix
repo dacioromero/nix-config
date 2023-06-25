@@ -21,6 +21,8 @@
     options = [ "subvol=@nixos" ];
   };
 
+  boot.initrd.luks.devices."root".device = "/dev/disk/by-uuid/c707dc46-2efb-4819-8254-42acf9ba4c88";
+
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/d147face-3f69-42f5-936c-2a18f0db4046";
     fsType = "btrfs";

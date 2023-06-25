@@ -49,7 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
       inputs.flake-utils.follows = "flake-utils";
-      inputs.rust-overlay.follows = "rust-overlay";
       inputs.flake-compat.follows = "flake-compat";
     };
     # Not used directly, for bumping version used by lanzaboote

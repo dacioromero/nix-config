@@ -4,12 +4,18 @@
 , ...
 }:
 let
-  inherit (inputs) self nixos-hardware home-manager;
+  inherit (inputs)
+    self
+    nixos-hardware
+    home-manager
+    lanzaboote
+    ;
 in
 {
   imports =
     [
       ./hardware-configuration.nix
+      lanzaboote.nixosModules.lanzaboote
       home-manager.nixosModules.home-manager
     ]
     ++ (with nixos-hardware.nixosModules; [
@@ -28,10 +34,14 @@ in
     ]);
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
+  boot.bootspec.enable = true;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/etc/secureboot";
+  };
   boot.loader.timeout = 0;
+  boot.initrd.systemd.enable = true; # Automatic decrypt with TPM
 
   # Zen 3 power monitoring
   boot.kernelModules = [ "zenpower" ];
