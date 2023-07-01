@@ -99,6 +99,8 @@ in
 
   networking.hostName = "firepad";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 54918 ];
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.dns = "dnsmasq"; # DNS caching
 
   time.timeZone = "America/Los_Angeles";
 

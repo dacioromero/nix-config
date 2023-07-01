@@ -1,7 +1,4 @@
 { pkgs, ... }: {
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-  networking.networkmanager.dns = "dnsmasq"; # DNS caching
-
   # Enable X11, but get rid of xterm
   services.xserver.enable = true;
   services.xserver.excludePackages = [ pkgs.xterm ];

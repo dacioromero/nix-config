@@ -1,6 +1,7 @@
 { pkgs
 , inputs
 , config
+, lib
 , ...
 }:
 let
@@ -75,11 +76,25 @@ in
 
   # With 32 GiB of RAM and zram enabled OOM is unlikely
   systemd.oomd.enable = false;
-  systemd.services.NetworkManager-wait-online.enable = false;
+  # systemd.services.NetworkManager-wait-online.enable = false;
+  systemd.services.systemd-networkd-wait-online.enable = false;
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 58651 ];
-  networking.firewall.interfaces.enp5s0.allowedTCPPorts = [ 25565 ];
+  networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 ];
+
+  networking.useDHCP = false;
+  # networking.interfaces.enp5s0.useDHCP = true;
+  # Bridging so VMs can get IPs on LAN subnet
+  networking.interfaces.br0.useDHCP = true;
+  networking.bridges.br0.interfaces = [ "enp5s0" ];
+  # Gnome enables NM by default
+  networking.networkmanager.enable = false;
+  networking.useNetworkd = true;
+  # sd-resolved stub fails on AAA requests, prefer uplink
+  environment.etc."resolv.conf".source = lib.mkForce "/run/systemd/resolve/resolv.conf";
+  # services.resolved.enable = false;
+  # services.dnsmasq.enable = true;
 
   time.timeZone = "America/Los_Angeles";
 
