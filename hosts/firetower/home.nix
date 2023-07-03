@@ -21,13 +21,14 @@
     goverlay
     lsp-plugins # Plugins for EasyEffects
     newsflash
+    nil
     prismlauncher
     protonup-qt
     qbittorrent
     satisfactory-mod-manager
     spotify
     vkBasalt
-    nil
+    vlc
   ];
 
   # Needed for Nerd Fonts to be found

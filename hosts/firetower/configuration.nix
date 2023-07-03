@@ -1,7 +1,6 @@
 { pkgs
 , inputs
 , config
-, lib
 , ...
 }:
 let
@@ -49,6 +48,8 @@ in
   boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];
   boot.blacklistedKernelModules = [ "k10temp" ];
 
+  boot.supportedFilesystems = [ "ntfs" ];
+
   # More filesystem mount options
   fileSystems."/".options = [ "noatime" "compress=zstd" ];
   fileSystems."/nix".options = [ "noatime" "compress=zstd" ];
@@ -87,14 +88,21 @@ in
   # networking.interfaces.enp5s0.useDHCP = true;
   # Bridging so VMs can get IPs on LAN subnet
   networking.interfaces.br0.useDHCP = true;
+  networking.interfaces.br0.ipv4.addresses = [
+    {
+      address = "192.168.2.2";
+      prefixLength = 24;
+    }
+  ];
   networking.bridges.br0.interfaces = [ "enp5s0" ];
   # Gnome enables NM by default
   networking.networkmanager.enable = false;
   networking.useNetworkd = true;
   # sd-resolved stub fails on AAA requests, prefer uplink
-  environment.etc."resolv.conf".source = lib.mkForce "/run/systemd/resolve/resolv.conf";
-  # services.resolved.enable = false;
-  # services.dnsmasq.enable = true;
+  # environment.etc."resolv.conf".source = lib.mkForce "/run/systemd/resolve/resolv.conf";
+  services.resolved.enable = false;
+  services.dnsmasq.enable = true;
+  services.dnsmasq.settings.server = [ "192.168.1.1" ];
 
   time.timeZone = "America/Los_Angeles";
 
