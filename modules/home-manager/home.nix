@@ -21,7 +21,7 @@
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" "yarn" "thefuck" ];
@@ -33,6 +33,7 @@
     # plugins = [{
     #   name= "fast-syntax-highlighting";
     #   src = "${pkgs.zsh-fast-syntax-highlighting}/share/zsh/site-functions";
+    #   file = "fast-syntax-highlighting.plugin.zsh";
     # }];
   };
 

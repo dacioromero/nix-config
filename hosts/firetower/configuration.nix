@@ -77,7 +77,7 @@ in
   # With 32 GiB of RAM and zram enabled OOM is unlikely
   systemd.oomd.enable = false;
   # systemd.services.NetworkManager-wait-online.enable = false;
-  systemd.services.systemd-networkd-wait-online.enable = false;
+  systemd.network.wait-online.enable = false;
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 58651 ];
