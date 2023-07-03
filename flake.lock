@@ -214,22 +214,6 @@
         "type": "github"
       }
     },
-    "omni-alacritty": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1620916939,
-        "narHash": "sha256-rAXd2LcDoY2+a3rK7Wj/vxgdXW+qrEu41cD0zLAg9Rs=",
-        "owner": "getomni",
-        "repo": "alacritty",
-        "rev": "67db4048dc2bb197c73d9c5b2bfd57912f4125f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "getomni",
-        "repo": "alacritty",
-        "type": "github"
-      }
-    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [

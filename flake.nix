@@ -40,22 +40,12 @@
       inputs.flake-utils.follows = "flake-utils";
       inputs.flake-compat.follows = "flake-compat";
     };
-    omni-alacritty = {
-      url = "github:getomni/alacritty";
-      flake = false;
-    };
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
       inputs.flake-utils.follows = "flake-utils";
       inputs.flake-compat.follows = "flake-compat";
-    };
-    # Not used directly, for bumping version used by lanzaboote
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     # Not used directly, for de-duping w/ other dependencies
     flake-compat = {
