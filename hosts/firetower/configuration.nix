@@ -82,7 +82,7 @@ in
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 58651 ];
-  networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 ];
+  networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 24070 ];
 
   networking.useDHCP = false;
   # networking.interfaces.enp5s0.useDHCP = true;
@@ -174,6 +174,7 @@ in
   # Gaming
   programs.gamemode.enable = true;
   programs.steam.enable = true;
+  programs.steam.remotePlay.openFirewall = true;
 
   # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];

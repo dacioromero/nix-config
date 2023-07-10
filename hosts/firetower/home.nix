@@ -20,6 +20,7 @@
     element-desktop
     goverlay
     lsp-plugins # Plugins for EasyEffects
+    lutris
     newsflash
     nil
     prismlauncher
@@ -46,6 +47,7 @@
   programs.htop.enable = true;
   programs.htop.settings = {
     show_program_path = 0;
+    hide_userland_threads = 1;
   };
 
   programs.mangohud.enable = true;
