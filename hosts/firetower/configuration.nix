@@ -35,7 +35,6 @@ in
 
   # Bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
-  boot.bootspec.enable = true;
   boot.lanzaboote = {
     enable = true;
     pkiBundle = "/etc/secureboot";
@@ -213,7 +212,7 @@ in
     uid = 1000;
     extraGroups = [
       "wheel"
-      "networkmanager"
+      # "networkmanager"
       "libvirtd"
       "adbusers"
     ];
