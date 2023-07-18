@@ -87,12 +87,6 @@ in
   # networking.interfaces.enp5s0.useDHCP = true;
   # Bridging so VMs can get IPs on LAN subnet
   networking.interfaces.br0.useDHCP = true;
-  networking.interfaces.br0.ipv4.addresses = [
-    {
-      address = "192.168.2.2";
-      prefixLength = 24;
-    }
-  ];
   networking.bridges.br0.interfaces = [ "enp5s0" ];
   # Gnome enables NM by default
   networking.networkmanager.enable = false;
