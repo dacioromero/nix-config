@@ -1,11 +1,22 @@
 { pkgs
 , inputs
+, config
 , ...
-}: {
-  imports = with inputs.self.homeManagerModules; [
+}:
+let
+  inherit (inputs) self agenix;
+in
+{
+  imports = [ agenix.homeManagerModules.age ] ++ (with self.homeManagerModules; [
     home
     wezterm
-  ];
+  ]);
+
+  age.secrets.githubToken.file = ../../secrets/github-token.age;
+
+  home.sessionVariables = {
+    GITHUB_TOKEN = "$(cat ${config.age.secrets.githubToken.path})";
+  };
 
   # Darwin doesn't support services.gpg-agent
   # https://github.com/nix-community/home-manager/issues/91

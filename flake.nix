@@ -18,27 +18,19 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # Stable release of HM for systems using stable NixOS release (currently only darwin)
-    home-manager-stable = {
-      url = "github:nix-community/home-manager/release-23.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
-      # Using stable release to attempt to avoid frequent breakage on Darwin
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
       inputs.flake-utils.follows = "flake-utils";
       inputs.flake-compat.follows = "flake-compat";
     };
@@ -61,12 +53,17 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.darwin.follows = "nix-darwin";
+      inputs.home-manager.follows = "home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     { self
     , nixpkgs
-    , nixpkgs-stable
     , nix-darwin
     , flake-utils
     , pre-commit-hooks
@@ -81,8 +78,7 @@
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];
-        # Hack: https://github.com/LnL7/nix-darwin/issues/669
-        specialArgs.inputs = inputs // { nixpkgs = nixpkgs-stable; };
+        specialArgs = { inherit inputs; };
       };
 
       nixosConfigurations."firetower" = nixosSystem {

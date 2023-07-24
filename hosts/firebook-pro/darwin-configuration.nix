@@ -3,11 +3,11 @@
 , ...
 }:
 let
-  inherit (inputs) home-manager-stable self;
+  inherit (inputs) home-manager self;
 in
 {
   imports =
-    [ home-manager-stable.darwinModules.home-manager ]
+    [ home-manager.darwinModules.home-manager ]
     ++ (with self.nixosModules; [
       nix
       nixpkgs
