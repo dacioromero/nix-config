@@ -14,7 +14,6 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    comma
     discord
     duf
     element-desktop
@@ -24,7 +23,6 @@
     newsflash
     nil
     prismlauncher
-    protonup-qt
     qbittorrent
     satisfactory-mod-manager
     spotify

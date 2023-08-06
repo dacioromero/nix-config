@@ -80,7 +80,6 @@ in
   systemd.network.wait-online.enable = false;
 
   networking.hostName = "firetower";
-  networking.firewall.interfaces.wg-mullvad.allowedTCPPorts = [ 58651 ];
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 24070 ];
 
   networking.useDHCP = false;
@@ -158,7 +157,7 @@ in
   services.xserver.displayManager.setupCommands = ''
     ${pkgs.xorg.xrandr}/bin/xrandr \
       --output DP-1 --mode 2560x1440 --rate 165.08 \
-      --output DP-2 --off \
+      --output HDMI-1 --off \
       --output DP-3 --off
   '';
   services.xserver.displayManager.defaultSession = "plasmawayland";
@@ -174,7 +173,7 @@ in
 
   # Mouse settings
   services.ratbagd.enable = true;
-  environment.systemPackages = [ pkgs.piper ];
+  environment.systemPackages = [ pkgs.piper pkgs.gnome2.libgnome ];
 
   # SSH server, needed for remote building
   services.openssh.enable = true;
