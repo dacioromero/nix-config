@@ -81,6 +81,9 @@ in
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 24070 ];
+  # Syncthing ports
+  networking.firewall.allowedTCPPorts = [ 22000 ];
+  networking.firewall.allowedUDPPorts = [ 21027 22000 ];
 
   networking.useDHCP = false;
   # networking.interfaces.enp5s0.useDHCP = true;
@@ -173,7 +176,7 @@ in
 
   # Mouse settings
   services.ratbagd.enable = true;
-  environment.systemPackages = [ pkgs.piper pkgs.gnome2.libgnome ];
+  environment.systemPackages = [ pkgs.piper ];
 
   # SSH server, needed for remote building
   services.openssh.enable = true;

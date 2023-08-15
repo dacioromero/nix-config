@@ -6,11 +6,13 @@
       "https://cache.armv7l.xyz"
       "https://nix-community.cachix.org"
       "https://pre-commit-hooks.cachix.org"
+      "https://crane.cachix.org"
     ];
     extra-trusted-public-keys = [
       "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
+      "crane.cachix.org-1:8Scfpmn9w+hGdXH/Q9tTLiYAE/2dnJYRJP7kl80GuRk="
     ];
   };
 
@@ -41,11 +43,18 @@
       inputs.flake-compat.follows = "flake-compat";
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote";
+      url = "github:nix-community/lanzaboote/v0.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
       inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "rust-overlay";
       inputs.flake-compat.follows = "flake-compat";
+    };
+    # Not used directly, for bumping version used by lanzaboote
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
     # Not used directly, for de-duping w/ other dependencies
     flake-compat = {
