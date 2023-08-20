@@ -1,6 +1,5 @@
 { pkgs
 , inputs
-, lib
 , ...
 }:
 let
@@ -29,18 +28,18 @@ in
       hm
     ]);
 
-  # Remote building, laptop is slow
-  nix.buildMachines = [{
-    hostName = "firetower"; # Tailscale MagicDNS name
-    sshUser = "builder";
-    system = "x86_64-linux";
-    maxJobs = 32;
-    speedFactor = 2; # TODO: Determine proper factor
-    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-    mandatoryFeatures = [ ];
-  }];
-  nix.distributedBuilds = true;
-  nix.settings.builders-use-substitutes = true;
+  # # Remote building, laptop is slow
+  # nix.buildMachines = [{
+  #   hostName = "firetower"; # Tailscale MagicDNS name
+  #   sshUser = "builder";
+  #   system = "x86_64-linux";
+  #   maxJobs = 32;
+  #   speedFactor = 2; # TODO: Determine proper factor
+  #   supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+  #   mandatoryFeatures = [ ];
+  # }];
+  # nix.distributedBuilds = true;
+  # nix.settings.builders-use-substitutes = true;
 
   # Secure boot signing and bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
@@ -55,16 +54,16 @@ in
   boot.resumeDevice = "/dev/disk/by-uuid/361b647d-e76b-4fb9-b13b-9f2e0b9af179";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # `fwupdmgr security` requirement
-  # Makes kernel non-reproducible
-  boot.kernelPatches = [{
-    name = "lockdown-enable";
-    patch = null;
-    extraStructuredConfig = with lib.kernel; {
-      SECURITY_LOCKDOWN_LSM = lib.mkForce yes;
-      MODULE_SIG = lib.mkForce yes;
-    };
-  }];
+  # # `fwupdmgr security` requirement
+  # # Makes kernel non-reproducible
+  # boot.kernelPatches = [{
+  #   name = "lockdown-enable";
+  #   patch = null;
+  #   extraStructuredConfig = with lib.kernel; {
+  #     SECURITY_LOCKDOWN_LSM = lib.mkForce yes;
+  #     MODULE_SIG = lib.mkForce yes;
+  #   };
+  # }];
 
   boot.supportedFilesystems = [ "exfat" ];
 

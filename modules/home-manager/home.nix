@@ -81,7 +81,7 @@
       {
         source = builtins.fetchurl {
           url = "https://keybase.io/dacio/pgp_keys.asc";
-          sha256 = "12n9iva8jj7r9d96wb77rp56c6w2dc5jqsbwsxbnc64k6b6knxac";
+          sha256 = "14z1r3qw32lrajcs2ynnr6jms494c5d0dbl1svsii303zqn9r9q0";
         };
         trust = "ultimate";
       }
