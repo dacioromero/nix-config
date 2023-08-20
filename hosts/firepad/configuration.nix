@@ -28,19 +28,6 @@ in
       hm
     ]);
 
-  # # Remote building, laptop is slow
-  # nix.buildMachines = [{
-  #   hostName = "firetower"; # Tailscale MagicDNS name
-  #   sshUser = "builder";
-  #   system = "x86_64-linux";
-  #   maxJobs = 32;
-  #   speedFactor = 2; # TODO: Determine proper factor
-  #   supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-  #   mandatoryFeatures = [ ];
-  # }];
-  # nix.distributedBuilds = true;
-  # nix.settings.builders-use-substitutes = true;
-
   # Secure boot signing and bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
   boot.bootspec.enable = true;
@@ -54,16 +41,6 @@ in
   boot.resumeDevice = "/dev/disk/by-uuid/361b647d-e76b-4fb9-b13b-9f2e0b9af179";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  # # `fwupdmgr security` requirement
-  # # Makes kernel non-reproducible
-  # boot.kernelPatches = [{
-  #   name = "lockdown-enable";
-  #   patch = null;
-  #   extraStructuredConfig = with lib.kernel; {
-  #     SECURITY_LOCKDOWN_LSM = lib.mkForce yes;
-  #     MODULE_SIG = lib.mkForce yes;
-  #   };
-  # }];
 
   boot.supportedFilesystems = [ "exfat" ];
 
@@ -81,9 +58,6 @@ in
     "rd.udev.log_level=3"
     # using zram w/ physical swap, should disable zswap
     "zswap.enabled=0"
-    # fwupdmgr security
-    "intel_iommu=on" # HSI-2
-    "lockdown=integrity" # requirement
   ];
 
   # More filesystem mount options
@@ -135,6 +109,8 @@ in
   services.jellyfin.openFirewall = true;
 
   programs.adb.enable = true;
+
+  programs.gamemode.enable = true;
 
   users.users.dacio = {
     isNormalUser = true;

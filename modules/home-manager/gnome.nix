@@ -8,9 +8,9 @@ in
     appindicator
     arcmenu
     blur-my-shell
+    caffeine
     dash-to-panel
     hibernate-status-button
-    inhibit-suspend
     no-overview
     quick-settings-tweaker
     syncthing-indicator
