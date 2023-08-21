@@ -79,10 +79,7 @@
     settings.throw-keyids = true;
     publicKeys = [
       {
-        source = builtins.fetchurl {
-          url = "https://keybase.io/dacio/pgp_keys.asc";
-          sha256 = "14z1r3qw32lrajcs2ynnr6jms494c5d0dbl1svsii303zqn9r9q0";
-        };
+        source = ../../keys/gpg.asc;
         trust = "ultimate";
       }
     ];
