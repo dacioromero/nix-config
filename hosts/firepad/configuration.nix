@@ -26,6 +26,7 @@ in
       mullvad-vpn
       virt-manager
       hm
+      zram
     ]);
 
   # Secure boot signing and bootloader
@@ -65,10 +66,6 @@ in
   fileSystems."/nix".options = [ "noatime" "compress=zstd" ];
   fileSystems."/home".options = [ "noatime" "compress=zstd" ];
   fileSystems."/boot".options = [ "noatime" ];
-
-  # RAM compression
-  zramSwap.enable = true;
-  zramSwap.memoryPercent = 100;
 
   networking.hostName = "firepad";
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.

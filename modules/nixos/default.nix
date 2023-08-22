@@ -7,4 +7,5 @@
   nixpkgs = import ./nixpkgs.nix;
   pc = import ./pc.nix;
   virt-manager = import ./virt-manager.nix;
+  zram = import ./zram.nix;
 }

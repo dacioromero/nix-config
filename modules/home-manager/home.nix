@@ -92,5 +92,11 @@
     keybindings."<delete>" = "delete";
   };
 
+  programs.htop.enable = true;
+  programs.htop.settings = {
+    show_program_path = 0;
+    hide_userland_threads = 1;
+  };
+
   programs.home-manager.enable = true;
 }

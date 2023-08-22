@@ -7,6 +7,7 @@
     wezterm
     gnome
     linux
+    easyeffects
   ];
 
   home.packages = with pkgs; [
