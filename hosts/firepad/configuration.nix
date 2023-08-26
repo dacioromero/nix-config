@@ -71,6 +71,7 @@ in
   networking.hostName = "firepad";
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.networkmanager.dns = "dnsmasq"; # DNS caching
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   time.timeZone = "America/Los_Angeles";
 
