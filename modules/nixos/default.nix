@@ -6,6 +6,7 @@
   nix = import ./nix.nix;
   nixpkgs = import ./nixpkgs.nix;
   pc = import ./pc.nix;
+  syncthing-firewall = import ./syncthing-firewall.nix;
   virt-manager = import ./virt-manager.nix;
   zram = import ./zram.nix;
 }

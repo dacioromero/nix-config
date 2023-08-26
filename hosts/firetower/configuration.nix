@@ -32,6 +32,7 @@ in
       hm
       kde
       zram
+      syncthing-firewall
     ]);
 
   # Bootloader
@@ -64,8 +65,6 @@ in
   networking.hostName = "firetower";
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 24070 ];
   # Syncthing ports
-  networking.firewall.allowedTCPPorts = [ 22000 ];
-  networking.firewall.allowedUDPPorts = [ 21027 22000 ];
 
   networking.useDHCP = false;
   # networking.interfaces.enp5s0.useDHCP = true;

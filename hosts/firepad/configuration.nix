@@ -27,6 +27,7 @@ in
       virt-manager
       hm
       zram
+      syncthing-firewall
     ]);
 
   # Secure boot signing and bootloader
