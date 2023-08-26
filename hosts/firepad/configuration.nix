@@ -42,7 +42,7 @@ in
   # Resume from swap device
   boot.resumeDevice = "/dev/disk/by-uuid/361b647d-e76b-4fb9-b13b-9f2e0b9af179";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   boot.supportedFilesystems = [ "exfat" ];
 
@@ -91,6 +91,41 @@ in
   services.power-profiles-daemon.enable = false; # Auto-enabled by Gnome
   services.tlp.enable = false; # Auto-enabled by nixos-hardware when PPD is disabled
   services.auto-cpufreq.enable = true;
+
+
+  # SDAC can stop outputting audio after being suspend, stop suspend.
+  # https://davejansen.com/disable-wireplumber-pipewire-suspend-on-idle-pops-delays-noise/
+  # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/1369
+  # https://discourse.nixos.org/t/prevent-pipewire-from-putting-audio-to-sleep/28505/2
+  environment.etc."wireplumber/main.lua.d/90-sdac-no-suspend.lua".text = ''
+    rule = {
+      matches = {
+        {
+          { "node.name", "matches", "alsa_output.usb-Grace_Design_SDAC-*" },
+        },
+      },
+      apply_properties = {
+        ["session.suspend-timeout-seconds"] = 0,
+      },
+    }
+
+    table.insert(alsa_monitor.rules, rule)
+  '';
+
+  environment.etc."wireplumber/main.lua.d/90-disable-unused.lua".text = ''
+    rule = {
+      matches = {
+        {
+          { "device.name", "equals", "alsa_card.usb-Lenovo_ThinkPad_Thunderbolt_3_Dock_USB_Audio_000000000000-00" },
+        },
+      },
+      apply_properties = {
+        ["device.disabled"] = true,
+      },
+    }
+
+    table.insert(alsa_monitor.rules, rule)
+  '';
 
   # Firmware updates supported
   services.fwupd.enable = true;
