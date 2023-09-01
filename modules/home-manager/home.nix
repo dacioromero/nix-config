@@ -70,6 +70,7 @@
       url."git@github.com:".pushInsteadOf = "https://github.com/";
       url."git@gitlab.com:".pushInsteadOf = "https://gitlab.com/";
     };
+    ignores = [ "/.direnv/" ];
   };
 
   programs.gpg = {
