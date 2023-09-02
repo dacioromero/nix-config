@@ -22,12 +22,13 @@ in
       nix
       nixpkgs
       pc
-      gnome
       mullvad-vpn
       virt-manager
       hm
       zram
       syncthing-firewall
+      kde
+      pipewire
     ]);
 
   # Secure boot signing and bootloader
@@ -44,7 +45,7 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
-  boot.supportedFilesystems = [ "exfat" ];
+  boot.supportedFilesystems = [ "exfat" "ntfs" ];
 
   # More graceful booting
   boot.plymouth.enable = true;
@@ -60,6 +61,8 @@ in
     "rd.udev.log_level=3"
     # using zram w/ physical swap, should disable zswap
     "zswap.enabled=0"
+    # Required for VT-d
+    "intel_iommu=on"
   ];
 
   # More filesystem mount options
@@ -88,11 +91,10 @@ in
   services.upower.percentageAction = 20;
 
   # Battery efficiency
-  # auto-cpufreq switches modes intelligently, disable others
+  # Let nixos-hardware enable tlp, avoiding performance cpu governor
   services.power-profiles-daemon.enable = false; # Auto-enabled by Gnome
-  services.tlp.enable = false; # Auto-enabled by nixos-hardware when PPD is disabled
-  services.auto-cpufreq.enable = true;
-
+  # services.tlp.enable = false; # Auto-enabled by nixos-hardware when PPD is disabled
+  # services.auto-cpufreq.enable = true; # auto-cpufreq switches modes intelligently
 
   # SDAC can stop outputting audio after being suspend, stop suspend.
   # https://davejansen.com/disable-wireplumber-pipewire-suspend-on-idle-pops-delays-noise/
@@ -130,12 +132,26 @@ in
 
   # Firmware updates supported
   services.fwupd.enable = true;
+  # ThinkPad Thunderbolt 3 Dock Gen 2 firmware only available in testing
+  # https://github.com/fwupd/firmware-lenovo/issues/5
+  services.fwupd.extraRemotes = [ "lvfs-testing" ];
 
   # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
   # Private VPN
   services.tailscale.enable = true;
+
+  # Thunderbolt daemon
+  services.hardware.bolt.enable = true;
+
+  services.ratbagd.enable = true;
+  environment.systemPackages = with pkgs; [
+    piper
+    plasma5Packages.plasma-thunderbolt
+  ];
+
+  virtualisation.spiceUSBRedirection.enable = true;
 
   # Home media server
   # TODO: Move to dedicated machine
@@ -151,7 +167,12 @@ in
     description = "Dacio";
     group = "dacio";
     uid = 1000;
-    extraGroups = [ "wheel" "adbusers" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "adbusers"
+      "networkmanager"
+      "libvirtd"
+    ];
   };
   # Emulate `useradd --user-group`
   users.groups.dacio.gid = 1000;

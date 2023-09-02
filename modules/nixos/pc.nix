@@ -13,17 +13,6 @@
   services.avahi.nssmdns = true;
   programs.system-config-printer.enable = true;
 
-  # Enable sound with Pipewire
-  security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
-
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
