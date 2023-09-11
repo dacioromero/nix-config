@@ -172,6 +172,7 @@ in
       "adbusers"
       "networkmanager"
       "libvirtd"
+      "jellyfin"
     ];
   };
   # Emulate `useradd --user-group`

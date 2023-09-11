@@ -148,11 +148,6 @@ in
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfff7ffff" ];
 
   # Configure KDE
-  # GTK Portal needed for libadwaita to read color preferences
-  # https://www.reddit.com/r/ManjaroLinux/comments/w75e67/comment/ihitp14/?context=3
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  # Needed for KDE to write to Gnome settings for GTK/libadwaita apps
-  programs.dconf.enable = true;
   # Disable all but main monitor
   # https://blog.victormendonca.com/2018/06/29/how-to-fix-sddm-on-multiple-screens/
   services.xserver.displayManager.setupCommands = ''
@@ -161,7 +156,6 @@ in
       --output HDMI-1 --off \
       --output DP-3 --off
   '';
-  services.xserver.displayManager.defaultSession = "plasmawayland";
   environment.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
 
   # Gaming
