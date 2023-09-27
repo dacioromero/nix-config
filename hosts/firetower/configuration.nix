@@ -81,7 +81,6 @@ in
 
   networking.hostName = "firetower";
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 25565 24070 ];
-  # Syncthing ports
 
   networking.useDHCP = false;
   # networking.interfaces.enp5s0.useDHCP = true;
