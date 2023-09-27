@@ -43,9 +43,7 @@ in
   # Resume from swap device
   boot.resumeDevice = "/dev/disk/by-uuid/361b647d-e76b-4fb9-b13b-9f2e0b9af179";
 
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-
-  boot.supportedFilesystems = [ "exfat" "ntfs" ];
+  boot.supportedFilesystems = [ "exfat" "ntfs" "ext4" ];
 
   # More graceful booting
   boot.plymouth.enable = true;
@@ -75,6 +73,8 @@ in
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   networking.networkmanager.dns = "dnsmasq"; # DNS caching
   systemd.services.NetworkManager-wait-online.enable = false;
+
+  networking.firewall.allowedTCPPorts = [ 24070 ];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -160,7 +160,10 @@ in
 
   programs.adb.enable = true;
 
+  # Gaming
   programs.gamemode.enable = true;
+  programs.steam.enable = true;
+  programs.steam.remotePlay.openFirewall = true;
 
   users.users.dacio = {
     isNormalUser = true;
