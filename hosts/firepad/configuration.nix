@@ -153,11 +153,6 @@ in
 
   virtualisation.spiceUSBRedirection.enable = true;
 
-  # Home media server
-  # TODO: Move to dedicated machine
-  services.jellyfin.enable = true;
-  services.jellyfin.openFirewall = true;
-
   programs.adb.enable = true;
 
   # Gaming
