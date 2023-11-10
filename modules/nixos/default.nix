@@ -10,4 +10,5 @@
   syncthing-firewall = import ./syncthing-firewall.nix;
   virt-manager = import ./virt-manager.nix;
   zram = import ./zram.nix;
+  media = import ./media.nix;
 }

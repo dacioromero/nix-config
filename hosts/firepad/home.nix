@@ -1,5 +1,6 @@
 { pkgs
 , inputs
+, lib
 , ...
 }: {
   imports = with inputs.self.homeManagerModules; [
@@ -22,6 +23,11 @@
   services.syncthing.enable = true;
 
   programs.nix-index.enable = true;
+
+  programs.starship.settings = {
+    git_metrics.disabled = lib.mkForce true;
+    git_status.disabled = lib.mkForce true;
+  };
 
   # dconf.settings = {
   #   "org/gnome/desktop/interface".show-battery-percentage = true;

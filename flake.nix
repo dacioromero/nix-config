@@ -59,6 +59,12 @@
       inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.utils.follows = "flake-utils";
+      inputs.flake-compat.follows = "flake-compat";
+    };
   };
 
   outputs =
@@ -67,6 +73,7 @@
     , nix-darwin
     , flake-utils
     , pre-commit-hooks
+    , deploy-rs
     , ...
     } @ inputs:
     let
@@ -105,9 +112,60 @@
         specialArgs = { inherit inputs; };
       };
 
+      nixosConfigurations."firerelay" = nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hosts/firerelay/configuration.nix ];
+        specialArgs = { inherit inputs; };
+      };
+      deploy = {
+        sshUser = "dacio";
+        user = "root";
+        # https://github.com/serokell/deploy-rs/issues/78
+        sshOpts = [ "-t" ];
+        magicRollback = false;
+      };
+
+      deploy.nodes."firerelay" = {
+        hostname = "firerelay.lan";
+        profiles.system = {
+          # sshUser = "dacio";
+          # user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."firerelay";
+        };
+      };
+
+      nixosConfigurations."fiyarr" = nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hosts/fiyarr/configuration.nix ];
+        specialArgs = { inherit inputs; };
+      };
+      deploy.nodes."fiyarr" = {
+        hostname = "fiyarr.lan";
+        profiles.system = {
+          # sshUser = "dacio";
+          # user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."fiyarr";
+        };
+      };
+
+      nixosConfigurations."fiyarr-qbt" = nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hosts/fiyarr-qbt/configuration.nix ];
+        specialArgs = { inherit inputs; };
+      };
+      deploy.nodes."fiyarr-qbt" = {
+        hostname = "fiyarr-qbt.lan";
+        profiles.system = {
+          # sshUser = "dacio";
+          # user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."fiyarr-qbt";
+        };
+      };
+
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     }
     // eachDefaultSystem (system:
     let
