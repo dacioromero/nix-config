@@ -24,7 +24,7 @@
     nil
     prismlauncher
     qbittorrent
-    satisfactory-mod-manager
+    # satisfactory-mod-manager
     spotify
     vkBasalt
     vlc

@@ -76,9 +76,9 @@ in
   networking.useNetworkd = true;
   # sd-resolved stub fails on AAA requests, prefer uplink
   # environment.etc."resolv.conf".source = lib.mkForce "/run/systemd/resolve/resolv.conf";
-  services.resolved.enable = false;
-  services.dnsmasq.enable = true;
-  services.dnsmasq.settings.server = [ "192.168.1.1" ];
+  # services.resolved.enable = false;
+  # services.dnsmasq.enable = true;
+  # services.dnsmasq.settings.server = [ "192.168.1.1" ];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -186,11 +186,14 @@ in
       # "networkmanager"
       "libvirtd"
       "adbusers"
+      "docker"
     ];
   };
   # Emulate `useradd --user-group`
   users.groups.dacio.gid = 1000;
   home-manager.users.dacio = import ./home.nix;
+
+  virtualisation.docker.enable = true;
 
   system.stateVersion = "22.05";
 }

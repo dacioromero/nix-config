@@ -12,6 +12,10 @@
 
   networking.hostName = "fiyarr-qbt";
   networking.useNetworkd = true;
+  networking.firewall.interfaces.wg0.allowedTCPPortRanges = [{
+    from = 2048;
+    to = 65535;
+  }];
 
   time.timeZone = "America/Los_Angeles";
   services.openssh.enable = true;

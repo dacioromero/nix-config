@@ -82,6 +82,14 @@
       inherit (nixpkgs.lib) nixosSystem;
     in
     {
+      deploy = {
+        sshUser = "dacio";
+        user = "root";
+        # https://github.com/serokell/deploy-rs/issues/78
+        sshOpts = [ "-t" ];
+        magicRollback = false;
+      };
+
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];
@@ -117,19 +125,9 @@
         modules = [ ./hosts/firerelay/configuration.nix ];
         specialArgs = { inherit inputs; };
       };
-      deploy = {
-        sshUser = "dacio";
-        user = "root";
-        # https://github.com/serokell/deploy-rs/issues/78
-        sshOpts = [ "-t" ];
-        magicRollback = false;
-      };
-
       deploy.nodes."firerelay" = {
         hostname = "firerelay.lan";
         profiles.system = {
-          # sshUser = "dacio";
-          # user = "root";
           path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."firerelay";
         };
       };
@@ -142,8 +140,6 @@
       deploy.nodes."fiyarr" = {
         hostname = "fiyarr.lan";
         profiles.system = {
-          # sshUser = "dacio";
-          # user = "root";
           path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."fiyarr";
         };
       };
@@ -156,8 +152,6 @@
       deploy.nodes."fiyarr-qbt" = {
         hostname = "fiyarr-qbt.lan";
         profiles.system = {
-          # sshUser = "dacio";
-          # user = "root";
           path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."fiyarr-qbt";
         };
       };
