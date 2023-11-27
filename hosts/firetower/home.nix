@@ -28,6 +28,7 @@
     spotify
     vkBasalt
     vlc
+    r2modman
   ];
 
   # Needed for Nerd Fonts to be found
