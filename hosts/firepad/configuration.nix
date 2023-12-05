@@ -22,7 +22,6 @@ in
       nix
       nixpkgs
       pc
-      mullvad-vpn
       virt-manager
       hm
       zram
@@ -74,8 +73,6 @@ in
   networking.networkmanager.dns = "dnsmasq"; # DNS caching
   systemd.services.NetworkManager-wait-online.enable = false;
 
-  networking.firewall.allowedTCPPorts = [ 24070 ];
-
   time.timeZone = "America/Los_Angeles";
 
   # Battery care
@@ -95,40 +92,6 @@ in
   services.power-profiles-daemon.enable = false; # Auto-enabled by Gnome
   # services.tlp.enable = false; # Auto-enabled by nixos-hardware when PPD is disabled
   # services.auto-cpufreq.enable = true; # auto-cpufreq switches modes intelligently
-
-  # SDAC can stop outputting audio after being suspend, stop suspend.
-  # https://davejansen.com/disable-wireplumber-pipewire-suspend-on-idle-pops-delays-noise/
-  # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/1369
-  # https://discourse.nixos.org/t/prevent-pipewire-from-putting-audio-to-sleep/28505/2
-  environment.etc."wireplumber/main.lua.d/90-sdac-no-suspend.lua".text = ''
-    rule = {
-      matches = {
-        {
-          { "node.name", "matches", "alsa_output.usb-Grace_Design_SDAC-*" },
-        },
-      },
-      apply_properties = {
-        ["session.suspend-timeout-seconds"] = 0,
-      },
-    }
-
-    table.insert(alsa_monitor.rules, rule)
-  '';
-
-  environment.etc."wireplumber/main.lua.d/90-disable-unused.lua".text = ''
-    rule = {
-      matches = {
-        {
-          { "device.name", "equals", "alsa_card.usb-Lenovo_ThinkPad_Thunderbolt_3_Dock_USB_Audio_000000000000-00" },
-        },
-      },
-      apply_properties = {
-        ["device.disabled"] = true,
-      },
-    }
-
-    table.insert(alsa_monitor.rules, rule)
-  '';
 
   # Firmware updates supported
   services.fwupd.enable = true;
@@ -151,14 +114,7 @@ in
     plasma5Packages.plasma-thunderbolt
   ];
 
-  virtualisation.spiceUSBRedirection.enable = true;
-
-  programs.adb.enable = true;
-
-  # Gaming
-  programs.gamemode.enable = true;
-  programs.steam.enable = true;
-  programs.steam.remotePlay.openFirewall = true;
+  # programs.adb.enable = true;
 
   users.users.dacio = {
     isNormalUser = true;
@@ -167,7 +123,7 @@ in
     uid = 1000;
     extraGroups = [
       "wheel"
-      "adbusers"
+      # "adbusers"
       "networkmanager"
       "libvirtd"
       "jellyfin"

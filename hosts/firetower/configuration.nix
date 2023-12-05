@@ -27,7 +27,6 @@ in
       nix
       nixpkgs
       pc
-      # mullvad-vpn
       virt-manager
       hm
       kde
@@ -64,7 +63,7 @@ in
   systemd.network.wait-online.enable = false;
 
   networking.hostName = "firetower";
-  networking.firewall.interfaces.br0.allowedTCPPorts = [ 24070 ];
+  networking.firewall.interfaces.br0.allowedTCPPorts = [ 27040 ];
 
   networking.useDHCP = false;
   # networking.interfaces.enp5s0.useDHCP = true;
@@ -74,11 +73,6 @@ in
   # Gnome enables NM by default
   networking.networkmanager.enable = false;
   networking.useNetworkd = true;
-  # sd-resolved stub fails on AAA requests, prefer uplink
-  # environment.etc."resolv.conf".source = lib.mkForce "/run/systemd/resolve/resolv.conf";
-  # services.resolved.enable = false;
-  # services.dnsmasq.enable = true;
-  # services.dnsmasq.settings.server = [ "192.168.1.1" ];
 
   time.timeZone = "America/Los_Angeles";
 
@@ -143,6 +137,7 @@ in
 
   # Gaming
   programs.gamemode.enable = true;
+  programs.gamescope.enable = true;
   programs.steam.enable = true;
   programs.steam.remotePlay.openFirewall = true;
 
