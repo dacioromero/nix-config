@@ -19,16 +19,16 @@
     duf
     element-desktop
     goverlay
+    heroic
     lutris
     newsflash
     nil
     prismlauncher
     qbittorrent
-    # satisfactory-mod-manager
+    r2modman
     spotify
     vkBasalt
     vlc
-    r2modman
   ];
 
   # Needed for Nerd Fonts to be found

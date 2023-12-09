@@ -108,11 +108,7 @@ in
   # Thunderbolt daemon
   services.hardware.bolt.enable = true;
 
-  services.ratbagd.enable = true;
-  environment.systemPackages = with pkgs; [
-    piper
-    plasma5Packages.plasma-thunderbolt
-  ];
+  environment.systemPackages = [ pkgs.plasma5Packages.plasma-thunderbolt ];
 
   # programs.adb.enable = true;
 
