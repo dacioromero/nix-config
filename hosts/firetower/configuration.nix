@@ -1,6 +1,7 @@
 { pkgs
 , inputs
 , config
+, lib
 , ...
 }:
 let
@@ -34,6 +35,10 @@ in
       syncthing-firewall
       pipewire
     ]);
+
+  nix.settings.cores = 4;
+  nix.settings.max-jobs = 4;
+  nixpkgs.config.permittedInsecurePackages = lib.optional (pkgs.obsidian.version == "1.4.16") "electron-25.9.0";
 
   # Bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
