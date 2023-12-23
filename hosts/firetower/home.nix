@@ -21,6 +21,7 @@
     goverlay
     heroic
     lutris
+    mission-center
     newsflash
     nil
     prismlauncher
