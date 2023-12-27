@@ -1,5 +1,6 @@
 { pkgs
 , inputs
+, lib
 , ...
 }:
 let
@@ -11,14 +12,12 @@ let
     ;
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
-      lanzaboote.nixosModules.lanzaboote
-      home-manager.nixosModules.home-manager
-    ]
-    ++ (with self.nixosModules; [
+  imports = (lib.singleton ./hardware-configuration.nix)
+    ++ (lib.attrValues {
+    inherit (nixos-hardware.nixosModules) lenovo-thinkpad-x1-6th-gen;
+    inherit (lanzaboote.nixosModules) lanzaboote;
+    inherit (home-manager.nixosModules) home-manager;
+    inherit (self.nixosModules)
       nix
       nixpkgs
       pc
@@ -28,7 +27,8 @@ in
       syncthing-firewall
       kde
       pipewire
-    ]);
+      ;
+  });
 
   # Secure boot signing and bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote

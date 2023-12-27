@@ -1,4 +1,6 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
+  imports = [ inputs.self.nixosModules.base ];
+
   # Enable X11, but get rid of xterm
   services.xserver.enable = true;
   services.xserver.excludePackages = [ pkgs.xterm ];
@@ -10,11 +12,9 @@
   hardware.sane.enable = true;
   # Enable Avahi for printer discovery
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
+  services.avahi.nssmdns6 = true;
   programs.system-config-printer.enable = true;
-
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
 
   environment.systemPackages = [ pkgs.firefox ];
 

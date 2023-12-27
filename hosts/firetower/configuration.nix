@@ -14,27 +14,27 @@ let
 in
 {
   imports =
-    [
-      ./hardware-configuration.nix
-      lanzaboote.nixosModules.lanzaboote
-      home-manager.nixosModules.home-manager
-    ]
-    ++ (with nixos-hardware.nixosModules; [
-      common-cpu-amd-pstate
-      common-pc-ssd
-      common-gpu-amd
-    ])
-    ++ (with self.nixosModules; [
-      nix
-      nixpkgs
-      pc
-      virt-manager
-      hm
-      kde
-      zram
-      syncthing-firewall
-      pipewire
-    ]);
+    (lib.singleton ./hardware-configuration.nix)
+    ++ (lib.attrValues {
+      inherit (lanzaboote.nixosModules) lanzaboote;
+      inherit (home-manager.nixosModules) home-manager;
+      inherit (nixos-hardware.nixosModules)
+        common-cpu-amd-pstate
+        common-pc-ssd
+        common-gpu-amd
+        ;
+      inherit (self.nixosModules)
+        nix
+        nixpkgs
+        pc
+        virt-manager
+        hm
+        kde
+        zram
+        syncthing-firewall
+        pipewire
+        ;
+    });
 
   nix.settings.cores = 4;
   nix.settings.max-jobs = 4;
@@ -153,8 +153,8 @@ in
   services.ratbagd.enable = true;
   environment.systemPackages = [ pkgs.piper ];
 
-  # SSH server, needed for remote building
-  services.openssh.enable = true;
+  # # SSH server, needed for remote building
+  # services.openssh.enable = true;
 
   # Private VPN
   services.tailscale.enable = true;
@@ -165,16 +165,16 @@ in
 
   programs.adb.enable = true;
 
-  # Distributed builds host
-  nix.settings.trusted-users = [ "builder" ];
-  users.users.builder = {
-    isSystemUser = true;
-    useDefaultShell = true;
-    description = "Builder";
-    group = "builder";
-    openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYoOl+yGVCSZgIIazlklT0xGf/phC0rkprT35UOYYZ9JDfqsyij6dl/GSdJ+U9nxznxU0Ls8Ju5S5/F6L+OCeVSDF5omhs6e3uraaYkxIi91eu/rbrrbs2SHbdMcB+8RgvWI/SCe1r+NndDiA+LC97hy8Zop3yjU3ajfH2VcBN6FZbZZhDUVZkmNVOflDAq78+0PEgduXFwy31qgx/b8AvbbGWq7NyrJocD5BEoFePY2kZYtngDMrVqp3U+g/2GUzc7PxqrD7WKVnyLW0zi+ZmA/wAM+SU2ldM/YsXM3yWGI/kg6RtdjWl2N6FBUc0VFdRmuhc/5/YK+LeOeWSBhmQ7HXKx0Bv5BpWi19P/0O3YuXD+3KI6ouepREGNG1cqicne3Eb8LgIgo4UTpLaog4wzbwsot/wIlUJVZc2ZIyBKKpj+omTqh8SgKPMg4CLeZxLIi71bxcMz5W6TrSXmrh1QIjZYG1ntXzKqaaIa+db2VJEAtGn7zRkoZtaaBI71jc= root@firetower" ];
-  };
-  users.groups.builder = { };
+  # # Distributed builds host
+  # nix.settings.trusted-users = [ "builder" ];
+  # users.users.builder = {
+  #   isSystemUser = true;
+  #   useDefaultShell = true;
+  #   description = "Builder";
+  #   group = "builder";
+  #   openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYoOl+yGVCSZgIIazlklT0xGf/phC0rkprT35UOYYZ9JDfqsyij6dl/GSdJ+U9nxznxU0Ls8Ju5S5/F6L+OCeVSDF5omhs6e3uraaYkxIi91eu/rbrrbs2SHbdMcB+8RgvWI/SCe1r+NndDiA+LC97hy8Zop3yjU3ajfH2VcBN6FZbZZhDUVZkmNVOflDAq78+0PEgduXFwy31qgx/b8AvbbGWq7NyrJocD5BEoFePY2kZYtngDMrVqp3U+g/2GUzc7PxqrD7WKVnyLW0zi+ZmA/wAM+SU2ldM/YsXM3yWGI/kg6RtdjWl2N6FBUc0VFdRmuhc/5/YK+LeOeWSBhmQ7HXKx0Bv5BpWi19P/0O3YuXD+3KI6ouepREGNG1cqicne3Eb8LgIgo4UTpLaog4wzbwsot/wIlUJVZc2ZIyBKKpj+omTqh8SgKPMg4CLeZxLIi71bxcMz5W6TrSXmrh1QIjZYG1ntXzKqaaIa+db2VJEAtGn7zRkoZtaaBI71jc= root@firetower" ];
+  # };
+  # users.groups.builder = { };
 
   users.users.dacio = {
     isNormalUser = true;

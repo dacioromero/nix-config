@@ -1,4 +1,7 @@
-{ inputs, ... }:
+{ inputs
+, lib
+, ...
+}:
 let
   inherit (inputs) self;
   # TODO: Consider separating into its own file
@@ -6,11 +9,13 @@ let
 in
 {
   imports =
-    [ ./hardware-configuration.nix ]
-    ++ (with self.nixosModules; [
-      nix
-      nixpkgs
-    ]);
+    (lib.singleton ./hardware-configuration.nix)
+    ++ (lib.attrValues {
+      inherit (self.nixosModules)
+        nix
+        nixpkgs
+        ;
+    });
 
   # Found Hydra build server on nixos.wiki
   # https://hydra.armv7l.xyz/ https://gitlab.com/misuzu/hydra-armv7l

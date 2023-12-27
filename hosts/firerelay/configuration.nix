@@ -1,10 +1,17 @@
-{ modulesPath, config, inputs, ... }:
-
-{
+{ modulesPath
+, config
+, inputs
+, lib
+, ...
+}: {
   imports = [
     (modulesPath + "/virtualisation/proxmox-lxc.nix")
-    inputs.self.nixosModules.nix
-  ];
+  ] ++ (lib.attrValues {
+    inherit (inputs.self.nixosModules)
+      base
+      nix
+      ;
+  });
 
   time.timeZone = "America/Los_Angeles";
 

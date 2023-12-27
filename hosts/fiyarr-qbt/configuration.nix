@@ -1,10 +1,17 @@
-{ config, pkgs, inputs, ... }: {
+{ config
+, pkgs
+, inputs
+, lib
+, ...
+}: {
   imports =
-    [
-      ./hardware-configuration.nix
-      inputs.self.nixosModules.media
-      inputs.self.nixosModules.nix
-    ];
+    (lib.singleton ./hardware-configuration.nix)
+    ++ (lib.attrValues {
+      inherit (inputs.self.nixosModules)
+        base
+        media
+        nix;
+    });
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
@@ -43,6 +50,4 @@
   networking.firewall.allowedTCPPorts = [ 8080 ];
 
   system.stateVersion = "23.05";
-
 }
-

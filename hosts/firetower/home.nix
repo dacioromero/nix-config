@@ -10,9 +10,6 @@
     easyeffects
   ];
 
-  # # Force Wayland on apps like VSCode and Firefox
-  # home.sessionVariables."NIXOS_OZONE_WL" = 1;
-
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     discord
@@ -22,9 +19,11 @@
     heroic
     lutris
     mission-center
+    ncdu
     newsflash
     nil
     prismlauncher
+    protontricks
     qbittorrent
     r2modman
     spotify
@@ -42,6 +41,14 @@
     obs-vaapi
     obs-vkcapture
   ];
+
+  programs.git.package = pkgs.gitFull;
+  programs.git.extraConfig.sendemail = {
+    smtpserver = "smtp.gmail.com";
+    smtpuser = "dacioromero@gmail.com";
+    smtpencryption = "ssl";
+    smtpserverport = 465;
+  };
 
   programs.mangohud.enable = true;
   programs.nix-index.enable = true;
