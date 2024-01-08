@@ -26,7 +26,11 @@
   time.timeZone = "America/Los_Angeles";
   services.openssh.enable = true;
 
-  environment.systemPackages = [ pkgs.recyclarr ];
+  environment.systemPackages = with pkgs; [
+    recyclarr
+    intel-gpu-tools # intel_gpu_top
+    bitmagnet
+  ];
 
   services.qemuGuest.enable = true;
 
@@ -134,6 +138,9 @@
   }];
   # TODO: Figure out security
   services.redis.servers."".enable = true;
+
+  # Needed for VSCode server
+  programs.nix-ld.enable = true;
 
   age.secrets.bitmagnet-env.file = ../../secrets/bitmagnet-env.age;
 
