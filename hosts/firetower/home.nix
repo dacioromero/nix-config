@@ -12,11 +12,13 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    BeatSaberModManager
     discord
     duf
     element-desktop
     goverlay
     heroic
+    krita
     lutris
     mission-center
     ncdu

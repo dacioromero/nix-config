@@ -68,15 +68,15 @@ in
   systemd.network.wait-online.enable = false;
 
   networking.hostName = "firetower";
+  # Enable Steam local game transfer
+  # https://github.com/NixOS/nixpkgs/issues/238305
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 27040 ];
 
   networking.useDHCP = false;
-  # networking.interfaces.enp5s0.useDHCP = true;
   # Bridging so VMs can get IPs on LAN subnet
   networking.interfaces.br0.useDHCP = true;
   networking.bridges.br0.interfaces = [ "enp5s0" ];
-  # Gnome enables NM by default
-  networking.networkmanager.enable = false;
+  # https://github.com/NixOS/nixpkgs/pull/264967
   networking.useNetworkd = true;
 
   time.timeZone = "America/Los_Angeles";
@@ -153,8 +153,9 @@ in
   services.ratbagd.enable = true;
   environment.systemPackages = [ pkgs.piper ];
 
-  # # SSH server, needed for remote building
-  # services.openssh.enable = true;
+  # Wacom Intuos
+  # TODO: Consider wacom kernel driver and pkgs.wacomtablet
+  hardware.opentabletdriver.enable = true;
 
   # Private VPN
   services.tailscale.enable = true;
@@ -165,17 +166,6 @@ in
 
   programs.adb.enable = true;
 
-  # # Distributed builds host
-  # nix.settings.trusted-users = [ "builder" ];
-  # users.users.builder = {
-  #   isSystemUser = true;
-  #   useDefaultShell = true;
-  #   description = "Builder";
-  #   group = "builder";
-  #   openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYoOl+yGVCSZgIIazlklT0xGf/phC0rkprT35UOYYZ9JDfqsyij6dl/GSdJ+U9nxznxU0Ls8Ju5S5/F6L+OCeVSDF5omhs6e3uraaYkxIi91eu/rbrrbs2SHbdMcB+8RgvWI/SCe1r+NndDiA+LC97hy8Zop3yjU3ajfH2VcBN6FZbZZhDUVZkmNVOflDAq78+0PEgduXFwy31qgx/b8AvbbGWq7NyrJocD5BEoFePY2kZYtngDMrVqp3U+g/2GUzc7PxqrD7WKVnyLW0zi+ZmA/wAM+SU2ldM/YsXM3yWGI/kg6RtdjWl2N6FBUc0VFdRmuhc/5/YK+LeOeWSBhmQ7HXKx0Bv5BpWi19P/0O3YuXD+3KI6ouepREGNG1cqicne3Eb8LgIgo4UTpLaog4wzbwsot/wIlUJVZc2ZIyBKKpj+omTqh8SgKPMg4CLeZxLIi71bxcMz5W6TrSXmrh1QIjZYG1ntXzKqaaIa+db2VJEAtGn7zRkoZtaaBI71jc= root@firetower" ];
-  # };
-  # users.groups.builder = { };
-
   users.users.dacio = {
     isNormalUser = true;
     description = "Dacio";
@@ -183,10 +173,8 @@ in
     uid = 1000;
     extraGroups = [
       "wheel"
-      # "networkmanager"
       "libvirtd"
       "adbusers"
-      "docker"
     ];
   };
   # Emulate `useradd --user-group`
