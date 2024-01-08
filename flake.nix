@@ -27,7 +27,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,16 +51,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    # Not used directly, for de-duping w/ other dependencies
-    flake-compat = {
-      url = "github:edolstra/flake-compat";
-      flake = false;
-    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.darwin.follows = "nix-darwin";
       inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
     };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
@@ -65,6 +64,12 @@
       inputs.utils.follows = "flake-utils";
       inputs.flake-compat.follows = "flake-compat";
     };
+    # Not used directly, for de-duping w/ other dependencies
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+      flake = false;
+    };
+    systems.url = "github:nix-systems/default";
   };
 
   outputs =
