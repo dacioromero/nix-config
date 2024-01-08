@@ -12,6 +12,8 @@
         media
         nix
         ;
+
+      inherit (inputs.agenix.nixosModules) age;
     });
 
   boot.loader.grub.enable = true;
@@ -78,6 +80,7 @@
     8989
     80
     443
+    3333
   ];
   # services.sonarr = {
   #   enable = true;
@@ -95,6 +98,39 @@
     enable = true;
     openFirewall = true;
   };
+
+  # TODO: Upstream into module?
+  environment.etc."xdg/bitmagnet/config.yml".text = builtins.toJSON {
+    postgres.host = "/run/postgresql/";
+    postgres.user = "bitmagnet";
+  };
+  users.users.bitmagnet = {
+    isSystemUser = true;
+    group = "bitmagnet";
+  };
+  users.groups.bitmagnet = { };
+  systemd.services.bitmagnet = {
+    description = "Bitmagnet";
+    serviceConfig = {
+      Type = "exec";
+      ExecStart = "${pkgs.bitmagnet}/bin/bitmagnet worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
+      EnvironmentFile = config.age.secrets.bitmagnet-env.path;
+      Restart = "on-failure";
+      User = "bitmagnet";
+      Group = "bitmagnet";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+  services.postgresql.enable = true;
+  services.postgresql.ensureDatabases = [ "bitmagnet" ];
+  services.postgresql.ensureUsers = [{
+    name = "bitmagnet";
+    ensureDBOwnership = true;
+  }];
+  # TODO: Figure out security
+  services.redis.servers."".enable = true;
+
+  age.secrets.bitmagnet-env.file = ../../secrets/bitmagnet-env.age;
 
   system.stateVersion = "23.05";
 }
