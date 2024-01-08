@@ -29,6 +29,6 @@ in
     # nix.gc.dates not implemented by nix-darwin
     # https://github.com/LnL7/nix-darwin/pull/490#issuecomment-1371785731
     dates = lib.mkIf (!isDarwin) "weekly";
-    options = "--delete-older-than 30d";
+    options = "--delete-older-than 14d";
   };
 }
