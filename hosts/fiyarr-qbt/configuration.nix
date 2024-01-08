@@ -19,10 +19,16 @@
 
   networking.hostName = "fiyarr-qbt";
   networking.useNetworkd = true;
-  networking.firewall.interfaces.wg0.allowedTCPPortRanges = [{
-    from = 2048;
-    to = 65535;
-  }];
+  networking.firewall.interfaces.wg0 = {
+    allowedTCPPortRanges = [{
+      from = 2048;
+      to = 65535;
+    }];
+    allowedUDPPortRanges = [{
+      from = 2048;
+      to = 65535;
+    }];
+  };
 
   time.timeZone = "America/Los_Angeles";
   services.openssh.enable = true;
@@ -38,6 +44,7 @@
     bindsTo = [ "media.mount" ];
     after = [ "media.mount" ];
   };
+  # https://github.com/NixOS/nixpkgs/blob/b6766564edd0966cd9dc3c4ba4baaffc9413d9a0/nixos/modules/services/networking/wg-quick.nix
   systemd.services."wg-quick@wg0" = {
     overrideStrategy = "asDropin";
     wantedBy = [ "multi-user.target" ];
