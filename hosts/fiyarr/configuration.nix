@@ -29,6 +29,12 @@
   environment.systemPackages = [ pkgs.recyclarr ];
 
   services.qemuGuest.enable = true;
+
+  virtualisation.podman.autoPrune = {
+    enable = true;
+    flags = [ "--all" ];
+  };
+
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -41,7 +47,7 @@
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.sonarr = {
-    image = "lscr.io/linuxserver/sonarr:develop-4.0.0.738-ls17";
+    image = "lscr.io/linuxserver/sonarr:4.0.0.748-ls220";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -54,7 +60,7 @@
     ports = [ "8989:8989" ];
   };
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls245";
+    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls246";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -62,7 +68,6 @@
     };
     volumes = [
       "/var/lib/heimdall:/config"
-      "/media:/media"
     ];
     ports = [
       "80:80"
