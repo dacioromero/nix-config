@@ -3,8 +3,10 @@
     uid = 991;
     group = "media";
     isSystemUser = true;
+    createHome = true;
+    home = "/home/media";
+    homeMode = "700";
     useDefaultShell = true;
-    home = "/media";
   };
   users.groups.media.gid = 989;
 
