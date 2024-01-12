@@ -29,6 +29,26 @@
         "type": "github"
       }
     },
+    "arrpc": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1702716624,
+        "narHash": "sha256-IiPLKu8URsOeeWePz30PzU8Qj38XzeEWnLLP6bvzw/w=",
+        "owner": "notashelf",
+        "repo": "arrpc-flake",
+        "rev": "136eca7e4d13dc8c8cce24480614cbf9b120cc14",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notashelf",
+        "repo": "arrpc-flake",
+        "type": "github"
+      }
+    },
     "crane": {
       "inputs": {
         "flake-compat": [
@@ -319,6 +339,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "arrpc": "arrpc",
         "deploy-rs": "deploy-rs",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
