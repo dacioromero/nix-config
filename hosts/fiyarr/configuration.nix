@@ -79,7 +79,7 @@
     ];
   };
   virtualisation.oci-containers.containers.flaresolverr = {
-    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.12";
+    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.13";
     environment = {
       TZ = config.time.timeZone;
     };
@@ -98,6 +98,12 @@
   #   group = "media";
   # };
   services.radarr = {
+    enable = true;
+    openFirewall = true;
+    user = "media";
+    group = "media";
+  };
+  services.lidarr = {
     enable = true;
     openFirewall = true;
     user = "media";
