@@ -86,9 +86,9 @@ in
   # Configure GPU
   # Early KMS isn't helpful
   hardware.amdgpu.loadInInitrd = false;
-  # Enable AMDVLK but force RADV as default. AMDVLK has better perfomance in some games (DOOM Eternal)
-  hardware.amdgpu.amdvlk = true;
-  environment.variables.AMD_VULKAN_ICD = "RADV";
+  # # Enable AMDVLK but force RADV as default. AMDVLK has better perfomance in some games (DOOM Eternal)
+  # hardware.amdgpu.amdvlk = true;
+  # environment.variables.AMD_VULKAN_ICD = "RADV";
   # Fix no video after kexec
   # Adapted from https://wiki.archlinux.org/title/kexec#No_kernel_mode-setting_(Nvidia)
   systemd.services.unmodeset = {
