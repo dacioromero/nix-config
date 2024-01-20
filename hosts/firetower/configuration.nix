@@ -33,6 +33,7 @@ in
         zram
         syncthing-firewall
         pipewire
+        xwaylandvideobridge
         ;
     });
 

@@ -10,5 +10,6 @@
   pipewire = import ./pipewire.nix;
   syncthing-firewall = import ./syncthing-firewall.nix;
   virt-manager = import ./virt-manager.nix;
+  xwaylandvideobridge = import ./xwaylandvideobridge.nix;
   zram = import ./zram.nix;
 }
