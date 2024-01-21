@@ -162,6 +162,8 @@ in
 
   # Private VPN
   services.tailscale.enable = true;
+  services.tailscale.useRoutingFeatures = "client";
+  services.tailscale.openFirewall = true;
 
   # Enable secure boot and TPM for VMs
   virtualisation.libvirtd.qemu.swtpm.enable = true;
