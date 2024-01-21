@@ -51,7 +51,7 @@
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.sonarr = {
-    image = "lscr.io/linuxserver/sonarr:4.0.0.748-ls220";
+    image = "lscr.io/linuxserver/sonarr:4.0.1.929-ls222";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -64,7 +64,7 @@
     ports = [ "8989:8989" ];
   };
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls246";
+    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls248";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
