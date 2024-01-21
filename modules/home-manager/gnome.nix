@@ -23,6 +23,9 @@ in
   home.pointerCursor = {
     package = pkgs.gnome.adwaita-icon-theme;
     name = "Adwaita";
+    size = 16;
+    gtk.enable = true;
+    x11.enable = true;
   };
 
   services.gpg-agent.pinentryPackage = pkgs.pinentry-gnome3;
@@ -47,8 +50,8 @@ in
     "org/gnome/desktop/background" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.webp";
-      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-d.webp";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.jpg";
+      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-d.jpg";
       primary-color = "#3071AE";
       secondary-color = "#000000";
     };
@@ -64,7 +67,7 @@ in
     "org/gnome/desktop/screensaver" = {
       color-shading-type = "solid";
       picture-options = "zoom";
-      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.webp";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/adwaita-l.jpg";
       primary-color = "#3071AE";
       secondary-color = "#000000";
     };
