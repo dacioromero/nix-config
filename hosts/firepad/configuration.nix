@@ -104,11 +104,12 @@ in
 
   # Private VPN
   services.tailscale.enable = true;
+  services.tailscale.openFirewall = true;
 
   # Thunderbolt daemon
   services.hardware.bolt.enable = true;
 
-  environment.systemPackages = [ pkgs.plasma5Packages.plasma-thunderbolt ];
+  environment.systemPackages = [ pkgs.plasma5Packages.plasma-thunderbolt pkgs.libsForQt5.dragon ];
 
   # programs.adb.enable = true;
 
