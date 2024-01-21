@@ -64,10 +64,6 @@
       inputs.utils.follows = "flake-utils";
       inputs.flake-compat.follows = "flake-compat";
     };
-    arrpc = {
-      url = "github:notashelf/arrpc-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     # Not used directly, for de-duping w/ other dependencies
     flake-compat = {
       url = "github:edolstra/flake-compat";

@@ -9,8 +9,6 @@
       linux
       kde
       easyeffects;
-
-    inherit (inputs.arrpc.homeManagerModules) default;
   };
 
   home.packages = with pkgs; [
@@ -34,7 +32,6 @@
     spotify
     vkBasalt
     vlc
-    vesktop
   ];
 
   # Needed for Nerd Fonts to be found
@@ -58,9 +55,6 @@
 
   programs.mangohud.enable = true;
   programs.nix-index.enable = true;
-
-  services.arrpc.enable = true;
-
 
   home.stateVersion = "22.05";
 }
