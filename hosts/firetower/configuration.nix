@@ -65,6 +65,10 @@ in
   fileSystems."/home".options = [ "noatime" "compress=zstd" ];
   fileSystems."/boot".options = [ "noatime" ];
 
+  # dbus-broker is more performant
+  # https://archlinux.org/news/making-dbus-broker-our-default-d-bus-daemon/
+  services.dbus.implementation = "broker";
+
   # With 32 GiB of RAM and zram enabled OOM is unlikely
   systemd.oomd.enable = false;
   # systemd.services.NetworkManager-wait-online.enable = false;
