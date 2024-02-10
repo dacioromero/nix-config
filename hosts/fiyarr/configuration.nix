@@ -3,7 +3,22 @@
 , lib
 , config
 , ...
-}: {
+}:
+let
+  bitmagnet = pkgs.bitmagnet.override (prev: {
+    buildGoModule = args: prev.buildGoModule (args // rec {
+      version = "0.6.2";
+      src = prev.fetchFromGitHub {
+        owner = "bitmagnet-io";
+        repo = "bitmagnet";
+        rev = "v${version}";
+        hash = "sha256-17jRktEqBCAXiddx8FnqHg3+c/03nqKHC8BQc9AhQA0=";
+      };
+      vendorHash = "sha256-YfsSz72CeHdrh5610Ilo1NYxlCT993hxWRWh0OsvEQc=";
+    });
+  });
+in
+{
   imports =
     (lib.singleton ./hardware-configuration.nix)
     ++ (lib.attrValues {
@@ -51,7 +66,7 @@
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.sonarr = {
-    image = "lscr.io/linuxserver/sonarr:4.0.1.929-ls224";
+    image = "lscr.io/linuxserver/sonarr:4.0.1.929-ls225";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -64,7 +79,7 @@
     ports = [ "8989:8989" ];
   };
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls250";
+    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls251";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -126,7 +141,7 @@
     description = "Bitmagnet";
     serviceConfig = {
       Type = "exec";
-      ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
+      ExecStart = "${lib.getExe bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
       EnvironmentFile = config.age.secrets.bitmagnet-env.path;
       Restart = "on-failure";
       User = "bitmagnet";
