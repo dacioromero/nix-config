@@ -13,11 +13,10 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    BeatSaberModManager
     discord
     duf
     element-desktop
-    goverlay
+    google-chrome
     heroic
     krita
     lutris
@@ -30,10 +29,27 @@
     protonup-qt
     qbittorrent
     r2modman
+    slack
     spotify
+    telegram-desktop
     vkBasalt
     vlc
+    wl-clipboard
   ];
+
+  # https://www.reddit.com/r/archlinux/comments/190dvl8/pipewirewayland_how_to_stop_applications_from/
+  xdg.configFile."wireplumber/main.lua.d/99-stop-microphone-auto-adjust.lua".text = ''
+    rule = {
+      matches = {
+        {
+          { "application.process.binary", "=", "chrome" },
+          { "application.process.binary", "=", "electron" },
+        },
+      },
+      default_permissions = "rx",
+    }
+    table.insert(default_access.rules, rule)
+  '';
 
   # Needed for Nerd Fonts to be found
   fonts.fontconfig.enable = true;
@@ -46,15 +62,24 @@
     obs-vkcapture
   ];
 
-  programs.git.package = pkgs.gitFull;
-  programs.git.extraConfig.sendemail = {
-    smtpserver = "smtp.gmail.com";
-    smtpuser = "dacioromero@gmail.com";
-    smtpencryption = "ssl";
-    smtpserverport = 465;
-  };
-
   programs.mangohud.enable = true;
+  programs.mangohud.settings = {
+    fps_limit = [ 0 60 30 ];
+    toggle_fps_limit = "F1";
+    gpu_temp = true;
+    gpu_core_clock = true;
+    gpu_mem_clock = true;
+    gpu_power = true;
+    cpu_temp = true;
+    cpu_power = true;
+    cpu_mhz = true;
+    vram = true;
+    fps = true;
+    vulkan_driver = true;
+    wine = true;
+    frame_timing = true;
+    position = "middle-right";
+  };
   programs.nix-index.enable = true;
 
   home.stateVersion = "22.05";
