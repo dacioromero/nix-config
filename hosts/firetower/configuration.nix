@@ -69,8 +69,6 @@ in
   # https://archlinux.org/news/making-dbus-broker-our-default-d-bus-daemon/
   services.dbus.implementation = "broker";
 
-  # With 32 GiB of RAM and zram enabled OOM is unlikely
-  systemd.oomd.enable = false;
   # systemd.services.NetworkManager-wait-online.enable = false;
   systemd.network.wait-online.enable = false;
 
@@ -91,23 +89,6 @@ in
   # Configure GPU
   # Early KMS isn't helpful
   hardware.amdgpu.loadInInitrd = false;
-  # # Enable AMDVLK but force RADV as default. AMDVLK has better perfomance in some games (DOOM Eternal)
-  # hardware.amdgpu.amdvlk = true;
-  # environment.variables.AMD_VULKAN_ICD = "RADV";
-  # Fix no video after kexec
-  # Adapted from https://wiki.archlinux.org/title/kexec#No_kernel_mode-setting_(Nvidia)
-  systemd.services.unmodeset = {
-    description = "Unload amdgpu modules from kernel";
-    documentation = [ "man:modprobe(8)" ];
-    unitConfig.DefaultDependencies = "no";
-    after = [ "umount.target" ];
-    before = [ "kexec.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.kmod}/bin/modprobe -r amdgpu";
-    };
-    wantedBy = [ "kexec.target" ];
-  };
   # Overclock
   # https://wiki.archlinux.org/title/AMDGPU#Overclocking
   # https://www.kernel.org/doc/html/v6.1/gpu/amdgpu/thermal.html
@@ -189,8 +170,6 @@ in
   # Emulate `useradd --user-group`
   users.groups.dacio.gid = 1000;
   home-manager.users.dacio = import ./home.nix;
-
-  virtualisation.docker.enable = true;
 
   system.stateVersion = "22.05";
 }
