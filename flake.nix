@@ -90,8 +90,7 @@
       deploy = {
         sshUser = "dacio";
         user = "root";
-        # https://github.com/serokell/deploy-rs/issues/78
-        sshOpts = [ "-t" ];
+        interactiveSudo = true;
         magicRollback = false;
       };
 
