@@ -92,6 +92,7 @@
         user = "root";
         interactiveSudo = true;
         magicRollback = false;
+        fastConnection = true;
       };
 
       darwinConfigurations."firebook-pro" = darwinSystem {
