@@ -6,15 +6,15 @@
 }:
 let
   bitmagnet = pkgs.bitmagnet.override (prev: {
-    buildGoModule = args: prev.buildGoModule (args // rec {
-      version = "0.6.2";
+    buildGoModule = args: pkgs.buildGo122Module (args // rec {
+      version = "0.7.3";
       src = prev.fetchFromGitHub {
         owner = "bitmagnet-io";
         repo = "bitmagnet";
         rev = "v${version}";
-        hash = "sha256-17jRktEqBCAXiddx8FnqHg3+c/03nqKHC8BQc9AhQA0=";
+        hash = "sha256-oV4C5vYMfzukOh9XQv4NX5kQu2GZZoY+mPzWKwhGNZs=";
       };
-      vendorHash = "sha256-YfsSz72CeHdrh5610Ilo1NYxlCT993hxWRWh0OsvEQc=";
+      vendorHash = "sha256-1m3f6rFYMkXAvPOURsxZP/H5PSAbyl58c/o5QhsZd5s=";
     });
   });
 in
@@ -66,7 +66,7 @@ in
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.sonarr = {
-    image = "lscr.io/linuxserver/sonarr:4.0.1.929-ls225";
+    image = "lscr.io/linuxserver/sonarr:4.0.1.929-ls226";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -79,7 +79,7 @@ in
     ports = [ "8989:8989" ];
   };
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:V2.5.8-ls251";
+    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls253";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -94,7 +94,7 @@ in
     ];
   };
   virtualisation.oci-containers.containers.flaresolverr = {
-    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.13";
+    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.15";
     environment = {
       TZ = config.time.timeZone;
     };
@@ -155,8 +155,6 @@ in
     name = "bitmagnet";
     ensureDBOwnership = true;
   }];
-  # TODO: Figure out security
-  services.redis.servers."".enable = true;
 
   # Needed for VSCode server
   programs.nix-ld.enable = true;
