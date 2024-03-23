@@ -88,9 +88,7 @@
     in
     {
       deploy = {
-        sshUser = "dacio";
-        user = "root";
-        interactiveSudo = true;
+        sshUser = "root";
         magicRollback = false;
         fastConnection = true;
       };

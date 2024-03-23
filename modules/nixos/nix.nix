@@ -13,7 +13,7 @@ let
 in
 {
   nix.settings = {
-    trusted-users = [ sudoGroup ];
+    trusted-users = [ "root" sudoGroup ];
     experimental-features = [ "nix-command" "flakes" ];
     # https://github.com/NixOS/nix/issues/7273
     auto-optimise-store = !isDarwin;

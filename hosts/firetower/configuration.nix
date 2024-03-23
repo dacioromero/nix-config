@@ -39,9 +39,6 @@ in
 
   nix.settings.cores = 4;
   nix.settings.max-jobs = 4;
-  # Obsidian uses outdated Electron version
-  # https://github.com/NixOS/nixpkgs/issues/273611
-  nixpkgs.config.permittedInsecurePackages = lib.optional (pkgs.obsidian.version == "1.5.3") "electron-25.9.0";
 
   # Bootloader
   boot.loader.efi.canTouchEfiVariables = true; # Likely does nothing with Lanzaboote
@@ -73,9 +70,6 @@ in
   systemd.network.wait-online.enable = false;
 
   networking.hostName = "firetower";
-  # Enable Steam local game transfer
-  # https://github.com/NixOS/nixpkgs/issues/238305
-  networking.firewall.interfaces.br0.allowedTCPPorts = [ 27040 ];
 
   networking.useDHCP = false;
   # Bridging so VMs can get IPs on LAN subnet
@@ -133,6 +127,7 @@ in
   programs.gamescope.enable = true;
   programs.steam.enable = true;
   programs.steam.remotePlay.openFirewall = true;
+  programs.steam.localNetworkGameTransfers.openFirewall = true;
 
   # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];

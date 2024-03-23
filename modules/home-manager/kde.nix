@@ -1,3 +1,3 @@
-_: {
-  services.gpg-agent.pinentryFlavor = "qt";
+{ pkgs, ... }: {
+  services.gpg-agent.pinentryPackage = pkgs.pinentry-qt;
 }

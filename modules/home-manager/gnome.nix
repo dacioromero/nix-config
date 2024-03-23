@@ -25,7 +25,7 @@ in
     name = "Adwaita";
   };
 
-  services.gpg-agent.pinentryFlavor = "gnome3";
+  services.gpg-agent.pinentryPackage = pkgs.pinentry-gnome3;
 
   # gnome-keyring sets SSH_AUTH_SOCK which conflicts with gpg-agent
   # https://github.com/NixOS/nixpkgs/issues/101616
