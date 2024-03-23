@@ -154,8 +154,6 @@ in
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
 
-  programs.adb.enable = true;
-
   users.users.dacio = {
     isNormalUser = true;
     description = "Dacio";
@@ -164,7 +162,6 @@ in
     extraGroups = [
       "wheel"
       "libvirtd"
-      "adbusers"
     ];
   };
   # Emulate `useradd --user-group`

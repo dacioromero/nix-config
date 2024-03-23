@@ -29,6 +29,7 @@
     protonup-qt
     qbittorrent
     r2modman
+    signal-desktop
     slack
     spotify
     telegram-desktop
@@ -74,6 +75,7 @@
     cpu_power = true;
     cpu_mhz = true;
     vram = true;
+    ram = true;
     fps = true;
     vulkan_driver = true;
     wine = true;
