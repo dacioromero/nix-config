@@ -80,7 +80,7 @@ in
   networking.useDHCP = false;
   # Bridging so VMs can get IPs on LAN subnet
   networking.interfaces.br0.useDHCP = true;
-  networking.bridges.br0.interfaces = [ "enp5s0" ];
+  networking.bridges.br0.interfaces = [ "enp6s0" ];
   # https://github.com/NixOS/nixpkgs/pull/264967
   networking.useNetworkd = true;
 
@@ -100,10 +100,10 @@ in
     wants = [ "modprobe@amdgpu.service" ];
     script =
       let
-        gpuDevice = "/sys/devices/pci0000:00/0000:00:03.1/0000:09:00.0/0000:0a:00.0/0000:0b:00.0";
+        gpuDevice = "/sys/devices/pci0000:00/0000:00:03.1/0000:0a:00.0/0000:0b:00.0/0000:0c:00.0";
       in
       ''
-        echo '293000000' > ${gpuDevice}/hwmon/hwmon5/power1_cap # max power limit to 293 W
+        echo '293000000' > ${gpuDevice}/hwmon/hwmon6/power1_cap # max power limit to 293 W
         echo 'manual'    > ${gpuDevice}/power_dpm_force_performance_level # needed for p-state and power profile
         echo 's 1 2650'  > ${gpuDevice}/pp_od_clk_voltage # overclock gpu core to 2650 MHz
         echo 'm 1 1050'  > ${gpuDevice}/pp_od_clk_voltage # overclock mem to 2100 Mhz
