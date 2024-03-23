@@ -7,14 +7,14 @@
 let
   bitmagnet = pkgs.bitmagnet.override (prev: {
     buildGoModule = args: pkgs.buildGo122Module (args // rec {
-      version = "0.7.3";
+      version = "0.7.14";
       src = prev.fetchFromGitHub {
         owner = "bitmagnet-io";
         repo = "bitmagnet";
         rev = "v${version}";
-        hash = "sha256-oV4C5vYMfzukOh9XQv4NX5kQu2GZZoY+mPzWKwhGNZs=";
+        hash = "sha256-TaxoQdjdHw8h6w6wKBHL/CVxWFK/RG2tJ//MtUEOwfU=";
       };
-      vendorHash = "sha256-1m3f6rFYMkXAvPOURsxZP/H5PSAbyl58c/o5QhsZd5s=";
+      vendorHash = "sha256-y9RfaAx9AQS117J3+p/Yy8Mn5In1jmZmW4IxKjeV8T8=";
     });
   });
 in
@@ -65,7 +65,7 @@ in
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.sonarr = {
-    image = "lscr.io/linuxserver/sonarr:4.0.1.929-ls226";
+    image = "lscr.io/linuxserver/sonarr:4.0.2.1183-ls231";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -78,7 +78,7 @@ in
     ports = [ "8989:8989" ];
   };
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls253";
+    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls259";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -93,7 +93,7 @@ in
     ];
   };
   virtualisation.oci-containers.containers.flaresolverr = {
-    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.15";
+    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.16";
     environment = {
       TZ = config.time.timeZone;
     };
