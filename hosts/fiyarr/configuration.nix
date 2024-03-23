@@ -23,7 +23,6 @@ in
     (lib.singleton ./hardware-configuration.nix)
     ++ (lib.attrValues {
       inherit (inputs.self.nixosModules)
-        base
         media
         nix
         ;

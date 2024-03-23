@@ -1,5 +1,6 @@
-{ pkgs, inputs, ... }: {
-  imports = [ inputs.self.nixosModules.base ];
+{ pkgs, ... }: {
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 
   # Enable X11, but get rid of xterm
   services.xserver.enable = true;

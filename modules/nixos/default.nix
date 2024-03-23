@@ -1,5 +1,4 @@
 {
-  base = import ./base.nix;
   gnome = import ./gnome.nix;
   hm = import ./hm.nix;
   kde = import ./kde.nix;

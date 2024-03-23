@@ -8,7 +8,6 @@
     (modulesPath + "/virtualisation/proxmox-lxc.nix")
   ] ++ (lib.attrValues {
     inherit (inputs.self.nixosModules)
-      base
       nix
       ;
   });
