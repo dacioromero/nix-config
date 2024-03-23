@@ -113,18 +113,6 @@
         specialArgs = { inherit inputs; };
       };
 
-      nixosConfigurations.firepi = nixosSystem {
-        system = "armv7l-linux";
-        modules = [
-          ./hosts/firepi/configuration.nix
-          # TODO: Find better way to allow building armv7l-linux from current platform
-          {
-            nixpkgs.buildPlatform = "x86_64-linux";
-          }
-        ];
-        specialArgs = { inherit inputs; };
-      };
-
       nixosConfigurations."firerelay" = nixosSystem {
         system = "x86_64-linux";
         modules = [ ./hosts/firerelay/configuration.nix ];
