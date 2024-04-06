@@ -3,22 +3,7 @@
 , lib
 , config
 , ...
-}:
-let
-  bitmagnet = pkgs.bitmagnet.override (prev: {
-    buildGoModule = args: pkgs.buildGo122Module (args // rec {
-      version = "0.7.14";
-      src = prev.fetchFromGitHub {
-        owner = "bitmagnet-io";
-        repo = "bitmagnet";
-        rev = "v${version}";
-        hash = "sha256-TaxoQdjdHw8h6w6wKBHL/CVxWFK/RG2tJ//MtUEOwfU=";
-      };
-      vendorHash = "sha256-y9RfaAx9AQS117J3+p/Yy8Mn5In1jmZmW4IxKjeV8T8=";
-    });
-  });
-in
-{
+}: {
   imports =
     (lib.singleton ./hardware-configuration.nix)
     ++ (lib.attrValues {
@@ -59,26 +44,15 @@ in
     user = "media";
     group = "media";
   };
+  systemd.services.jellyfin.after = [ "media.mount" ];
+  systemd.services.jellyfin.bindsTo = [ "media.mount" ];
   hardware.opengl.enable = true;
   hardware.opengl.extraPackages = with pkgs; [
     intel-media-driver
     intel-compute-runtime
   ];
-  virtualisation.oci-containers.containers.sonarr = {
-    image = "lscr.io/linuxserver/sonarr:4.0.2.1183-ls231";
-    environment = {
-      PUID = toString config.users.users.media.uid;
-      PGID = toString config.users.groups.media.gid;
-      TZ = config.time.timeZone;
-    };
-    volumes = [
-      "/var/lib/sonarr-container:/config"
-      "/media:/media"
-    ];
-    ports = [ "8989:8989" ];
-  };
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls259";
+    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls261";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -100,23 +74,34 @@ in
     ports = [ "8191:8191" ];
   };
   networking.firewall.allowedTCPPorts = [
-    8989
     80
     443
     3333
   ];
+  services.sonarr = {
+    enable = true;
+    openFirewall = true;
+    user = "media";
+    group = "media";
+  };
+  systemd.services.sonarr.after = [ "media.mount" ];
+  systemd.services.sonarr.bindsTo = [ "media.mount" ];
   services.radarr = {
     enable = true;
     openFirewall = true;
     user = "media";
     group = "media";
   };
+  systemd.services.radarr.after = [ "media.mount" ];
+  systemd.services.radarr.bindsTo = [ "media.mount" ];
   services.lidarr = {
     enable = true;
     openFirewall = true;
     user = "media";
     group = "media";
   };
+  systemd.services.lidarr.after = [ "media.mount" ];
+  systemd.services.lidarr.bindsTo = [ "media.mount" ];
   services.prowlarr = {
     enable = true;
     openFirewall = true;
@@ -140,7 +125,7 @@ in
     description = "Bitmagnet";
     serviceConfig = {
       Type = "exec";
-      ExecStart = "${lib.getExe bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
+      ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
       EnvironmentFile = config.age.secrets.bitmagnet-env.path;
       Restart = "on-failure";
       User = "bitmagnet";
