@@ -49,6 +49,8 @@ in
   boot.loader.timeout = 0;
   boot.initrd.systemd.enable = true; # Automatic decrypt with TPM
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Zen 3 power monitoring
   boot.kernelModules = [ "zenpower" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];

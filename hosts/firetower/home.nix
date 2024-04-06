@@ -13,7 +13,6 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-    discord
     duf
     element-desktop
     google-chrome
@@ -33,23 +32,30 @@
     slack
     spotify
     telegram-desktop
+    vesktop
     vkBasalt
     vlc
     wl-clipboard
   ];
 
-  # https://www.reddit.com/r/archlinux/comments/190dvl8/pipewirewayland_how_to_stop_applications_from/
-  xdg.configFile."wireplumber/main.lua.d/99-stop-microphone-auto-adjust.lua".text = ''
-    rule = {
-      matches = {
-        {
-          { "application.process.binary", "=", "chrome" },
-          { "application.process.binary", "=", "electron" },
-        },
-      },
-      default_permissions = "rx",
-    }
-    table.insert(default_access.rules, rule)
+  xdg.configFile."wireplumber/wireplumber.conf.d/99-stop-microphone-auto-adjust.conf".text = ''
+    access.rules = [
+      {
+        matches = [
+          {
+            application.process.binary = "chrome"
+          }
+          {
+            application.process.binary = "electron"
+          }
+        ]
+        actions = {
+          update-props = {
+            default_permissions = "rx"
+          }
+        }
+      }
+    ]
   '';
 
   # Needed for Nerd Fonts to be found
