@@ -16,6 +16,7 @@
     discord
     qbittorrent
     spotify
+    telegram-desktop
   ];
 
   fonts.fontconfig.enable = true;

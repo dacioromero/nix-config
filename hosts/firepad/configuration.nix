@@ -70,10 +70,8 @@ in
 
   networking.hostName = "firepad";
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-  networking.networkmanager.dns = "dnsmasq"; # DNS caching
+  services.resolved.enable = true;
   systemd.services.NetworkManager-wait-online.enable = false;
-
-  time.timeZone = "America/Los_Angeles";
 
   # Battery care
   # Attempting to limit battery percentage between 20 and 80
