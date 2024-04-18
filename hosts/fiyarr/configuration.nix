@@ -52,7 +52,7 @@
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls261";
+    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls262";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
@@ -67,7 +67,7 @@
     ];
   };
   virtualisation.oci-containers.containers.flaresolverr = {
-    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.16";
+    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.17";
     environment = {
       TZ = config.time.timeZone;
     };
