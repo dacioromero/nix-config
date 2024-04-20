@@ -52,7 +52,7 @@
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls262";
+    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls263";
     environment = {
       PUID = toString config.users.users.media.uid;
       PGID = toString config.users.groups.media.gid;
