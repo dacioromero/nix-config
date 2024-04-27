@@ -51,21 +51,21 @@
     intel-media-driver
     intel-compute-runtime
   ];
-  virtualisation.oci-containers.containers.heimdall = {
-    image = "lscr.io/linuxserver/heimdall:v2.6.1-ls263";
-    environment = {
-      PUID = toString config.users.users.media.uid;
-      PGID = toString config.users.groups.media.gid;
-      TZ = config.time.timeZone;
-    };
-    volumes = [
-      "/var/lib/heimdall:/config"
-    ];
-    ports = [
-      "80:80"
-      "443:443"
-    ];
-  };
+  # virtualisation.oci-containers.containers.heimdall = {
+  #   image = "lscr.io/linuxserver/heimdall:v2.6.1-ls263";
+  #   environment = {
+  #     PUID = toString config.users.users.media.uid;
+  #     PGID = toString config.users.groups.media.gid;
+  #     TZ = config.time.timeZone;
+  #   };
+  #   volumes = [
+  #     "/var/lib/heimdall:/config"
+  #   ];
+  #   ports = [
+  #     "80:80"
+  #     "443:443"
+  #   ];
+  # };
   virtualisation.oci-containers.containers.flaresolverr = {
     image = "ghcr.io/flaresolverr/flaresolverr:v3.3.17";
     environment = {
@@ -139,6 +139,37 @@
     name = "bitmagnet";
     ensureDBOwnership = true;
   }];
+
+  services.nginx = {
+    enable = true;
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts."jf.dacio.app" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8096";
+        proxyWebsockets = true;
+      };
+    };
+
+    virtualHosts."js.dacio.app" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:5055";
+      };
+    };
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = "dacioromero@gmail.com";
+  };
 
   # Needed for VSCode server
   programs.nix-ld.enable = true;
