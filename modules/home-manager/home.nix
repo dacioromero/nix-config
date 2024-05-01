@@ -86,7 +86,10 @@
     ];
   };
 
-  programs.tmux.enable = true;
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+  };
 
   programs.lf = {
     enable = true;
