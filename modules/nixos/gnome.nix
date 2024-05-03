@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   # Enable GNOME
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
   services.gnome.gnome-browser-connector.enable = true;
   environment.gnome.excludePackages = with pkgs;
     [
