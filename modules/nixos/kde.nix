@@ -1,12 +1,11 @@
 { pkgs, ... }: {
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
-    oxygen
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
     elisa
     khelpcenter
   ];
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs.kdePackages; [
     ark
     kcalc
     skanlite
@@ -16,5 +15,4 @@
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # Needed for KDE to write to Gnome settings for GTK/libadwaita apps
   programs.dconf.enable = true;
-  services.xserver.displayManager.defaultSession = "plasmawayland";
 }

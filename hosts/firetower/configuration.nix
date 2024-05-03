@@ -122,7 +122,7 @@ in
       --output HDMI-1 --off \
       --output DP-3 --off
   '';
-  environment.plasma5.excludePackages = [ pkgs.libsForQt5.konsole ];
+  environment.plasma6.excludePackages = [ pkgs.kdePackages.konsole ];
 
   # Gaming
   programs.gamemode.enable = true;
