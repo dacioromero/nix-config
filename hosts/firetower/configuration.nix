@@ -127,9 +127,12 @@ in
   # Gaming
   programs.gamemode.enable = true;
   programs.gamescope.enable = true;
-  programs.steam.enable = true;
-  programs.steam.remotePlay.openFirewall = true;
-  programs.steam.localNetworkGameTransfers.openFirewall = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
+  };
 
   # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];

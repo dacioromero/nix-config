@@ -25,7 +25,6 @@
     nil
     prismlauncher
     protontricks
-    protonup-qt
     qbittorrent
     r2modman
     signal-desktop
