@@ -57,12 +57,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.utils.follows = "flake-utils";
-      inputs.flake-compat.follows = "flake-compat";
-    };
     # Not used directly, for de-duping w/ other dependencies
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -77,7 +71,6 @@
     , nix-darwin
     , flake-utils
     , pre-commit-hooks
-    , deploy-rs
     , ...
     } @ inputs:
     let
@@ -86,12 +79,6 @@
       inherit (nixpkgs.lib) nixosSystem;
     in
     {
-      deploy = {
-        sshUser = "root";
-        magicRollback = false;
-        fastConnection = true;
-      };
-
       darwinConfigurations."firebook-pro" = darwinSystem {
         system = "aarch64-darwin";
         modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];
@@ -115,23 +102,11 @@
         modules = [ ./hosts/firerelay/configuration.nix ];
         specialArgs = { inherit inputs; };
       };
-      deploy.nodes."firerelay" = {
-        hostname = "firerelay.lan";
-        profiles.system = {
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."firerelay";
-        };
-      };
 
       nixosConfigurations."fiyarr" = nixosSystem {
         system = "x86_64-linux";
         modules = [ ./hosts/fiyarr/configuration.nix ];
         specialArgs = { inherit inputs; };
-      };
-      deploy.nodes."fiyarr" = {
-        hostname = "fiyarr.lan";
-        profiles.system = {
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."fiyarr";
-        };
       };
 
       nixosConfigurations."fiyarr-qbt" = nixosSystem {
@@ -139,17 +114,10 @@
         modules = [ ./hosts/fiyarr-qbt/configuration.nix ];
         specialArgs = { inherit inputs; };
       };
-      deploy.nodes."fiyarr-qbt" = {
-        hostname = "fiyarr-qbt.lan";
-        profiles.system = {
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."fiyarr-qbt";
-        };
-      };
 
       overlays = import ./overlays;
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
-      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     }
     // eachDefaultSystem (system:
     let
