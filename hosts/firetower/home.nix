@@ -37,26 +37,6 @@
     wl-clipboard
   ];
 
-  xdg.configFile."wireplumber/wireplumber.conf.d/99-stop-microphone-auto-adjust.conf".text = ''
-    access.rules = [
-      {
-        matches = [
-          {
-            application.process.binary = "chrome"
-          }
-          {
-            application.process.binary = "electron"
-          }
-        ]
-        actions = {
-          update-props = {
-            default_permissions = "rx"
-          }
-        }
-      }
-    ]
-  '';
-
   # Needed for Nerd Fonts to be found
   fonts.fontconfig.enable = true;
 

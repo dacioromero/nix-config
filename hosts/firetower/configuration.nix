@@ -113,6 +113,28 @@ in
   # https://wiki.archlinux.org/title/AMDGPU#Boot_parameter
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfff7ffff" ];
 
+  services.pipewire.extraConfig.pipewire."99-rates" = {
+    "context.properties" = {
+      "default.clock.rate" = 96000;
+      "default.clock.allowed-rates" = [ 44100 48000 88200 96000 ];
+    };
+  };
+  services.pipewire.wireplumber.extraConfig."99-stop-microphone-auto-adjust" = {
+    "access.rules" = [
+      {
+        matches = [
+          {
+            "application.process.binary" = "chrome";
+          }
+          {
+            "application.process.binary" = "electron";
+          }
+        ];
+        actions.update-props.default_permissions = "rx";
+      }
+    ];
+  };
+
   # Configure KDE
   # Disable all but main monitor
   # https://blog.victormendonca.com/2018/06/29/how-to-fix-sddm-on-multiple-screens/
