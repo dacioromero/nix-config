@@ -31,6 +31,7 @@
     slack
     spotify
     telegram-desktop
+    tidal-hifi
     vesktop
     vkBasalt
     vlc
