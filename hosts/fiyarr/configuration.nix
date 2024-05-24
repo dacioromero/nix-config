@@ -43,6 +43,34 @@
     openFirewall = true;
     user = "media";
     group = "media";
+    package =
+      let
+        version = "10.9.2";
+      in
+      (pkgs.jellyfin.overrideAttrs {
+        inherit version;
+        src = pkgs.fetchFromGitHub {
+          owner = "jellyfin";
+          repo = "jellyfin";
+          rev = "v${version}";
+          sha256 = "sha256-G4lI1SCsz/8+lh3MOppp7vna9SsKDtaUhKD1DeTSq/Y=";
+        };
+      }).override {
+        jellyfin-web = pkgs.jellyfin-web.overrideAttrs (prevAttrs: rec {
+          inherit version;
+          src = pkgs.fetchFromGitHub {
+            owner = "jellyfin";
+            repo = "jellyfin-web";
+            rev = "v${version}";
+            sha256 = "sha256-0MBVcMajRk+CR0nZ8Dtd3Mg4tKdLiHGs3AhI8BEqZyE=";
+          };
+          npmDeps = prevAttrs.npmDeps.overrideAttrs {
+            inherit src;
+            name = "jellyfin-web-${version}-npm-deps";
+            outputHash = "sha256-aN+EXHRXez26oS4Ad1d9HSBkwVKnvYQMJvJVypDCk+0=";
+          };
+        });
+      };
   };
   systemd.services.jellyfin.after = [ "media.mount" ];
   systemd.services.jellyfin.bindsTo = [ "media.mount" ];
@@ -51,23 +79,8 @@
     intel-media-driver
     intel-compute-runtime
   ];
-  # virtualisation.oci-containers.containers.heimdall = {
-  #   image = "lscr.io/linuxserver/heimdall:v2.6.1-ls263";
-  #   environment = {
-  #     PUID = toString config.users.users.media.uid;
-  #     PGID = toString config.users.groups.media.gid;
-  #     TZ = config.time.timeZone;
-  #   };
-  #   volumes = [
-  #     "/var/lib/heimdall:/config"
-  #   ];
-  #   ports = [
-  #     "80:80"
-  #     "443:443"
-  #   ];
-  # };
   virtualisation.oci-containers.containers.flaresolverr = {
-    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.17";
+    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.19";
     environment = {
       TZ = config.time.timeZone;
     };
