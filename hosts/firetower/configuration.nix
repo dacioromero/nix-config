@@ -33,7 +33,6 @@ in
         zram
         syncthing-firewall
         pipewire
-        xwaylandvideobridge
         ;
     });
 
@@ -161,7 +160,10 @@ in
 
   # Mouse settings
   services.ratbagd.enable = true;
-  environment.systemPackages = [ pkgs.piper ];
+  environment.systemPackages = with pkgs; [
+    piper
+    xwaylandvideobridge
+  ];
 
   # Wacom Intuos
   # TODO: Consider wacom kernel driver and pkgs.wacomtablet
