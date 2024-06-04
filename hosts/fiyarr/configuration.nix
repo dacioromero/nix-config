@@ -17,10 +17,17 @@
 
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
-  boot.loader.timeout = 0;
 
   networking.hostName = "fiyarr";
   networking.useNetworkd = true;
+  networking.useDHCP = false;
+  systemd.network.enable = true;
+  systemd.network.networks."10-lab" = {
+    name = "ens18";
+    address = [ "10.0.30.101/24" ];
+    gateway = [ "10.0.30.1" ];
+    dns = [ "10.0.30.1" ];
+  };
 
   time.timeZone = "America/Los_Angeles";
   services.openssh.enable = true;

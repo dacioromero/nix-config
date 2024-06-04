@@ -11,7 +11,7 @@
   users.groups.media.gid = 989;
 
   fileSystems."/media" = {
-    device = "192.168.1.231:/media";
+    device = "10.0.30.100:/media";
     fsType = "nfs";
   };
 }
