@@ -43,34 +43,6 @@
     openFirewall = true;
     user = "media";
     group = "media";
-    package =
-      let
-        version = "10.9.2";
-      in
-      (pkgs.jellyfin.overrideAttrs {
-        inherit version;
-        src = pkgs.fetchFromGitHub {
-          owner = "jellyfin";
-          repo = "jellyfin";
-          rev = "v${version}";
-          sha256 = "sha256-G4lI1SCsz/8+lh3MOppp7vna9SsKDtaUhKD1DeTSq/Y=";
-        };
-      }).override {
-        jellyfin-web = pkgs.jellyfin-web.overrideAttrs (prevAttrs: rec {
-          inherit version;
-          src = pkgs.fetchFromGitHub {
-            owner = "jellyfin";
-            repo = "jellyfin-web";
-            rev = "v${version}";
-            sha256 = "sha256-0MBVcMajRk+CR0nZ8Dtd3Mg4tKdLiHGs3AhI8BEqZyE=";
-          };
-          npmDeps = prevAttrs.npmDeps.overrideAttrs {
-            inherit src;
-            name = "jellyfin-web-${version}-npm-deps";
-            outputHash = "sha256-aN+EXHRXez26oS4Ad1d9HSBkwVKnvYQMJvJVypDCk+0=";
-          };
-        });
-      };
   };
   systemd.services.jellyfin.after = [ "media.mount" ];
   systemd.services.jellyfin.bindsTo = [ "media.mount" ];
