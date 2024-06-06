@@ -9,9 +9,4 @@
     useDefaultShell = true;
   };
   users.groups.media.gid = 989;
-
-  fileSystems."/media" = {
-    device = "10.0.30.100:/media";
-    fsType = "nfs";
-  };
 }

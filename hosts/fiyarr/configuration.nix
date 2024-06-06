@@ -8,7 +8,8 @@
     (lib.singleton ./hardware-configuration.nix)
     ++ (lib.attrValues {
       inherit (inputs.self.nixosModules)
-        media
+        media-user
+        media-mount
         nix
         ;
 
@@ -22,8 +23,21 @@
   networking.useNetworkd = true;
   networking.useDHCP = false;
   systemd.network.enable = true;
-  systemd.network.networks."10-lab" = {
+  systemd.network.netdevs."10-mac0" = {
+    netdevConfig = {
+      Kind = "macvlan";
+      Name = "mac0";
+    };
+    macvlanConfig = {
+      Mode = "bridge";
+    };
+  };
+  systemd.network.networks."10-mac0-ens18" = {
     name = "ens18";
+    macvlan = [ "mac0" ];
+  };
+  systemd.network.networks."10-lab" = {
+    name = "mac0";
     address = [ "10.0.30.101/24" ];
     gateway = [ "10.0.30.1" ];
     dns = [ "10.0.30.1" ];
@@ -101,6 +115,92 @@
   services.jellyseerr = {
     enable = true;
     openFirewall = true;
+  };
+
+  containers."media-4k" = {
+    autoStart = true;
+    macvlans = [ "mac0" ];
+    bindMounts.media = {
+      isReadOnly = false;
+      hostPath = "/media";
+      mountPoint = "/media";
+    };
+    config = {
+      imports = lib.singleton inputs.self.nixosModules.media-user;
+
+      networking.useHostResolvConf = lib.mkForce false;
+      networking.useNetworkd = true;
+      systemd.network.enable = true;
+      systemd.network.networks."10-lab" = {
+        name = "mv-mac0";
+        address = [ "10.0.30.201/24" ];
+        gateway = [ "10.0.30.1" ];
+        dns = [ "10.0.30.1" ];
+      };
+
+      services.sonarr = {
+        enable = true;
+        openFirewall = true;
+        user = "media";
+        group = "media";
+      };
+
+      services.radarr = {
+        enable = true;
+        openFirewall = true;
+        user = "media";
+        group = "media";
+      };
+
+      system.stateVersion = "24.11";
+    };
+  };
+  systemd.services."container@media-4k" = {
+    after = [ "media.mount" ];
+    bindsTo = [ "media.mount" ];
+  };
+
+  containers."media-anime" = {
+    autoStart = true;
+    macvlans = [ "mac0" ];
+    bindMounts.media = {
+      isReadOnly = false;
+      hostPath = "/media";
+      mountPoint = "/media";
+    };
+    config = {
+      imports = lib.singleton inputs.self.nixosModules.media-user;
+
+      networking.useHostResolvConf = lib.mkForce false;
+      networking.useNetworkd = true;
+      systemd.network.enable = true;
+      systemd.network.networks."10-lab" = {
+        name = "mv-mac0";
+        address = [ "10.0.30.202/24" ];
+        gateway = [ "10.0.30.1" ];
+        dns = [ "10.0.30.1" ];
+      };
+
+      services.sonarr = {
+        enable = true;
+        openFirewall = true;
+        user = "media";
+        group = "media";
+      };
+
+      services.radarr = {
+        enable = true;
+        openFirewall = true;
+        user = "media";
+        group = "media";
+      };
+
+      system.stateVersion = "24.11";
+    };
+  };
+  systemd.services."container@media-anime" = {
+    after = [ "media.mount" ];
+    bindsTo = [ "media.mount" ];
   };
 
   # TODO: Upstream into module?

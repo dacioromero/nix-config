@@ -8,7 +8,8 @@
     (lib.singleton ./hardware-configuration.nix)
     ++ (lib.attrValues {
       inherit (inputs.self.nixosModules)
-        media
+        media-user
+        media-mount
         nix;
 
       inherit (inputs.agenix.nixosModules) age;

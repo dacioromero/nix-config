@@ -2,7 +2,8 @@
   gnome = import ./gnome.nix;
   hm = import ./hm.nix;
   kde = import ./kde.nix;
-  media = import ./media.nix;
+  media-user = import ./media-user.nix;
+  media-mount = import ./media-mount.nix;
   nix = import ./nix.nix;
   nixpkgs = import ./nixpkgs.nix;
   pc = import ./pc.nix;
