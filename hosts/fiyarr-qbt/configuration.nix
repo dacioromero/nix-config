@@ -45,7 +45,7 @@
     # Make packets routable through this network
     # ipv4 seems routable w/o, ipv6 requires it
     # Similar to wg-quick or networking.wireguard.interfaces.<name>.allowedIPsAsRoutes
-    routes = map (r: { routeConfig = r; }) [
+    routes = [
       { Destination = "0.0.0.0/0"; }
       { Destination = "::/0"; }
     ];
@@ -72,14 +72,12 @@
       PrivateKeyFile = config.age.secrets.airvpn-private-key.path;
     };
     wireguardPeers = [{
-      wireguardPeerConfig = {
-        PublicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
-        PresharedKeyFile = config.age.secrets.airvpn-preshared-key.path;
-        Endpoint = "us3.vpn.airdns.org:1637";
-        AllowedIPs = [ "0.0.0.0/0" "::/0" ];
-        # AirVPN specified
-        PersistentKeepalive = 15;
-      };
+      PublicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
+      PresharedKeyFile = config.age.secrets.airvpn-preshared-key.path;
+      Endpoint = "us3.vpn.airdns.org:1637";
+      AllowedIPs = [ "0.0.0.0/0" "::/0" ];
+      # AirVPN specified
+      PersistentKeepalive = 15;
     }];
   };
   # Allow port forwarding

@@ -176,10 +176,8 @@ in
   # Allow --accept-routes without having inaccessible LAN
   # https://tailscale.com/kb/1023/troubleshooting#linux
   systemd.network.networks."40-br0".routingPolicyRules = [{
-    routingPolicyRuleConfig = {
-      To = "192.168.1.0/24";
-      Priority = 2500;
-    };
+    To = "192.168.1.0/24";
+    Priority = 2500;
   }];
 
   # Enable secure boot and TPM for VMs
