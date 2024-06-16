@@ -254,12 +254,12 @@ in
         dns = [ "10.0.30.1" ];
       };
 
-      services.sonarr = {
-        enable = true;
-        openFirewall = true;
-        user = "media";
-        group = "media";
-      };
+      # services.sonarr = {
+      #   enable = true;
+      #   openFirewall = true;
+      #   user = "media";
+      #   group = "media";
+      # };
 
       services.radarr = {
         enable = true;
