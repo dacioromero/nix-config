@@ -10,7 +10,8 @@
       inherit (inputs.self.nixosModules)
         media-user
         media-mount
-        nix;
+        nix
+        nixpkgs;
 
       inherit (inputs.agenix.nixosModules) age;
     });
@@ -105,6 +106,8 @@
     after = [ "media.mount" ];
   };
   networking.firewall.allowedTCPPorts = [ 8080 ];
+
+  environment.systemPackages = [ pkgs.cross-seed ];
 
   users.users.dacio = {
     isNormalUser = true;
