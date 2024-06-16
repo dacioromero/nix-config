@@ -13,6 +13,7 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    delfin
     duf
     element-desktop
     google-chrome
