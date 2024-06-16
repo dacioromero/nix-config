@@ -1,6 +1,5 @@
 { pkgs
 , inputs
-, config
 , lib
 , ...
 }:
@@ -20,6 +19,7 @@ in
       inherit (home-manager.nixosModules) home-manager;
       inherit (nixos-hardware.nixosModules)
         common-cpu-amd-pstate
+        common-cpu-amd-zenpower
         common-pc-ssd
         common-gpu-amd
         ;
@@ -50,11 +50,6 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Zen 3 power monitoring
-  boot.kernelModules = [ "zenpower" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];
-  boot.blacklistedKernelModules = [ "k10temp" ];
-
   boot.supportedFilesystems = [ "ntfs" ];
 
   # More filesystem mount options
@@ -82,6 +77,11 @@ in
   time.timeZone = "America/Los_Angeles";
 
   # Configure GPU
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
   # Early KMS isn't helpful
   hardware.amdgpu.loadInInitrd = false;
   # Overclock
