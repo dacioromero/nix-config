@@ -8,8 +8,8 @@ in
 {
   "github-token.age".publicKeys = [ yubikey dacio_firebook-pro ];
   "bitmagnet-env.age".publicKeys = [ yubikey fiyarr ];
-  "airvpn-private-key.age".publicKeys = [ yubikey fiyarr-qbt ];
-  "airvpn-preshared-key.age".publicKeys = [ yubikey fiyarr-qbt ];
+  "airvpn-private-key.age".publicKeys = [ yubikey-new fiyarr-qbt ];
+  "airvpn-preshared-key.age".publicKeys = [ yubikey-new fiyarr-qbt ];
   "airvpn-fiyarr-sk.age". publicKeys = [ yubikey-new fiyarr ];
   "airvpn-fiyarr-psk.age". publicKeys = [ yubikey-new fiyarr ];
 }
