@@ -36,7 +36,7 @@
     ];
     dns = [
       "10.128.0.1"
-      "fd7d:76ee:e68f:a993::"
+      "fd7d:76ee:e68f:a993::1"
     ];
     linkConfig = {
       # AirVPN specified
