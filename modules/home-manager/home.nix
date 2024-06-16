@@ -84,6 +84,7 @@
         trust = "ultimate";
       }
     ];
+    scdaemonSettings.disable-ccid = true;
   };
 
   programs.tmux = {
