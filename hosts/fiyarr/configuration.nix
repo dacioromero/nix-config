@@ -361,6 +361,13 @@ in
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
+        extraConfig = ''
+          # Disable buffering when the nginx proxy gets very resource heavy upon streaming
+          proxy_buffering off;
+        '';
+      };
+      locations."/socket" = {
+        proxyPass = "http://127.0.0.1:8096";
         proxyWebsockets = true;
       };
     };
