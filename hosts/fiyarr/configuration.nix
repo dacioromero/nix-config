@@ -183,8 +183,8 @@ in
   };
   systemd.services.jellyfin.after = [ "media.mount" ];
   systemd.services.jellyfin.bindsTo = [ "media.mount" ];
-  hardware.opengl.enable = true;
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.enable = true;
+  hardware.graphics.extraPackages = with pkgs; [
     intel-media-driver
     intel-compute-runtime
   ];

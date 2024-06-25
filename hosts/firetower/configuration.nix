@@ -77,10 +77,9 @@ in
   time.timeZone = "America/Los_Angeles";
 
   # Configure GPU
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
   # Early KMS isn't helpful
   hardware.amdgpu.loadInInitrd = false;

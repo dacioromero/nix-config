@@ -37,7 +37,7 @@
       inputs.flake-compat.follows = "flake-compat";
     };
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.3.0";
+      url = "github:nix-community/lanzaboote/v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
       inputs.flake-utils.follows = "flake-utils";
@@ -48,7 +48,6 @@
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     agenix = {
       url = "github:ryantm/agenix";
