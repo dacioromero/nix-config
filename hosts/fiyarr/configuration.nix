@@ -356,8 +356,8 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts."jf.dacio.app" = {
-      enableACME = true;
+    virtualHosts."jf.dacio.dev" = {
+      useACMEHost = "jf.dacio.app";
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
@@ -370,20 +370,33 @@ in
         proxyPass = "http://127.0.0.1:8096";
         proxyWebsockets = true;
       };
+
+    };
+    virtualHosts."jf.dacio.app" = {
+      enableACME = true;
+      forceSSL = true;
+      globalRedirect = "jf.dacio.dev";
     };
 
-    virtualHosts."js.dacio.app" = {
-      enableACME = true;
+    virtualHosts."js.dacio.dev" = {
+      useACMEHost = "js.dacio.app";
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:5055";
       };
+    };
+    virtualHosts."js.dacio.app" = {
+      enableACME = true;
+      forceSSL = true;
+      globalRedirect = "js.dacio.dev";
     };
   };
 
   security.acme = {
     acceptTerms = true;
     defaults.email = "dacioromero@gmail.com";
+    certs."jf.dacio.app".extraDomainNames = [ "jf.dacio.dev" ];
+    certs."js.dacio.app".extraDomainNames = [ "js.dacio.dev" ];
   };
 
   # Needed for VSCode server
