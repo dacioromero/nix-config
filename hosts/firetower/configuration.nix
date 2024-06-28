@@ -154,6 +154,8 @@ in
     extraCompatPackages = [ pkgs.proton-ge-bin ];
   };
 
+  programs.adb.enable = true;
+
   # Home printer drivers
   services.printing.drivers = [ pkgs.hplipWithPlugin ];
 
@@ -191,6 +193,7 @@ in
     extraGroups = [
       "wheel"
       "libvirtd"
+      "adbusers"
     ];
   };
   # Emulate `useradd --user-group`
