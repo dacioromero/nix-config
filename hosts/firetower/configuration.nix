@@ -82,7 +82,7 @@ in
     enable32Bit = true;
   };
   # Early KMS isn't helpful
-  hardware.amdgpu.loadInInitrd = false;
+  hardware.amdgpu.initrd.enable = false;
   # Overclock
   # https://wiki.archlinux.org/title/AMDGPU#Overclocking
   # https://www.kernel.org/doc/html/v6.1/gpu/amdgpu/thermal.html
