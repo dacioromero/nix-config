@@ -1,16 +1,10 @@
 { pkgs, ... }: {
   imports = [ ./starship ];
 
-  home.packages = with pkgs; [
-    nil
-    thefuck
-  ];
+  home.packages = [ pkgs.nil ];
 
   home.sessionVariables = {
     EDITOR = "code --wait";
-    # thefuck has a bad suggestion
-    # https://github.com/nvbn/thefuck/issues/1153
-    THEFUCK_EXCLUDE_RULES = "fix_file";
     # direnv is noisy especially w/ nix-direnv
     # https://github.com/direnv/direnv/issues/68
     DIRENV_LOG_FORMAT = "";
@@ -24,7 +18,7 @@
     syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "yarn" "thefuck" ];
+      plugins = [ "git" "yarn" ];
       # https://github.com/zsh-users/zsh-syntax-highlighting/issues/295#issuecomment-214581607
       extraConfig = ''
         zstyle ':bracketed-paste-magic' active-widgets '.self-*'
