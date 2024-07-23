@@ -74,6 +74,9 @@ in
   # https://github.com/NixOS/nixpkgs/pull/264967
   networking.useNetworkd = true;
 
+  networking.firewall.allowedTCPPorts = [ 6881 ];
+  networking.firewall.allowedUDPPorts = [ 6881 ];
+
   time.timeZone = "America/Los_Angeles";
 
   # Configure GPU
