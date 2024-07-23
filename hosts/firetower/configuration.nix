@@ -114,12 +114,17 @@ in
   # https://wiki.archlinux.org/title/AMDGPU#Boot_parameter
   boot.kernelParams = [ "amdgpu.ppfeaturemask=0xfff7ffff" ];
 
-  services.pipewire.extraConfig.pipewire."99-rates" = {
-    "context.properties" = {
-      "default.clock.rate" = 96000;
-      "default.clock.allowed-rates" = [ 44100 48000 88200 96000 ];
-    };
-  };
+  # Dynamically change sample rates
+  # Disabled due to EasyEffects & PipeWire bug (https://github.com/wwmm/easyeffects/issues/2521)
+  # https://wiki.archlinux.org/title/PipeWire#Changing_the_allowed_sample_rate(s)
+  # services.pipewire.extraConfig.pipewire."99-rates" = {
+  #   "context.properties" = {
+  #     "default.clock.rate" = 96000;
+  #     "default.clock.allowed-rates" = [ 44100 48000 88200 96000 ];
+  #   };
+  # };
+  # Prevent microphone volume from being adjusted by unwanted programs
+  # https://www.reddit.com/r/archlinux/comments/190dvl8/pipewirewayland_how_to_stop_applications_from/
   services.pipewire.wireplumber.extraConfig."99-stop-microphone-auto-adjust" = {
     "access.rules" = [
       {
