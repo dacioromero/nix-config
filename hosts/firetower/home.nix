@@ -13,13 +13,13 @@
 
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    bambu-studio
     delfin
     duf
     element-desktop
     google-chrome
     heroic
     krita
-    lutris
     mission-center
     ncdu
     newsflash
@@ -32,7 +32,6 @@
     slack
     spotify
     telegram-desktop
-    tidal-hifi
     vesktop
     vkBasalt
     vlc
