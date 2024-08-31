@@ -16,7 +16,6 @@
     bambu-studio
     delfin
     duf
-    element-desktop
     google-chrome
     heroic
     krita
@@ -24,17 +23,16 @@
     ncdu
     newsflash
     nil
+    nmap
     prismlauncher
     protontricks
     qbittorrent
     r2modman
-    signal-desktop
     slack
     spotify
     telegram-desktop
     vesktop
     vkBasalt
-    vlc
     wl-clipboard
   ];
 
