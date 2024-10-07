@@ -19,10 +19,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     flake-utils = {
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
@@ -47,7 +43,6 @@
     };
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.darwin.follows = "nix-darwin";
       inputs.home-manager.follows = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
@@ -63,23 +58,15 @@
   outputs =
     { self
     , nixpkgs
-    , nix-darwin
     , flake-utils
     , pre-commit-hooks
     , ...
     } @ inputs:
     let
-      inherit (nix-darwin.lib) darwinSystem;
       inherit (flake-utils.lib) eachDefaultSystem;
       inherit (nixpkgs.lib) nixosSystem;
     in
     {
-      darwinConfigurations."firebook-pro" = darwinSystem {
-        system = "aarch64-darwin";
-        modules = [ ./hosts/firebook-pro/darwin-configuration.nix ];
-        specialArgs = { inherit inputs; };
-      };
-
       nixosConfigurations."firetower" = nixosSystem {
         system = "x86_64-linux";
         modules = [ ./hosts/firetower/configuration.nix ];
