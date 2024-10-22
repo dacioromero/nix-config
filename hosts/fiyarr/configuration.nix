@@ -233,49 +233,6 @@ in
     openFirewall = true;
   };
 
-  containers."media-4k" = {
-    autoStart = true;
-    macvlans = [ "mac0" ];
-    bindMounts.media = {
-      isReadOnly = false;
-      hostPath = "/media";
-      mountPoint = "/media";
-    };
-    config = {
-      imports = lib.singleton inputs.self.nixosModules.media-user;
-
-      networking.useHostResolvConf = lib.mkForce false;
-      networking.useNetworkd = true;
-      systemd.network.enable = true;
-      systemd.network.networks."10-lab" = {
-        name = "mv-mac0";
-        address = [ "10.0.30.201/24" ];
-        gateway = [ "10.0.30.1" ];
-        dns = [ "10.0.30.1" ];
-      };
-
-      # services.sonarr = {
-      #   enable = true;
-      #   openFirewall = true;
-      #   user = "media";
-      #   group = "media";
-      # };
-
-      services.radarr = {
-        enable = true;
-        openFirewall = true;
-        user = "media";
-        group = "media";
-      };
-
-      system.stateVersion = "24.11";
-    };
-  };
-  systemd.services."container@media-4k" = {
-    after = [ "media.mount" ];
-    bindsTo = [ "media.mount" ];
-  };
-
   containers."media-anime" = {
     autoStart = true;
     macvlans = [ "mac0" ];
@@ -357,7 +314,7 @@ in
     recommendedTlsSettings = true;
 
     virtualHosts."jf.dacio.dev" = {
-      useACMEHost = "jf.dacio.app";
+      enableACME = true;
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
@@ -370,33 +327,20 @@ in
         proxyPass = "http://127.0.0.1:8096";
         proxyWebsockets = true;
       };
-
-    };
-    virtualHosts."jf.dacio.app" = {
-      enableACME = true;
-      forceSSL = true;
-      globalRedirect = "jf.dacio.dev";
     };
 
     virtualHosts."js.dacio.dev" = {
-      useACMEHost = "js.dacio.app";
+      enableACME = true;
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://127.0.0.1:5055";
       };
-    };
-    virtualHosts."js.dacio.app" = {
-      enableACME = true;
-      forceSSL = true;
-      globalRedirect = "js.dacio.dev";
     };
   };
 
   security.acme = {
     acceptTerms = true;
     defaults.email = "dacioromero@gmail.com";
-    certs."jf.dacio.app".extraDomainNames = [ "jf.dacio.dev" ];
-    certs."js.dacio.app".extraDomainNames = [ "js.dacio.dev" ];
   };
 
   # Needed for VSCode server
