@@ -14,23 +14,23 @@
 
   time.timeZone = "America/Los_Angeles";
 
-  services.tor = {
-    enable = true;
-    openFirewall = true;
-    relay = {
-      enable = true;
-      role = "relay";
-    };
-    settings = {
-      Nickname = "firerelay";
-      ORPort = [{
-        port = 9001;
-        IPv4Only = true;
-      }];
-      BandwidthRate = "250KBytes";
-      BandwidthBurst = "500Kbytes";
-    };
-  };
+  # services.tor = {
+  #   enable = true;
+  #   openFirewall = true;
+  #   relay = {
+  #     enable = true;
+  #     role = "relay";
+  #   };
+  #   settings = {
+  #     Nickname = "firerelay";
+  #     ORPort = [{
+  #       port = 9001;
+  #       IPv4Only = true;
+  #     }];
+  #     BandwidthRate = "250KBytes";
+  #     BandwidthBurst = "500Kbytes";
+  #   };
+  # };
 
   services.syncthing.relay = {
     enable = true;
