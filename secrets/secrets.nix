@@ -10,4 +10,5 @@ in
   "airvpn-preshared-key.age".publicKeys = [ yubikey-new fiyarr-qbt ];
   "airvpn-fiyarr-sk.age". publicKeys = [ yubikey-new fiyarr ];
   "airvpn-fiyarr-psk.age". publicKeys = [ yubikey-new fiyarr ];
+  "slskd-env.age".publicKeys = [ yubikey-new fiyarr-qbt ];
 }

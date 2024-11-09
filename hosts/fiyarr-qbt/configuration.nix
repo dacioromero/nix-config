@@ -63,6 +63,7 @@
     {
       airvpn-private-key = mkNetworkdSecret ../../secrets/airvpn-private-key.age;
       airvpn-preshared-key = mkNetworkdSecret ../../secrets/airvpn-preshared-key.age;
+      slskd-env.file = ../../secrets/slskd-env.age;
     };
   systemd.network.netdevs."10-airvpn" = {
     netdevConfig = {
@@ -105,9 +106,26 @@
     bindsTo = [ "media.mount" ];
     after = [ "media.mount" ];
   };
-  networking.firewall.allowedTCPPorts = [ 8080 ];
+  networking.firewall.allowedTCPPorts = [ 8080 5030 ];
 
   environment.systemPackages = [ pkgs.cross-seed ];
+  services.slskd = {
+    enable = true;
+    domain = null;
+    user = "media";
+    group = "media";
+    environmentFile = config.age.secrets.slskd-env.path;
+    openFirewall = true;
+    settings = {
+      directories = {
+        incomplete = "/media/slskd/incomplete";
+        downloads = "/media/slskd/downloads";
+      };
+      shares.directories = [ ];
+    };
+  };
+  systemd.services."slskd".bindsTo = [ "media.mount" ];
+  systemd.services."slskd".after = [ "media.mount" ];
 
   users.users.dacio = {
     isNormalUser = true;
