@@ -4,51 +4,6 @@
 , config
 , ...
 }:
-let
-  # Public subnets to prevent routing LAN traffic through Wireguard
-  # https://airvpn.org/forums/topic/55801-wireguard-access-local-network/?do=findComment&comment=217458
-  publicSubnets = [
-    "0.0.0.0/5"
-    "8.0.0.0/7"
-    "11.0.0.0/8"
-    "12.0.0.0/6"
-    "16.0.0.0/4"
-    "32.0.0.0/3"
-    "64.0.0.0/2"
-    "128.0.0.0/3"
-    "160.0.0.0/5"
-    "168.0.0.0/6"
-    "172.0.0.0/12"
-    "172.32.0.0/11"
-    "172.64.0.0/10"
-    "172.128.0.0/9"
-    "173.0.0.0/8"
-    "174.0.0.0/7"
-    "176.0.0.0/4"
-    "192.0.0.0/9"
-    "192.128.0.0/11"
-    "192.160.0.0/13"
-    "192.169.0.0/16"
-    "192.170.0.0/15"
-    "192.172.0.0/14"
-    "192.176.0.0/12"
-    "192.192.0.0/10"
-    "193.0.0.0/8"
-    "194.0.0.0/7"
-    "196.0.0.0/6"
-    "200.0.0.0/5"
-    "208.0.0.0/4"
-    "224.0.0.0/3"
-    "::/1"
-    "8000::/2"
-    "c000::/3"
-    "e000::/4"
-    "f000::/5"
-    "f800::/6"
-    "fc00::/8"
-    "fe00::/7"
-  ];
-in
 {
   imports =
     (lib.singleton ./hardware-configuration.nix)
@@ -88,74 +43,74 @@ in
     gateway = [ "10.0.30.1" ];
     dns = [ "10.0.30.1" ];
   };
-  systemd.network.networks."10-airvpn" = {
-    name = "wg-air";
-    address = [
-      "10.134.3.52/32"
-      "fd7d:76ee:e68f:a993:78cd:d7af:e091:bdd3/128"
-    ];
-    dns = [
-      "10.128.0.1"
-      "fd7d:76ee:e68f:a993::1"
-    ];
-    linkConfig = {
-      # AirVPN specified
-      MTUBytes = "1320";
-    };
-    # Make packets routable through this network
-    # ipv4 seems routable w/o, ipv6 requires it
-    # Similar to wg-quick or networking.wireguard.interfaces.<name>.allowedIPsAsRoutes
-    routes = map (Destination: { inherit Destination; Table = 8677; }) publicSubnets;
-    # Route bitmagnet through Wireguard
-    # https://wiki.archlinux.org/title/WireGuard#systemd-networkd:_routing_all_traffic_over_WireGuard
-    routingPolicyRules = [
-      {
-        Table = 8677;
-        User = "bitmagnet";
-        Priority = 30001;
-        Family = "both";
-      }
-      {
-        Table = "main";
-        User = "bitmagnet";
-        SuppressPrefixLength = 0;
-        Priority = 30000;
-        Family = "both";
-      }
-    ];
-  };
+  # systemd.network.networks."10-airvpn" = {
+  #   name = "wg-air";
+  #   address = [
+  #     "10.134.3.52/32"
+  #     "fd7d:76ee:e68f:a993:78cd:d7af:e091:bdd3/128"
+  #   ];
+  #   dns = [
+  #     "10.128.0.1"
+  #     "fd7d:76ee:e68f:a993::1"
+  #   ];
+  #   linkConfig = {
+  #     # AirVPN specified
+  #     MTUBytes = "1320";
+  #   };
+  #   # Make packets routable through this network
+  #   # ipv4 seems routable w/o, ipv6 requires it
+  #   # Similar to wg-quick or networking.wireguard.interfaces.<name>.allowedIPsAsRoutes
+  #   routes = map (Destination: { inherit Destination; Table = 8677; }) publicSubnets;
+  #   # Route bitmagnet through Wireguard
+  #   # https://wiki.archlinux.org/title/WireGuard#systemd-networkd:_routing_all_traffic_over_WireGuard
+  #   routingPolicyRules = [
+  #     {
+  #       Table = 8677;
+  #       User = "bitmagnet";
+  #       Priority = 30001;
+  #       Family = "both";
+  #     }
+  #     {
+  #       Table = "main";
+  #       User = "bitmagnet";
+  #       SuppressPrefixLength = 0;
+  #       Priority = 30000;
+  #       Family = "both";
+  #     }
+  #   ];
+  # };
   age.secrets =
-    let
-      mkNetworkdSecret = file: {
-        inherit file;
-        mode = "440";
-        owner = "systemd-network";
-        group = "systemd-network";
-      };
-    in
+    # let
+    #   mkNetworkdSecret = file: {
+    #     inherit file;
+    #     mode = "440";
+    #     owner = "systemd-network";
+    #     group = "systemd-network";
+    #   };
+    # in
     {
-      airvpn-private-key = mkNetworkdSecret ../../secrets/airvpn-fiyarr-sk.age;
-      airvpn-preshared-key = mkNetworkdSecret ../../secrets/airvpn-fiyarr-psk.age;
+      # airvpn-private-key = mkNetworkdSecret ../../secrets/airvpn-fiyarr-sk.age;
+      # airvpn-preshared-key = mkNetworkdSecret ../../secrets/airvpn-fiyarr-psk.age;
       bitmagnet-env.file = ../../secrets/bitmagnet-env.age;
     };
-  systemd.network.netdevs."10-airvpn" = {
-    netdevConfig = {
-      Kind = "wireguard";
-      Name = "wg-air";
-    };
-    wireguardConfig = {
-      PrivateKeyFile = config.age.secrets.airvpn-private-key.path;
-      RouteTable = 8677;
-    };
-    wireguardPeers = [{
-      PublicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
-      PresharedKeyFile = config.age.secrets.airvpn-preshared-key.path;
-      Endpoint = "us3.vpn.airdns.org:1637";
-      AllowedIPs = publicSubnets;
-      # AirVPN specified
-      PersistentKeepalive = 15;
-    }];
-  };
+  # systemd.network.netdevs."10-airvpn" = {
+  #   netdevConfig = {
+  #     Kind = "wireguard";
+  #     Name = "wg-air";
+  #   };
+  #   wireguardConfig = {
+  #     PrivateKeyFile = config.age.secrets.airvpn-private-key.path;
+  #     RouteTable = 8677;
+  #   };
+  #   wireguardPeers = [{
+  #     PublicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
+  #     PresharedKeyFile = config.age.secrets.airvpn-preshared-key.path;
+  #     Endpoint = "us3.vpn.airdns.org:1637";
+  #     AllowedIPs = publicSubnets;
+  #     # AirVPN specified
+  #     PersistentKeepalive = 15;
+  #   }];
+  # };
 
   networking.firewall.checkReversePath = "loose";
 
@@ -290,7 +245,8 @@ in
     description = "Bitmagnet";
     serviceConfig = {
       Type = "exec";
-      ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
+      # ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
+      ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server";
       EnvironmentFile = config.age.secrets.bitmagnet-env.path;
       Restart = "on-failure";
       User = "bitmagnet";
