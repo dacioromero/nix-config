@@ -27,6 +27,7 @@
     protontricks
     qbittorrent
     r2modman
+    spotify
     telegram-desktop
     vesktop
     vkBasalt
