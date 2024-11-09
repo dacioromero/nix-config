@@ -108,7 +108,6 @@
   };
   networking.firewall.allowedTCPPorts = [ 8080 5030 ];
 
-  environment.systemPackages = [ pkgs.cross-seed ];
   services.slskd = {
     enable = true;
     domain = null;
