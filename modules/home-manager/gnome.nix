@@ -40,7 +40,7 @@ in
 
   # Qt styling isn't controlled by Gnome or gnome-tweaks
   qt.enable = true;
-  qt.platformTheme = "gnome";
+  qt.platformTheme.name = "adwaita";
   qt.style = {
     package = pkgs.adwaita-qt;
     name = "adwaita-dark";
