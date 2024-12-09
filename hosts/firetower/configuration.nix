@@ -186,6 +186,7 @@ in
   # Enable secure boot and TPM for VMs
   virtualisation.libvirtd.qemu.swtpm.enable = true;
   virtualisation.libvirtd.qemu.ovmf.packages = [ pkgs.OVMFFull.fd ];
+  virtualisation.spiceUSBRedirection.enable = true;
 
   users.users.dacio = {
     isNormalUser = true;

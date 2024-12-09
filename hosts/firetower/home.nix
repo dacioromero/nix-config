@@ -12,14 +12,17 @@
   };
 
   home.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
     bambu-studio
     duf
+    gimp
     google-chrome
     heroic
+    inkscape
     jellyfin-mpv-shim
     krita
+    mpv
     ncdu
+    nerd-fonts.jetbrains-mono
     newsflash
     nil
     nmap
