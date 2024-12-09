@@ -12,7 +12,7 @@
   };
 
   home.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerd-fonts.jetbrains-mono
     bambu-studio
     duf
     google-chrome

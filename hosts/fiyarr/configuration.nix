@@ -17,6 +17,13 @@
       inherit (inputs.agenix.nixosModules) age;
     });
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "aspnetcore-runtime-6.0.36"
+    "aspnetcore-runtime-wrapped-6.0.36"
+    "dotnet-sdk-6.0.428"
+    "dotnet-sdk-wrapped-6.0.428"
+  ];
+
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
 
@@ -198,6 +205,13 @@
     };
     config = {
       imports = lib.singleton inputs.self.nixosModules.media-user;
+
+      nixpkgs.config.permittedInsecurePackages = [
+        "aspnetcore-runtime-6.0.36"
+        "aspnetcore-runtime-wrapped-6.0.36"
+        "dotnet-sdk-6.0.428"
+        "dotnet-sdk-wrapped-6.0.428"
+      ];
 
       networking.useHostResolvConf = lib.mkForce false;
       networking.useNetworkd = true;
