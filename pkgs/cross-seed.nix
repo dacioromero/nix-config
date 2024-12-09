@@ -2,14 +2,14 @@
 , fetchFromGitHub
 }: buildNpmPackage rec {
   pname = "cross-seed";
-  version = "5.9.2";
+  version = "6.1.1";
 
   src = fetchFromGitHub {
     owner = "cross-seed";
     repo = "cross-seed";
     rev = "v${version}";
-    hash = "sha256-E0AlsFV9RP01YVwjw6ZQ8Lf1IVyuudxrb5oJ61EfIyo=";
+    hash = "sha256-d6hOk4iycsw8L6+K36MTFJiA1v5VrlIcP/fv2FxfbjE=";
   };
 
-  npmDepsHash = "sha256-hZKLv+bzRFiMjNemydCUC1d7xul7Mm+vOPtCUD7p9XQ=";
+  npmDepsHash = "sha256-Kpv0yruxkHOiF031EVs7Lmz7ztjuDpVZjzsw34ukwqk=";
 }
