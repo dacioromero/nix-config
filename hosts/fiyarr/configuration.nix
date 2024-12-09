@@ -151,7 +151,7 @@
     intel-compute-runtime
   ];
   virtualisation.oci-containers.containers.flaresolverr = {
-    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.19";
+    image = "ghcr.io/flaresolverr/flaresolverr:v3.3.21";
     environment = {
       TZ = config.time.timeZone;
     };
