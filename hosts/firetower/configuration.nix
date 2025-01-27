@@ -86,6 +86,7 @@ in
   };
   # Early KMS isn't helpful
   hardware.amdgpu.initrd.enable = false;
+  hardware.amdgpu.opencl.enable = true;
   # Overclock
   # https://wiki.archlinux.org/title/AMDGPU#Overclocking
   # https://www.kernel.org/doc/html/v6.1/gpu/amdgpu/thermal.html
