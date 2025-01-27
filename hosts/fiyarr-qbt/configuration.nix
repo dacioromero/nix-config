@@ -76,7 +76,7 @@
     wireguardPeers = [{
       PublicKey = "PyLCXAQT8KkM4T+dUsOQfn+Ub3pGxfGlxkIApuig+hk=";
       PresharedKeyFile = config.age.secrets.airvpn-preshared-key.path;
-      Endpoint = "198.44.134.21:1637";
+      Endpoint = "198.44.134.6:1637";
       AllowedIPs = [ "0.0.0.0/0" "::/0" ];
       # AirVPN specified
       PersistentKeepalive = 15;
