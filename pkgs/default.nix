@@ -13,5 +13,4 @@ in
   };
   adtrack2 = callPackage_i686 ./adtrack2.nix { };
   wg2nd = callPackage ./wg2nd.nix { };
-  cross-seed = callPackage ./cross-seed.nix { };
 }

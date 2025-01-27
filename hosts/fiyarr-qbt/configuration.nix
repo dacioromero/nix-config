@@ -108,7 +108,21 @@
   };
   networking.firewall.allowedTCPPorts = [ 8080 5030 ];
 
-  environment.systemPackages = [ pkgs.cross-seed ];
+  systemd.services.cross-seed = {
+    description = "cross-seed";
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${lib.getExe pkgs.unstable.cross-seed} daemon";
+      Restart = "on-failure";
+      User = "media";
+      Group = "media";
+    };
+    wantedBy = [ "multi-user.target" ];
+    after = [ "qbittorrent-nox@media.service" ];
+    bindsTo = [ "qbittorrent-nox@media.service" ];
+  };
+
+  environment.systemPackages = [ pkgs.unstable.cross-seed ];
   services.slskd = {
     enable = true;
     domain = null;
