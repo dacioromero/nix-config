@@ -245,35 +245,16 @@
     bindsTo = [ "media.mount" ];
   };
 
-  # TODO: Upstream into module?
-  environment.etc."xdg/bitmagnet/config.yml".text = builtins.toJSON {
-    postgres.host = "/run/postgresql/";
-    postgres.user = "bitmagnet";
+  fileSystems."/var/lib/postgresql" = {
+    device = "10.0.30.100:/mnt/postgres";
+    fsType = "nfs";
   };
-  users.users.bitmagnet = {
-    isSystemUser = true;
-    group = "bitmagnet";
-  };
-  users.groups.bitmagnet = { };
-  systemd.services.bitmagnet = {
-    description = "Bitmagnet";
-    serviceConfig = {
-      Type = "exec";
-      # ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server --keys=dht_crawler";
-      ExecStart = "${lib.getExe pkgs.bitmagnet} worker run --keys=http_server --keys=queue_server";
-      EnvironmentFile = config.age.secrets.bitmagnet-env.path;
-      Restart = "on-failure";
-      User = "bitmagnet";
-      Group = "bitmagnet";
-    };
-    wantedBy = [ "multi-user.target" ];
-  };
-  services.postgresql.enable = true;
-  services.postgresql.ensureDatabases = [ "bitmagnet" ];
-  services.postgresql.ensureUsers = [{
-    name = "bitmagnet";
-    ensureDBOwnership = true;
-  }];
+
+  systemd.services.postgresql.after = [ "var-lib-postgresql.mount" ];
+  systemd.services.postgresql.bindsTo = [ "var-lib-postgresql.mount" ];
+
+  services.bitmagnet.enable = true;
+  systemd.services.bitmagnet.serviceConfig.EnvironmentFile = config.age.secrets.bitmagnet-env.path;
 
   services.nginx = {
     enable = true;

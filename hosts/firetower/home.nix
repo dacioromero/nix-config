@@ -12,6 +12,7 @@
   };
 
   home.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     bambu-studio
     duf
     gimp
@@ -22,7 +23,6 @@
     krita
     mpv
     ncdu
-    nerd-fonts.jetbrains-mono
     newsflash
     nil
     nmap
